@@ -68,12 +68,29 @@ void showCredits() {
 }
 
 void startNewGame() {
+    // change these names if needed/wanted
+    std::string player1Name;
+    std::string player2Name;
+
     std::cout << "Starting a New Game" << std::endl;
+    std::cout << "Enter a name for player 1" << std::endl;
+    std::cout << "> ";
+    std::cin >> player1Name;
+    std::cout << std::endl;
+
+    std::cout << "Starting a New Game" << std::endl;
+    std::cout << "Enter a name for player 2" << std::endl;
+    std::cout << "> ";
+    std::cin >> player2Name;
     std::cout << std::endl;
 }
 
 void loadGame() {
-    std::cout << "Load Game was Selected..." << std::endl;
+    std::string loadFileInput;
+
+    std::cout << "Enter the filename from which to load a game" << std::endl;
+    std::cout << "> ";
+    std::cin >> loadFileInput;
     std::cout << std::endl;
 }
 
