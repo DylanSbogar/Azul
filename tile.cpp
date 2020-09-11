@@ -3,11 +3,14 @@
 Tile::Tile(Colour colour) {
     this->colour = colour;
     this->charColour = convertColourToChar(colour);
-    
+}
+
+Tile::Tile(Tile& other) {
+    //TODO
 }
 
 Tile::~Tile() {
-
+    //TODO
 }
 
 Colour Tile::getColour() {

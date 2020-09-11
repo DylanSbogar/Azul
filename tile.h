@@ -22,9 +22,9 @@ public:
 
 private: 
     char convertColourToChar(Colour colour);
-
+    
     Colour colour;
     char charColour;
 };
 
-#endif // TILE_H
+#endif //TILE_H
