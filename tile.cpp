@@ -5,12 +5,15 @@ Tile::Tile(Colour colour) {
     this->charColour = convertColourToChar(colour);
 }
 
-Tile::Tile(Tile& other) {
-    //TODO
+Tile::Tile(Tile& other) :
+    colour(other.colour),
+    charColour(other.charColour)
+{
+
 }
 
 Tile::~Tile() {
-    //TODO
+    
 }
 
 Colour Tile::getColour() {
