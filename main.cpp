@@ -1,13 +1,18 @@
 #include <iostream>
+#include <fstream>
+#include <vector>
 
 void mainMenu();
 void showCredits();
 void startNewGame();
 void loadGame();
+void saveGame(std::string fileName, std::string player1, std::string player2, std::vector <std::string> turns);
+
+// TESTING: a vector for turns (since its size is dynamic)
+std::vector <std::string> turns;
 
 int main(void) {
     mainMenu();
-    
     return EXIT_SUCCESS;
 }
 
@@ -48,7 +53,8 @@ void mainMenu() {
             std::cout << "Invalid input, try entering a number corresponding to the menu items" << std::endl;
         }
     }
-
+    std::cout << "Goodbye." << std::endl;
+    exit(EXIT_SUCCESS);
 }
 
 void showCredits() {
@@ -72,6 +78,11 @@ void startNewGame() {
     std::string player1Name;
     std::string player2Name;
 
+    std::string function;
+    std::string param1;
+    std::string param2;
+    std::string param3;
+
     std::cout << "Starting a New Game" << std::endl;
     std::cout << "Enter a name for player 1" << std::endl;
     std::cout << "> ";
@@ -83,6 +94,29 @@ void startNewGame() {
     std::cout << "> ";
     std::cin >> player2Name;
     std::cout << std::endl;
+
+    //DEBUG: ALLOW THE USER TO KEEP PLAYING UNTIL THEY SAVE THE GAME
+    bool keepPlaying = true;
+
+    // PLEASE DONT USE THIS LATER, THIS IS JUST FOR ME TO TEST
+    while(keepPlaying) {
+        std::cout << "> ";
+        std::cin >> function >> param1 >> param2 >> param3;
+        std::cout << std::endl;
+        // IF THE USER INPUTS ^D, THEY WILL AUTOMATICALLY RETURN TO THE MAIN MENU AND CLOSE THE GAME.
+        if(std::cin.eof()) {
+         keepPlaying = false;
+        } else if(function == "save") {
+            saveGame(param1, player1Name, player2Name, turns);
+            keepPlaying = false;
+        } else if(function == "turn") {
+            turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
+        } else {
+            std::cout << "error: unknown function defined, please try again." << std::endl;
+        }
+    }
+    // THIS JUST CLEANS UP THE TERMINAL LOOK WHEN HITTING EOF, SPACING THINGS OUT (NOT NECESSARY BUT LOOKS NICE)
+    std::cout << std::endl;
 }
 
 void loadGame() {
@@ -92,6 +126,20 @@ void loadGame() {
     std::cout << "> ";
     std::cin >> loadFileInput;
     std::cout << std::endl;
+}
+
+void saveGame(std::string fileName, std::string player1, std::string player2, std::vector <std::string> turns) {
+    // Create a new file with name defined by 'fileName' var
+    std::ofstream saveFile(fileName);
+    std::string allTurns;
+
+    // loop through the turns array and add each turn to a formatted string to save
+    for(size_t n = 0; n < turns.size(); ++n) {
+        allTurns.append(turns[n] + "\n");
+    }
+
+    // Write to this new file we created.
+    saveFile << "<initial tile bag>\n" + player1 + "\n" + player2 + "\n" + allTurns;
 }
 
 
