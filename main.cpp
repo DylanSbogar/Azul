@@ -1,15 +1,22 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+using std::string;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::ifstream;
+using std::ofstream;
 
 void mainMenu();
 void showCredits();
 void startNewGame();
 void loadGame();
-void saveGame(std::string fileName, std::string player1, std::string player2, std::vector <std::string> turns);
+void saveGame(string fileName, string player1, string player2, vector <string> turns);
 
 // TESTING: a vector for turns (since its size is dynamic)
-std::vector <std::string> turns;
+vector <string> turns;
 
 int main(void) {
     mainMenu();
@@ -18,27 +25,27 @@ int main(void) {
 
 // print out the main menu
 void mainMenu() {
-    std::cout << "Welcome to Azul! " << std::endl;
-    std::cout << "-----------------" << std::endl;
-    std::cout << std::endl;
+    cout << "Welcome to Azul! " << endl;
+    cout << "-----------------" << endl;
+    cout << endl;
 
     bool notQuit = true;
-    std::string menuInput;
+    string menuInput;
 
     while (notQuit) {
-        std::cout << "Menu" << std::endl;
-        std::cout << "------" << std::endl;
+        cout << "Menu" << endl;
+        cout << "------" << endl;
 
-        std::cout << "1. New Game" << std::endl;
-        std::cout << "2. Load Game" << std::endl;
-        std::cout << "3. Credits" << std::endl;
-        std::cout << "4. Quit" << std::endl;
+        cout << "1. New Game" << endl;
+        cout << "2. Load Game" << endl;
+        cout << "3. Credits" << endl;
+        cout << "4. Quit" << endl;
         
-        std::cout << "> ";
-        std::cin >> menuInput;
-        std::cout << std::endl;
+        cout << "> ";
+        cin >> menuInput;
+        cout << endl;
 
-        if(std::cin.eof()) {
+        if(cin.eof()) {
             notQuit = false;
         } else if(menuInput == "1") {
             startNewGame();
@@ -47,64 +54,64 @@ void mainMenu() {
         } else if(menuInput == "3") {
             showCredits();
         } else if(menuInput == "4") {
-            std::cout << "Game is exiting..." << std::endl;
+            cout << "Game is exiting..." << endl;
             exit(EXIT_SUCCESS);
         } else {
-            std::cout << "Invalid input, try entering a number corresponding to the menu items" << std::endl;
+            cout << "Invalid input, try entering a number corresponding to the menu items" << endl;
         }
     }
-    std::cout << "Goodbye." << std::endl;
+    cout << "Goodbye." << endl;
     exit(EXIT_SUCCESS);
 }
 
 void showCredits() {
-    std::cout << "Credits" << std::endl;
-    std::cout << "------" << std::endl;
-    std::cout << "Name:\t Dylan Sbogar (s3718036)" << std::endl;
-    std::cout << "Email:\t s3718036@student.rmit.edu.au" << std::endl;
-    std::cout << std::endl;
+    cout << "Credits" << endl;
+    cout << "------" << endl;
+    cout << "Name:\t Dylan Sbogar (s3718036)" << endl;
+    cout << "Email:\t s3718036@student.rmit.edu.au" << endl;
+    cout << endl;
 
-    std::cout << "Name:\t Ruchelle Balasuriya (s3781183)" << std::endl;
-    std::cout << "Email:\t s3781183@student.rmit.edu.au" << std::endl;
-    std::cout << std::endl;
+    cout << "Name:\t Ruchelle Balasuriya (s3781183)" << endl;
+    cout << "Email:\t s3781183@student.rmit.edu.au" << endl;
+    cout << endl;
 
-    std::cout << "Name:\t Surinder Kaur (s3785282)" << std::endl;
-    std::cout << "Email:\t s3785282@student.rmit.edu.au" << std::endl;
-    std::cout << std::endl;
+    cout << "Name:\t Surinder Kaur (s3785282)" << endl;
+    cout << "Email:\t s3785282@student.rmit.edu.au" << endl;
+    cout << endl;
 }
 
 void startNewGame() {
     // change these names if needed/wanted
-    std::string player1Name;
-    std::string player2Name;
+    string player1Name;
+    string player2Name;
 
-    std::string function;
-    std::string param1;
-    std::string param2;
-    std::string param3;
+    string function;
+    string param1;
+    string param2;
+    string param3;
 
-    std::cout << "Starting a New Game" << std::endl;
-    std::cout << "Enter a name for player 1" << std::endl;
-    std::cout << "> ";
-    std::cin >> player1Name;
-    std::cout << std::endl;
+    cout << "Starting a New Game" << endl;
+    cout << "Enter a name for player 1" << endl;
+    cout << "> ";
+    cin >> player1Name;
+    cout << endl;
 
-    std::cout << "Starting a New Game" << std::endl;
-    std::cout << "Enter a name for player 2" << std::endl;
-    std::cout << "> ";
-    std::cin >> player2Name;
-    std::cout << std::endl;
+    cout << "Starting a New Game" << endl;
+    cout << "Enter a name for player 2" << endl;
+    cout << "> ";
+    cin >> player2Name;
+    cout << endl;
 
     //DEBUG: ALLOW THE USER TO KEEP PLAYING UNTIL THEY SAVE THE GAME
     bool keepPlaying = true;
 
     // PLEASE DONT USE THIS LATER, THIS IS JUST FOR ME TO TEST
     while(keepPlaying) {
-        std::cout << "> ";
-        std::cin >> function >> param1 >> param2 >> param3;
-        std::cout << std::endl;
+        cout << "> ";
+        cin >> function >> param1 >> param2 >> param3;
+        cout << endl;
         // IF THE USER INPUTS ^D, THEY WILL AUTOMATICALLY RETURN TO THE MAIN MENU AND CLOSE THE GAME.
-        if(std::cin.eof()) {
+        if(cin.eof()) {
          keepPlaying = false;
         } else if(function == "save") {
             saveGame(param1, player1Name, player2Name, turns);
@@ -112,26 +119,31 @@ void startNewGame() {
         } else if(function == "turn") {
             turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
         } else {
-            std::cout << "error: unknown function defined, please try again." << std::endl;
+            cout << "error: unknown function defined, please try again." << endl;
         }
     }
     // THIS JUST CLEANS UP THE TERMINAL LOOK WHEN HITTING EOF, SPACING THINGS OUT (NOT NECESSARY BUT LOOKS NICE)
-    std::cout << std::endl;
+    cout << endl;
 }
 
 void loadGame() {
-    std::string loadFileInput;
+    string fileName;
+    cout << "Enter the filename from which to load a game" << endl;
+    cout << "> ";
+    cin >> fileName;
+    cout << endl;
 
-    std::cout << "Enter the filename from which to load a game" << std::endl;
-    std::cout << "> ";
-    std::cin >> loadFileInput;
-    std::cout << std::endl;
+    string fileText;
+    ifstream loadedFile(fileName);
+    while(getline(loadedFile, fileText)) {
+        cout << fileText << endl;
+    }
 }
 
-void saveGame(std::string fileName, std::string player1, std::string player2, std::vector <std::string> turns) {
+void saveGame(string fileName, string player1, string player2, vector <string> turns) {
     // Create a new file with name defined by 'fileName' var
-    std::ofstream saveFile(fileName);
-    std::string allTurns;
+    ofstream saveFile(fileName);
+    string allTurns;
 
     // loop through the turns array and add each turn to a formatted string to save
     for(size_t n = 0; n < turns.size(); ++n) {
