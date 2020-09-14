@@ -7,6 +7,8 @@
 #define INITIAL_FACTORY_SIZE 4
 #define INVALID_INDEX -1
 
+using std::vector;
+
 class Factory {
 public:
     Factory(int factoryNumber);
@@ -37,7 +39,7 @@ public:
 
 private: 
     int factoryNumber;
-    std::vector<Tile*> factoryTiles;
+    vector<Tile*> factoryTiles;
 
 };
 
