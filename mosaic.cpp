@@ -8,6 +8,7 @@ mosaic::mosaic(){
 mosaic::~mosaic(){
    delete grid;
    delete patternLine;
+   brokenTiles.clear();
 
 }
 
