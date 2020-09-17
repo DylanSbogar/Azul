@@ -107,20 +107,31 @@ void startNewGame() {
 
     // PLEASE DONT USE THIS LATER, THIS IS JUST FOR ME TO TEST
     while(keepPlaying) {
+
         cout << "> ";
-        cin >> function >> param1 >> param2 >> param3;
-        cout << endl;
-        // IF THE USER INPUTS ^D, THEY WILL AUTOMATICALLY RETURN TO THE MAIN MENU AND CLOSE THE GAME.
-        if(cin.eof()) {
-         keepPlaying = false;
-        } else if(function == "save") {
+        cin >> function;
+        if(function == "save") {
             saveGame(param1, player1Name, player2Name, turns);
             keepPlaying = false;
         } else if(function == "turn") {
+            cin >> param1 >> param2 >> param3;
             turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
         } else {
             cout << "error: unknown function defined, please try again." << endl;
         }
+        
+        cout << endl;
+        // IF THE USER INPUTS ^D, THEY WILL AUTOMATICALLY RETURN TO THE MAIN MENU AND CLOSE THE GAME.
+        // if(cin.eof()) {
+        //  keepPlaying = false;
+        // } else if(function == "save") {
+        //     saveGame(param1, player1Name, player2Name, turns);
+        //     keepPlaying = false;
+        // } else if(function == "turn") {
+        //     turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
+        // } else {
+        //     cout << "error: unknown function defined, please try again." << endl;
+        // }
     }
     // THIS JUST CLEANS UP THE TERMINAL LOOK WHEN HITTING EOF, SPACING THINGS OUT (NOT NECESSARY BUT LOOKS NICE)
     cout << endl;
