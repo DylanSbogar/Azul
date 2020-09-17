@@ -111,6 +111,7 @@ void startNewGame() {
         cout << "> ";
         cin >> function;
         if(function == "save") {
+            cin >> param1;
             saveGame(param1, player1Name, player2Name, turns);
             keepPlaying = false;
         } else if(function == "turn") {
