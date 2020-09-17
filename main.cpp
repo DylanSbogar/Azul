@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "load.cpp"
 
 using std::string;
 using std::cin;
@@ -18,8 +19,24 @@ void saveGame(string fileName, string player1, string player2, vector <string> t
 
 vector <string> turns;
 
-int main(void) {
-    mainMenu();
+int main(int argc, char **argv) {
+    // DEBUG: TESTING THE NUMBER OF INPUTS
+    // cout << "You have entered " << argc 
+    //      << " arguments:" << "\n"; 
+  
+    // for (int i = 0; i < argc; ++i) {
+    //     cout << argv[i] << "\n"; 
+    // }
+
+    // if the only thing input at run was ./Azul
+    if(argc == 1) {
+        mainMenu();
+    // else if the second input was -t (the testing mode keyword)
+    } else if( strcmp(argv[1], "-t") == 0) {
+        testingMode(argv[2]);
+    } else {
+        mainMenu();
+    }
     return EXIT_SUCCESS;
 }
 
@@ -145,11 +162,7 @@ void loadGame() {
     cin >> fileName;
     cout << endl;
 
-    string fileText;
-    ifstream loadedFile(fileName);
-    while(getline(loadedFile, fileText)) {
-        cout << fileText << endl;
-    }
+    loadGame(fileName);
 }
 
 void saveGame(string fileName, string player1, string player2, vector <string> turns) {
