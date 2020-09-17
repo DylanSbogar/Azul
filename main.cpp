@@ -20,14 +20,6 @@ void saveGame(string fileName, string player1, string player2, vector <string> t
 vector <string> turns;
 
 int main(int argc, char **argv) {
-    // DEBUG: TESTING THE NUMBER OF INPUTS
-    // cout << "You have entered " << argc 
-    //      << " arguments:" << "\n"; 
-  
-    // for (int i = 0; i < argc; ++i) {
-    //     cout << argv[i] << "\n"; 
-    // }
-
     // if the only thing input at run was ./Azul
     if(argc == 1) {
         mainMenu();
@@ -119,44 +111,36 @@ void startNewGame() {
     cin >> player2Name;
     cout << endl;
 
-    //DEBUG: ALLOW THE USER TO KEEP PLAYING UNTIL THEY SAVE THE GAME
     bool keepPlaying = true;
 
-    // PLEASE DONT USE THIS LATER, THIS IS JUST FOR ME TO TEST
+    // TODO: MOVE THIS WHILE LOOP TO GAMEENGINE.CPP?
     while(keepPlaying) {
-
         cout << "> ";
         cin >> function;
+
+        /*If the user inputs ^D, the game will close without saving safely by returning to the 
+        main menu and closing from there. */
         if(cin.eof()) {
             keepPlaying = false;
+            // if the user types "save x x x" only take the first x value as the fileName and pass
         } else if(function == "save") {
             cin >> param1;
             saveGame(param1, player1Name, player2Name, turns);
             keepPlaying = false;
+            // if the user types "turn x y z" use x,y,z and take the turn.
         } else if(function == "turn") {
             cin >> param1 >> param2 >> param3;
             turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
         } else {
             cout << "error: unknown function defined, please try again." << endl;
         }
-        
         cout << endl;
-        // IF THE USER INPUTS ^D, THEY WILL AUTOMATICALLY RETURN TO THE MAIN MENU AND CLOSE THE GAME.
-        // if(cin.eof()) {
-        //  keepPlaying = false;
-        // } else if(function == "save") {
-        //     saveGame(param1, player1Name, player2Name, turns);
-        //     keepPlaying = false;
-        // } else if(function == "turn") {
-        //     turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
-        // } else {
-        //     cout << "error: unknown function defined, please try again." << endl;
-        // }
     }
 }
 
 void loadGame() {
     string fileName;
+
     cout << "Enter the filename from which to load a game" << endl;
     cout << "> ";
     cin >> fileName;
@@ -169,12 +153,17 @@ void saveGame(string fileName, string player1, string player2, vector <string> t
     // Create a new file with name defined by 'fileName' var
     ofstream saveFile(fileName);
     string allTurns;
+    string initTileBag;
 
     // loop through the turns array and add each turn to a formatted string to save
     for(size_t n = 0; n < turns.size(); ++n) {
         allTurns.append(turns[n] + "\n");
     }
 
+    // TODO: loop through the initial tile bag and add to 'initTileBag' string
+
+    // TODO: change <initial tile bag> to the 'initTileBag' string
+    
     // Write to this new file we created.
     saveFile << "<initial tile bag>\n" + player1 + "\n" + player2 + "\n" + allTurns;
 }
