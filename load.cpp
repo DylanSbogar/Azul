@@ -1,7 +1,9 @@
-#include <iostream>
+#include "load.h"
 
-int main(void) {
-    // insert stuff here :)
+load::load() {
 
-    return EXIT_SUCCESS;
+}
+
+load::~load() {
+
 }

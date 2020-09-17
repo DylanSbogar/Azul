@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+
 using std::string;
 using std::cin;
 using std::cout;
@@ -15,7 +16,6 @@ void startNewGame();
 void loadGame();
 void saveGame(string fileName, string player1, string player2, vector <string> turns);
 
-// TESTING: a vector for turns (since its size is dynamic)
 vector <string> turns;
 
 int main(void) {
@@ -110,7 +110,9 @@ void startNewGame() {
 
         cout << "> ";
         cin >> function;
-        if(function == "save") {
+        if(cin.eof()) {
+            keepPlaying = false;
+        } else if(function == "save") {
             cin >> param1;
             saveGame(param1, player1Name, player2Name, turns);
             keepPlaying = false;
@@ -134,8 +136,6 @@ void startNewGame() {
         //     cout << "error: unknown function defined, please try again." << endl;
         // }
     }
-    // THIS JUST CLEANS UP THE TERMINAL LOOK WHEN HITTING EOF, SPACING THINGS OUT (NOT NECESSARY BUT LOOKS NICE)
-    cout << endl;
 }
 
 void loadGame() {
