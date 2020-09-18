@@ -1,8 +1,23 @@
 #include "mosaic.h"
 
 mosaic::mosaic(){
-  setGrid(this->grid);
-  setPatternLine(this->patternLine);
+
+      for (int i=0; i != ROWS; ++i){
+         for (int j=0; j != COLS; ++i)
+               this->grid[i][j] = new Tile(NO_TILE);
+      }
+      int count = 5;
+      for (int i=0; i != ROWS; ++i){
+         int count = 5;
+         for (int j=0; j != COLS; ++i){
+               if(i<count)
+                  this->patternLine[i][j] = nullptr;
+               
+               else
+               this->patternLine[i][j] = new Tile(NO_TILE);        
+         count-=1;
+      }
+   }
 }
 
 mosaic::~mosaic(){
@@ -12,66 +27,36 @@ mosaic::~mosaic(){
 
 }
 
-void mosaic::setGrid(char grid[5][5]){
-   for (int i=0; i != ROWS; ++i){
-      for (int j=0; j != COLS; ++i)
-            grid[i][j] = '.';
-   }
+void mosaic::setGrid(Tile* tile, int row, int cols){
+  grid[row][cols]= tile;
 }
 
-void mosaic::setPatternLine(char patternLine[5][5]){
-   int count = 5;
-   for (int i=0; i != ROWS; ++i){
-      int count = 5;
-      for (int j=0; j != COLS; ++i){
-            if(i<count)
-               patternLine[i][j] = ' ';
-            
-            else
-            patternLine[i][j] = '.';
-            count-=1;
-   }
-}
+void mosaic::setPatternLine(Tile* tile, int row, int cols){
+   patternLine[row][cols]= tile;
+
 }
 
-char** mosaic::getGrid(){
-   char** gridArray = 0;
-   gridArray = new char*[ROWS];
-
+Tile** mosaic::getGrid(){
+   Tile** gridArray = new Tile*[ROWS];
    for (int i=0; i != ROWS; ++i){
-      gridArray[i]=new char[COLS];
-      for (int j=0; j != COLS; ++i)
+      gridArray[i]= new Tile[ROWS];
+      for (int j=0; j != COLS; ++j)
          gridArray[i][j] = grid[i][j];
    }
    return gridArray;
 }
  
 
-//  void mosaic::getGrid(){
-//    for (int i=0; i != ROWS; ++i){
-//       for (int j=0; j != COLS; ++i)
-//          std::cout<< grid[i][j];
-//    }
-// }
-
-char** mosaic::getPatternLine(){
-   char** patternArray = 0;
-   patternArray = new char*[ROWS];
-
+Tile** mosaic::getPatternLine(){
+   Tile** patternArray = new Tile*[ROWS];
    for (int i=0; i != ROWS; ++i){
-       patternArray[i]=new char[COLS];
-       for (int j=0; j != COLS; ++i)
-         patternArray[i][j] = patternLine[i][j];
-      }
+      patternArray[i]= new Tile[ROWS];
+      for (int j=0; j != COLS; ++j)
+         patternArray[i][j] = grid[i][j];
+   }
    return patternArray;
  }
 
- //  void mosaic::getPatternLine(){
-//    for (int i=0; i != ROWS; ++i){
-//       for (int j=0; j != COLS; ++i)
-//          std::cout<< patternLine[i][j];
-//    }
-// }
 
 void mosaic::addBrokenTiles(Tile broken_Tile){
    brokenTiles.push_back(broken_Tile);
