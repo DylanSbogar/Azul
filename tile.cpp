@@ -1,11 +1,12 @@
 #include "tile.h"
+#include <utility>
 
 Tile::Tile(Colour colour) {
     this->colour = colour;
     this->charColour = convertColourToChar(colour);
 }
 
-Tile::Tile(Tile& other) :
+Tile::Tile(const Tile& other) :
     colour(other.colour),
     charColour(other.charColour)
 {
@@ -16,9 +17,15 @@ Tile::~Tile() {
     
 }
 
+Tile::Tile(Tile&& other) :
+    colour(other.colour),
+    charColour(other.charColour)
+{
+
+}
+
 Colour Tile::getColour() {
     return colour;
-
 }
 
 char Tile::getCharColour() {

@@ -1,7 +1,25 @@
 #include "factory.h"
+#include <utility>
+
 
 Factory::Factory(int factoryNumber) {
     this->factoryNumber = factoryNumber;
+}
+
+Factory::Factory(const Factory& other) :
+    factoryNumber(other.factoryNumber)
+{
+    for(int i = 0; i < (signed int) factoryTiles.size(); ++i) {
+        factoryTiles.push_back(new Tile(*other.factoryTiles[i]));
+    }
+}
+
+Factory::Factory(Factory&& other) :
+    factoryNumber(other.factoryNumber)
+{
+    for(int i = 0; i < (signed int) factoryTiles.size(); ++i) {
+        factoryTiles.push_back(new Tile(std::move(*other.factoryTiles[i])));
+    }
 }
 
 Factory::~Factory() {
@@ -10,24 +28,29 @@ Factory::~Factory() {
 
 void Factory::addTile(Tile* tile) {
     factoryTiles.push_back(tile);
-    
 }
 
 bool Factory::removeTileAt(int index) {
     bool tileRemoved = false;
     signed int length = (signed int) factoryTiles.size();
 
+    //Ensure index is within valid range
     if(factoryTiles.size() > 0 && index >=0 && index < length) {
+
+        //Delete tile at given index
         delete factoryTiles[index];
         factoryTiles[index] = nullptr;
 
+        //Shift rest of the tiles to fill in deleted space
         for(int i = index; i < length; ++i) {
             if(i <= length - 2) {
                 factoryTiles[i] = factoryTiles[i+1];
             }
         }
 
+        //Remove last tile of list (which is a copy of tile at (length-2))
         factoryTiles.pop_back();
+        
         tileRemoved = true;
     }
 
@@ -39,7 +62,10 @@ int Factory::size() {
 }
 
 int Factory::getIndexOfSameColourTile(Colour colour) {
+    //Return INVALID_INDEX if colour not found in factory
     int index = INVALID_INDEX;
+
+    //Iterate through vector, if tile matches colour, update index value
     for(int i = 0; i < (signed int) factoryTiles.size(); ++i) {
         if(factoryTiles[i]->getColour() == colour) {
             index = i;
@@ -49,8 +75,8 @@ int Factory::getIndexOfSameColourTile(Colour colour) {
     return index;
  }
 
-
 void Factory::clear() {
+    //Iterate through vector and delete all tiles
     for(int i = 0; i < (signed int) factoryTiles.size(); ++i) {
         delete factoryTiles[i];
         factoryTiles[i] = nullptr;
@@ -62,8 +88,7 @@ int Factory::getFactoryNumber() {
     return factoryNumber;
 }
 
-//TESTING METHODS
-// Tile* Factory::getTileAt(int index) {
-//     return factoryTiles[index];
-// }
+Tile* Factory::getTileAt(int index) {
+    return factoryTiles[index];
+}
 

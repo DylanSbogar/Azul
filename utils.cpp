@@ -8,8 +8,10 @@ Colour convertCharToColour(char colour) {
     char black = 'U';
     char first_player = 'F';
 
+    //If invalid char is given - NO_TILE will be returned as a default
     Colour tile = NO_TILE;
 
+    //Check if char matches char values and convert to corresponding colour
     if(colour == red) {
         tile = RED;
     } else if(colour == yellow) {

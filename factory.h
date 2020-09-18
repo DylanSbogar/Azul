@@ -12,19 +12,22 @@ using std::vector;
 class Factory {
 public:
     Factory(int factoryNumber);
+    Factory(const Factory& other);
+    Factory(Factory&& other);
     ~Factory();
 
-    //Adds Tile to the back of the array
+    //Adds Tile to the back of the list
     void addTile(Tile* tile);
 
-    //Removes tile from given index, returns true if tile was removed successfully
+    //Removes tile from given index
+    //Returns true if tile was removed successfully
     bool removeTileAt(int index);
 
-    //Returns the size of the factory vector
+    //Returns the size of the factory
     int size();
 
     //Returns index of rightmost tile of given colour
-    //returns INVALID_INDEX if no tiles of given colour are present 
+    //NOTE: Returns INVALID_INDEX if Colour is not present in factory 
     int getIndexOfSameColourTile(Colour colour);
 
     //Clears the factory vector
@@ -33,8 +36,8 @@ public:
     //returns factory number
     int getFactoryNumber();
 
-    //TESTING METHOD
-    //Get a Tile at a specifc index 
+    //INPUT: index > 0 and index < factory size
+    //OUTPUT: tile at given index
     Tile* getTileAt(int index);
 
 private: 
