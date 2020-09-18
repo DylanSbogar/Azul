@@ -7,8 +7,9 @@ Colour convertCharToColour(char colour) {
     char light_blue = 'L';
     char black = 'U';
     char first_player = 'F';
+    char blank = ' ';
 
-    Colour tile = NO_TILE;
+    Colour tile = BLANK;
 
     if(colour == red) {
         tile = RED;
@@ -22,6 +23,8 @@ Colour convertCharToColour(char colour) {
         tile = BLACK;
     } else if(colour == first_player) {
         tile = FIRST_PLAYER;
+    } else if(colour == blank) {
+        tile = BLANK;
     }
 
     return tile;

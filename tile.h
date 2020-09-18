@@ -9,6 +9,7 @@ enum Colour {
     BLACK,
     FIRST_PLAYER,
     NO_TILE,
+    BLANK,
 };
 
 class Tile {

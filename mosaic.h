@@ -1,16 +1,14 @@
-#include <iostream>
-#include <vector> 
-
-#include "tile.h"
 #ifndef MOSAIC_H
 #define MOSAIC_H 
+
+#include <iostream>
+#include <vector> 
+#include "tile.h"
 
 #define COLS                5 
 #define ROWS                5
 
-class mosaic{
-
-
+class mosaic {
 public:  
     mosaic();
     ~mosaic();
@@ -28,24 +26,18 @@ public:
     Tile** getPatternLine();
 
     //returns all elements of brokenTile array for mosaic
-    std::vector<Tile> getBrokenTiles();
+    std::vector<Tile*> getBrokenTiles();
 
     //adds new broken tiles to brokenTile array for mosaic
-    void addBrokenTiles(Tile tile);
+    void addBrokenTiles(Tile* tile);
     
-
 private:
-
-
     Tile *patternLine[ROWS][COLS];
 
-    Tile *grid[ROWS][COLS];
+    Tile* grid[ROWS][COLS];
 
-    std::vector<Tile> brokenTiles{};
-
-
-
+    std::vector<Tile*> brokenTiles;
 
 };
 
-#endif 
+#endif //MOSAIC_H
