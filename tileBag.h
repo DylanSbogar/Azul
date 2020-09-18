@@ -2,6 +2,7 @@
 #define TILE_BAG_H
 
 #include "tile.h"
+#include <iostream>
 
 #define TILE_BAG_SIZE 100
 
@@ -24,7 +25,7 @@ public:
     ~TileBag();
 
     //Generates fixed Tile bag
-    void generateFixedTileBag();
+    std::string generateFixedTileBag();
 
     //Tiles returned from the front of the tile bag
     //NOTE: returns nullptr if bag is empty

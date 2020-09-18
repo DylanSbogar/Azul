@@ -1,6 +1,7 @@
 #include "tileBag.h"
 #include "utils.h"
 #include <utility>
+#include <string>
 
 Node::Node(Tile* tile, Node* next) {
     this->tile = tile;
@@ -51,7 +52,7 @@ TileBag::~TileBag() {
     clear();
 }
 
-void TileBag::generateFixedTileBag() {
+std::string TileBag::generateFixedTileBag() {
     //Ensure tile bag is empty
     clear();
 
@@ -61,6 +62,7 @@ void TileBag::generateFixedTileBag() {
         Colour colour = convertCharToColour(fixedTileBag[i]);
         addTile(new Tile(colour));
     }
+    return std::string(fixedTileBag);
 }
 
 Tile* TileBag::drawTile() {
