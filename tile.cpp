@@ -40,8 +40,9 @@ char Tile::convertColourToChar(Colour colour) {
     char black = 'U';
     char first_player = 'F';
     char no_tile = '.';
+    char blank = ' ';
 
-    char tile = no_tile;
+    char tile = blank;
 
     if(colour == RED) {
         tile = red;
@@ -55,7 +56,7 @@ char Tile::convertColourToChar(Colour colour) {
         tile = black;
     } else if(colour == FIRST_PLAYER) {
         tile = first_player;
-    } else {
+    } else if(colour == NO_TILE) {
         tile = no_tile;
     }
 
