@@ -13,10 +13,10 @@ public:
     mosaic();
     ~mosaic();
     
-    //cadds inital elements grid for mosaic, called in constructor
+    //adds tiles into the patternLine array for mosaic
     void setGrid(Tile* tile, int row, int colm);
 
-     //adds inital elements to patternLine for mosaic, called in constructor
+    //adds tiles into the patternLine array for mosaic
     void setPatternLine(Tile* tile, int row, int colm);
 
     //returns all elements of grid array for mosaic
