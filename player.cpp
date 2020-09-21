@@ -1,31 +1,31 @@
 #include "player.h"
 
-    player::player(std::string playerName){
+    Player::Player(std::string playerName){
         this->playerName = playerName;
-        playerMosaic = new mosaic();
+        playerMosaic = new Mosaic();
 
     }
-    player::~player(){
+    Player::~Player(){
 
 
     }
 
-    std::string player::getPlayerName(){
+    std::string Player::getPlayerName(){
         return this->playerName;
 
     }
 
-    int player::getPlayerScore(){
+    int Player::getPlayerScore(){
         return this->score;
 
     }
 
-    void player::setPlayerScore(int score){
+    void Player::setPlayerScore(int score){
         this->score = score;
 
     }
 
-    mosaic* player::getMosaic(){
+    Mosaic* Player::getMosaic(){
         return playerMosaic;
 
     }

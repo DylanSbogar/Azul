@@ -1,6 +1,6 @@
 #include "mosaic.h"
 
-mosaic::mosaic() {
+Mosaic::Mosaic() {
    //Instantiating all grid tiles to NO_TILE
    for (int i = 0; i != ROWS; ++i){
       for (int j = 0; j != COLS; ++j) {
@@ -20,7 +20,7 @@ mosaic::mosaic() {
     }
 }
 
-mosaic::~mosaic(){
+Mosaic::~Mosaic(){
    //Iterated through grid array and deletes all the tiles within it
    for (int i = 0; i != ROWS; ++i){
       for (int j = 0; j != COLS; ++j) {
@@ -44,27 +44,27 @@ mosaic::~mosaic(){
    brokenTiles.clear();
 }
 
-void mosaic::setGrid(Tile* tile, int row, int cols){
+void Mosaic::setGrid(Tile* tile, int row, int cols){
    grid[row][cols]= tile;
 }
 
-void mosaic::setPatternLine(Tile* tile, int row, int cols){
+void Mosaic::setPatternLine(Tile* tile, int row, int cols){
    patternLine[row][cols]= tile;
 }
 
-Tile** mosaic::getGrid(){
+Tile** Mosaic::getGrid(){
    return *grid;
 }
 
-Tile** mosaic::getPatternLine(){
+Tile** Mosaic::getPatternLine(){
    return *patternLine;
 }
 
-void mosaic::addBrokenTiles(Tile* broken_Tile){
+void Mosaic::addBrokenTiles(Tile* broken_Tile){
    brokenTiles.push_back(broken_Tile);
 }
 
-std::vector<Tile*> mosaic::getBrokenTiles(){
+std::vector<Tile*> Mosaic::getBrokenTiles(){
    return brokenTiles;
 }
 
