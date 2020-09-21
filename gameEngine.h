@@ -3,7 +3,7 @@
 
 #include "tileBag.h"
 #include "factories.h"
-// #include "player.h"
+#include "player.h"
 
 #define TOTAL_PLAYERS 2
 
@@ -19,7 +19,7 @@ public:
 
     void addTileFromFactoryToMosaic(); 
 
-    // void printPlayerMosaic(Player* player);
+    void printPlayerMosaic(Player* player);
 
     // int calculatePlayerScores(Player* player);
 
