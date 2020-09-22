@@ -50,7 +50,7 @@ void GameEngine::printPlayerMosaic(Player* player) {
             }
             std::cout << std::endl;
             //prints number for each row
-            if(num<5){
+            if(num<ROWS){
                 std::cout << ++num <<": ";}
         }
     }
