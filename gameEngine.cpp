@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <limits>
 
 #include "gameEngine.h"
 #include "tileBag.h"
@@ -148,6 +149,7 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
         if(cin.eof()) {
             invalidInput = false;
             turnEntered = false;
+        
         } else {
             // if the user types "save x x x" only take the first x value as the fileName and pass
             if(function == "save") {
@@ -158,6 +160,7 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
             // if the user types "turn x y z" use x,y,z and take the turn.
             } else if(function == "turn") {
+                int numberOfParams = 3;
 
                 char colour;
                 int factoryNumber, patternLineRow;
@@ -179,9 +182,9 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
                     cout << "EXAMPLE: 2 B 3" << endl;
                     invalidInput = true;
 
-                    //TODO Fix looping error
                     //Clear current input, so user can re enter input.
                     cin.clear();
+                    std::cin.ignore(numberOfParams);
                 }
 
             } else {
