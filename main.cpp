@@ -1,9 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>
-#include "load.cpp"
-#include "factories.cpp"
-#include "tileBag.cpp"
+#include <string.h>
+#include <stdio.h>
+
+// #include "load.cpp"
+#include "gameEngine.h"
 
 
 using std::string;
@@ -27,8 +30,8 @@ int main(int argc, char **argv) {
     if(argc == 1) {
         mainMenu();
     // else if the second input was -t (the testing mode keyword)
-    } else if( strcmp(argv[1], "-t") == 0) {
-        testingMode(argv[2]);
+    } else if(strcmp(argv[1], "-t") == 0) {
+        // testingMode(argv[2]);
     } else {
         mainMenu();
     }
@@ -93,52 +96,54 @@ void showCredits() {
 }
 
 void startNewGame() {
-    // change these names if needed/wanted
-    string player1Name;
-    string player2Name;
+    GameEngine* gameEngine = new GameEngine();
+    gameEngine->runGame();
+    // // change these names if needed/wanted
+    // string player1Name;
+    // string player2Name;
 
-    string function;
-    string param1;
-    string param2;
-    string param3;
+    // string function;
+    // string param1;
+    // string param2;
+    // string param3;
 
-    cout << "Starting a New Game" << endl;
-    cout << "Enter a name for player 1" << endl;
-    cout << "> ";
-    cin >> player1Name;
-    cout << endl;
+    // cout << "Starting a New Game" << endl;
+    // cout << "Enter a name for player 1" << endl;
+    // cout << "> ";
+    // cin >> player1Name;
+    // cout << endl;
 
-    cout << "Starting a New Game" << endl;
-    cout << "Enter a name for player 2" << endl;
-    cout << "> ";
-    cin >> player2Name;
-    cout << endl;
+    // cout << "Starting a New Game" << endl;
+    // cout << "Enter a name for player 2" << endl;
+    // cout << "> ";
+    // cin >> player2Name;
+    // cout << endl;
 
-    bool keepPlaying = true;
+    // bool keepPlaying = true;
 
-    // TODO: MOVE THIS WHILE LOOP TO GAMEENGINE.CPP?
-    while(keepPlaying) {
-        cout << "> ";
-        cin >> function;
+    // // TODO: MOVE THIS WHILE LOOP TO GAMEENGINE.CPP?
+    // while(keepPlaying) {
+    //     cout << "> ";
+    //     cin >> function;
 
-        /*If the user inputs ^D, the game will close without saving safely by returning to the 
-        main menu and closing from there. */
-        if(cin.eof()) {
-            keepPlaying = false;
-            // if the user types "save x x x" only take the first x value as the fileName and pass
-        } else if(function == "save") {
-            cin >> param1;
-            saveGame(param1, player1Name, player2Name, turns);
-            keepPlaying = false;
-            // if the user types "turn x y z" use x,y,z and take the turn.
-        } else if(function == "turn") {
-            cin >> param1 >> param2 >> param3;
-            turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
-        } else {
-            cout << "error: unknown function defined, please try again." << endl;
-        }
-        cout << endl;
-    }
+    //     /*If the user inputs ^D, the game will close without saving safely by returning to the 
+    //     main menu and closing from there. */
+    //     if(cin.eof()) {
+    //         keepPlaying = false;
+    //         // if the user types "save x x x" only take the first x value as the fileName and pass
+    //     } else if(function == "save") {
+    //         cin >> param1;
+    //         saveGame(param1, player1Name, player2Name, turns);
+    //         keepPlaying = false;
+    //         // if the user types "turn x y z" use x,y,z and take the turn.
+    //     } else if(function == "turn") {
+    //         cin >> param1 >> param2 >> param3;
+    //         turns.push_back(function + " " + param1 + " " + param2 + " " + param3);
+    //     } else {
+    //         cout << "error: unknown function defined, please try again." << endl;
+    //     }
+    //     cout << endl;
+    // }
 }
 
 void loadGame() {
@@ -149,7 +154,7 @@ void loadGame() {
     cin >> fileName;
     cout << endl;
 
-    loadGame(fileName);
+    // loadGame(fileName);
 }
 
 void saveGame(string fileName, string player1, string player2, vector <string> turns) {

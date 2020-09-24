@@ -4,11 +4,11 @@
 #include <iostream>
 #include "mosaic.h"
 
-class player {
+class Player {
 public:  
 
-    player(std::string playerName);
-    ~player();
+    Player(std::string playerName);
+    ~Player();
 
     //returns player's name
     std::string getPlayerName();
@@ -20,13 +20,13 @@ public:
     void setPlayerScore(int score);
 
     //return player's mosaic 
-    mosaic* getMosaic();
+    Mosaic* getMosaic();
 
 private:
 
     std::string playerName;
     int score;
-    mosaic* playerMosaic; 
+    Mosaic* playerMosaic; 
 
 };
 

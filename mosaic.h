@@ -8,10 +8,10 @@
 #define COLS                5 
 #define ROWS                5
 
-class mosaic {
+class Mosaic {
 public:  
-    mosaic();
-    ~mosaic();
+    Mosaic();
+    ~Mosaic();
     
     //adds tiles into the patternLine array for mosaic
     void setGrid(Tile* tile, int row, int colm);
