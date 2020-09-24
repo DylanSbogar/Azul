@@ -153,8 +153,7 @@ void loadGame() {
 }
 
 void saveGame(string fileName, string player1, string player2, vector <string> turns) {
-    // Create a new file with name defined by 'fileName' var
-    ofstream saveFile(fileName);
+    ofstream saveFile;
     string allTurns;
     string initTileBag;
     TileBag tileBag;
@@ -163,6 +162,7 @@ void saveGame(string fileName, string player1, string player2, vector <string> t
     for(size_t n = 0; n < turns.size(); ++n) {
         allTurns.append(turns[n] + "\n");
     }
-    // Write to this new file we created.
+    // Write to this new file we created, to the 'saves' folder.
+    saveFile.open(".//saves//" + fileName + ".save");
     saveFile << tileBag.generateFixedTileBag() + "\n" + player1 + "\n" + player2 + "\n" + allTurns;
 }

@@ -91,4 +91,3 @@ int Factory::getFactoryNumber() {
 Tile* Factory::getTileAt(int index) {
     return factoryTiles[index];
 }
-
