@@ -160,7 +160,6 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
             // if the user types "turn x y z" use x,y,z and take the turn.
             } else if(function == "turn") {
-                int numberOfParams = 3;
 
                 char colour;
                 int factoryNumber, patternLineRow;
@@ -179,16 +178,18 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
                     invalidInput = false;
                 } else {
                     cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
-                    cout << "EXAMPLE: 2 B 3" << endl;
+                    cout << "EXAMPLE: > turn 2 B 3" << endl;
                     invalidInput = true;
 
                     //Clear current input, so user can re enter input.
                     cin.clear();
-                    std::cin.ignore(numberOfParams);
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 }
 
             } else {
                 cout << "error: unknown function defined, please try again." << endl;
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             
             cout << endl;
@@ -249,34 +250,27 @@ void GameEngine::saveGame(string fileName) {
 
 
 void GameEngine::printPlayerMosaic(Player* player) {
-    Tile** grid = player->getMosaic()->getGrid();
-    Tile** patternLine = player->getMosaic()->getPatternLine();
+    Mosaic* mosaic = player->getMosaic();
+    // Tile** patternLine = player->getMosaic()->getPatternLine();
     vector<Tile*> brokenTile = player->getMosaic()->getBrokenTiles();
 
-    int num = 0;
-    
-    //prints first number for first row
-    std::cout << ++num <<": ";
+    for(int row = 0; row < ROWS; ++row) {
+        std::cout << row + 1 << " ";
 
-    //prints patternLine
-    for(int i = 0; i < ROWS*COLS; ++i) {
-        if(patternLine[i] != nullptr) 
-            std::cout << patternLine[i]->getCharColour() << " ";
-
-        else 
-            std::cout << "*";
-
-        if(i%5 == 4) {
-            std::cout <<"|| ";
-            //prints grid
-             for(int a = 0; a < ROWS; ++a) {
-                std::cout << grid[i]->getCharColour() << " ";   
-            }
-            std::cout << std::endl;
-            //prints number for each row
-            if(num<ROWS){
-                std::cout << ++num <<": ";}
+        //Print PatternLine
+        Tile** patternLineRow = mosaic->getPatternLineRow(row);
+        for(int colm = 0; colm < COLS; ++colm) {
+            cout << patternLineRow[colm]->getCharColour() << " ";
         }
+
+        std::cout << "|| ";
+
+        //Print Grid
+        for(int colm = 0; colm < COLS; ++colm) {
+            cout << mosaic->getGridTile(row, colm)->getCharColour() << " ";
+        }
+
+        std::cout << endl;
     }
 
     //prints broken tile
@@ -289,8 +283,36 @@ void GameEngine::printPlayerMosaic(Player* player) {
 }
 
 int GameEngine::calculatePlayerScores(Player* player) {
-    //TODO caclculate player scores
+   int brokenTile_size = player->getMosaic()->getBrokenTiles().size();
+   int roundScore = 0;
 
-    //PLACEHOLDER, please replace
-    return 0;
+   for (int i = 0; i != ROWS; ++i){
+    for (int j = 0; j != COLS; ++j) {
+        bool isLoop = false;
+        if(player->getMosaic()->getGridTile(i,j)->getColour() != NO_TILE ){
+            int num =1;
+            while(player->getMosaic()->getGridTile(i+num,j)->getColour() != NO_TILE && i+num < ROWS){
+                roundScore += 2;
+                num += 1;
+                isLoop = true;
+            }
+
+            while(player->getMosaic()->getGridTile(i,j+num)->getColour() != NO_TILE && j+num < COLS){
+                roundScore += 2;
+                num += 1;
+                isLoop = true;
+            }
+
+            if(roundScore == 0 || isLoop){
+                roundScore += 1;
+            }
+        }
+    }
+
+}
+    roundScore -= brokenTile_size;
+    player->setPlayerScore(roundScore);
+    
+    return roundScore;
+
 }
