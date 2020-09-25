@@ -250,34 +250,27 @@ void GameEngine::saveGame(string fileName) {
 
 
 void GameEngine::printPlayerMosaic(Player* player) {
-    Tile** grid = player->getMosaic()->getGrid();
-    Tile** patternLine = player->getMosaic()->getPatternLine();
+    Mosaic* mosaic = player->getMosaic();
+    // Tile** patternLine = player->getMosaic()->getPatternLine();
     vector<Tile*> brokenTile = player->getMosaic()->getBrokenTiles();
 
-    int num = 0;
-    
-    //prints first number for first row
-    std::cout << ++num <<": ";
+    for(int row = 0; row < ROWS; ++row) {
+        std::cout << row + 1 << " ";
 
-    //prints patternLine
-    for(int i = 0; i < ROWS*COLS; ++i) {
-        if(patternLine[i] != nullptr) 
-            std::cout << patternLine[i]->getCharColour() << " ";
-
-        else 
-            std::cout << "*";
-
-        if(i%5 == 4) {
-            std::cout <<"|| ";
-            //prints grid
-             for(int a = 0; a < ROWS; ++a) {
-                std::cout << grid[i]->getCharColour() << " ";   
-            }
-            std::cout << std::endl;
-            //prints number for each row
-            if(num<ROWS){
-                std::cout << ++num <<": ";}
+        //Print PatternLine
+        Tile** patternLineRow = mosaic->getPatternLineRow(row);
+        for(int colm = 0; colm < COLS; ++colm) {
+            cout << patternLineRow[colm]->getCharColour() << " ";
         }
+
+        std::cout << "|| ";
+
+        //Print Grid
+        for(int colm = 0; colm < COLS; ++colm) {
+            cout << mosaic->getGridTile(row, colm)->getCharColour() << " ";
+        }
+
+        std::cout << endl;
     }
 
     //prints broken tile
