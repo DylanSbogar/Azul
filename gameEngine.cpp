@@ -160,7 +160,6 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
             // if the user types "turn x y z" use x,y,z and take the turn.
             } else if(function == "turn") {
-                int numberOfParams = 3;
 
                 char colour;
                 int factoryNumber, patternLineRow;
@@ -179,16 +178,18 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
                     invalidInput = false;
                 } else {
                     cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
-                    cout << "EXAMPLE: 2 B 3" << endl;
+                    cout << "EXAMPLE: > turn 2 B 3" << endl;
                     invalidInput = true;
 
                     //Clear current input, so user can re enter input.
                     cin.clear();
-                    std::cin.ignore(numberOfParams);
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 }
 
             } else {
                 cout << "error: unknown function defined, please try again." << endl;
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             
             cout << endl;
