@@ -90,35 +90,6 @@ void Mosaic::addTileToPatternLine(Tile* tile, int row) {
 
    //Add new tile
    patternLine[row][colm] = tile;
-   
-   // bool noIssuesAddingTile = true;
-   // //Check if patternline is empty, if not check what colour is allowed
-   // if(patternLineColour == NO_TILE) {
-   //    //delete previous tile
-   //    delete patternLine[row][colm];
-   //    patternLine[row][colm] = nullptr;
-
-   //    //add new tile
-   //    patternLine[row][colm] = tile;
-
-   // } else if(patternLineColour == tile->getColour()){
-   //    //Find empty column to add tile
-   //    while(patternLine[row][colm]->getCharColour() != NO_TILE && colm >= 0) {
-   //       --colm;
-   //    }
-
-   //    //delete previous tile
-   //    delete patternLine[row][colm];
-   //    patternLine[row][colm] = nullptr;
-
-   //    patternLine[row][colm] = tile;
-
-   // } else {
-   //    //If it reaches here, it means that the tile colour doesn't match patternline tiles
-   //    noIssuesAddingTile = false;
-   // }
-
-   // return noIssuesAddingTile;
 }
 
 bool Mosaic::patternLineFull(int row) {
