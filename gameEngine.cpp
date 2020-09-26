@@ -82,17 +82,38 @@ void GameEngine::runGame() {
             keepPlaying = runTurn(currentPlayer);
         }
 
+        //Update Scoring
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        }
+
+        //Check which player has for first player marker
+        int playerIndexWithFirstTile = INVALID_INDEX;
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            if(players[i]->getMosaic()->getBrokenTiles().size() > 0 && players[i]->getMosaic()->getBrokenTiles()[0]->getColour() == FIRST_PLAYER) {
+                playerIndexWithFirstTile = i;
+            }
+        }
+
+        if(playerIndexWithFirstTile == 0) {
+            firstPlayerTurn = true;
+        } else {
+            firstPlayerTurn = false;
+        }
+
+        //Move First Player tile back to centre factory
+        if(playerIndexWithFirstTile != INVALID_INDEX) {
+            Tile* firstPlayerTile = players[playerIndexWithFirstTile]->getMosaic()->getBrokenTiles()[0];
+            factories->getFactory(0)->addTile(firstPlayerTile);
+            players[playerIndexWithFirstTile]->getMosaic()->removeBrokenTiles(0);
+        }
+
         //Fill the factories back up
         factories->FillFactoriesFromTileBag(tileBag);
 
         //Move tiles from mosaic to patternline for all players
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
             addTilesToMosaicFromPatternLine(players[i]);
-        }
-
-        //Update Scoring
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
         }
         
         //Increment round
@@ -241,6 +262,14 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
         Factory* factory = factories->getFactory(factoryNumber);
         int factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
 
+        //If centre factory is chosen check for first player tile:
+        //NOTE: Assumes that First Player tile is at position 0. 
+        if(factoryNumber == 0 && factory->getTileAt(0)->getColour() == FIRST_PLAYER) {
+            //Move First Player tile to broken tile.
+            mosaic->addBrokenTileAtFront(factory->getTileAt(0));
+            factory->removeTileAt(0);
+        } 
+
         //If factory still contains Tile colour keep adding to mosaic
         while(factoryColourIndex != INVALID_INDEX) {
             //If patternline is not full add there, otherwise add rest to broken tiles
@@ -260,7 +289,7 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
             factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
         }
 
-        //Empty the rest of the tiles within the chosen factory
+        //If not centre factory, empty the rest of the tiles to centre factory
         if(factoryNumber != 0) {
             //Add rest of tiles to centre factory
             while(factory->size() > 0) {
@@ -296,7 +325,7 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     if(factoryNumber < 0 || factoryNumber >= NUMBER_OF_FACTORIES) {
         validTurn = false;
         cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
-    } else if(tileColour == BLANK || tileColour == NO_TILE) {
+    } else if(tileColour == BLANK || tileColour == NO_TILE || tileColour == FIRST_PLAYER) {
         validTurn = false;
         cout << "Invalid colour was entered. Enter one of the following: R Y B L U F" << endl;
     } else if(factories->getFactory(factoryNumber)->getIndexOfSameColourTile(tileColour) == INVALID_INDEX) {
