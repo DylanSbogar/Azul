@@ -110,18 +110,3 @@ void loadGame() {
 
     // loadGame(fileName);
 }
-
-void saveGame(string fileName, string player1, string player2, vector <string> turns) {
-    ofstream saveFile;
-    string allTurns;
-    string initTileBag;
-    TileBag tileBag;
-
-    // loop through the turns array and add each turn to a formatted string to save
-    for(size_t n = 0; n < turns.size(); ++n) {
-        allTurns.append(turns[n] + "\n");
-    }
-    // Write to this new file we created, to the 'saves' folder.
-    saveFile.open(".//saves//" + fileName + ".save");
-    saveFile << tileBag.generateFixedTileBag() + "\n" + player1 + "\n" + player2 + "\n" + allTurns;
-}

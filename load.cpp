@@ -1,4 +1,6 @@
 #include "load.h"
+#include <fstream>
+
 using std::string;
 using std::ifstream;
 using std::endl;

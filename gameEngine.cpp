@@ -385,7 +385,7 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
 
 void GameEngine::saveGame(string fileName) {
     // Create a new file with name defined by 'fileName' var
-    ofstream saveFile(fileName);
+    ofstream saveFile;
     string allTurns;
     string initTileBag;
     TileBag tileBag;
@@ -394,6 +394,9 @@ void GameEngine::saveGame(string fileName) {
     for(size_t n = 0; n < turns.size(); ++n) {
         allTurns.append(turns[n] + "\n");
     }
+    // Add a .save extension to the file and save it in the 'saves' folder.
+    saveFile.open(".//saves//" + fileName + ".save");
+
     // Write to this new file we created.
     saveFile << tileBag.generateFixedTileBag() + "\n";
     
