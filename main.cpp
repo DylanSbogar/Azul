@@ -23,7 +23,7 @@ void startNewGame();
 void loadGame();
 void saveGame(string fileName, string player1, string player2, vector <string> turns);
 
-vector <string> turns;
+// vector <string> turns;
 
 int main(int argc, char **argv) {
     // if the only thing input at run was ./Azul

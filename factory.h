@@ -19,8 +19,9 @@ public:
     //Adds Tile to the back of the list
     void addTile(Tile* tile);
 
-    //Removes tile from given index
+    //Removes tile pointer from factory at given index
     //Returns true if tile was removed successfully
+    //NOTE: Method assumes that tile has another pointer to it (or else memory leak will occur!)
     bool removeTileAt(int index);
 
     //Returns the size of the factory

@@ -23,8 +23,9 @@ public:
     void runGame();
 
 private:
-    //Transgers tiles from factory to mosaic
-    void addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow); 
+    //Transfers tiles from factory to mosaic
+    //OUTPUT: returns true valid input was given
+    bool addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNumber, char colour, int pattRow); 
 
     //Displays player mosaic
     void printPlayerMosaic(Player* player);
@@ -51,6 +52,10 @@ private:
 
     ////transfers tiles from patternline to grid
     void addTilesToMosaicFromPatternLine(Player* currentPlayer);
+
+    //Check if turn parameters are valid
+    //Returns true if all inputs are valid
+    bool validateTurnInput(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow);
 
 
     TileBag* tileBag;
