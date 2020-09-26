@@ -80,7 +80,12 @@ void testGameEngineAddToGrid() {
     gameEngine->printPlayerMosaic(player);
     std::cout << std::endl;
 
+    //Clear player for next test 
+    delete player;
+    player = new Player("Tom");
+
     //TEST 2 - Check that full patternLine is moved
+    std::cout << "TEST 2 - Check that full patternLine is moved " << std::endl;
     int patternLineRow = 1;
 
     std::cout << "Printing Blank Player Mosaic: " << std::endl;
@@ -219,7 +224,7 @@ void testFactoriesClass() {
     Factories* factories = new Factories();
     factories->FillFactoriesFromTileBag(tileBag);
 
-    std::cout << "Expected Factory Sizes: 0 4 4 4 4 4 - Actual: ";
+    std::cout << "Expected Factory Sizes: 1 4 4 4 4 4 - Actual: ";
     for(int i = 0; i < 6; ++i) {
         std::cout << factories->getFactory(i)->size() << " ";
     }
