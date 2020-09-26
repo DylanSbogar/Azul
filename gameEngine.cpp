@@ -316,3 +316,29 @@ int GameEngine::calculatePlayerScores(Player* player) {
     return roundScore;
 
 }
+
+ void addTilesToMosaicFromPatternLine(Player* currentPlayer){
+    //  Tile* matchGrid[ROWS][COLS] = 
+    //  { {new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE)},
+    //     {new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE)},
+    //     {new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE)},
+    //     {new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE)},
+    //     {new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE), new Tile(NO_TILE)}
+    //  };
+
+     for (int i = 0; i != ROWS; ++i){
+        for (int j = 0; j != COLS; ++j) {
+          //  Tile** row = currentPlayer->getMosaic()->getPatternLineRow(i);
+            std::cout << currentPlayer->getMosaic()->getPatternLineRow(i)<< std::endl;
+            
+
+
+
+        }
+    }
+
+
+
+
+
+ }
