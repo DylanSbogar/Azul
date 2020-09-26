@@ -16,7 +16,6 @@ class GameEngine {
 public:
     GameEngine();
     GameEngine(const GameEngine& other);
-    GameEngine(GameEngine&& other);
     ~GameEngine();
 
     //Runs the main game loop
@@ -62,8 +61,6 @@ private:
     Factories* factories;
     Player* players[TOTAL_PLAYERS];
     vector<string> turns;
-    
-    Mosaic* fixedMosaic;
 };
 
 #endif //GAME_ENGINE_H

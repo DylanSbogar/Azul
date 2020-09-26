@@ -27,10 +27,14 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::GameEngine(const GameEngine& other) {
+    tileBag = new TileBag(*other.tileBag);
+    factories = new Factories(*other.factories);
 
-}
+    turns = other.turns;
 
-GameEngine::GameEngine(GameEngine&& other) {
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        players[i] = new Player(*other.players[i]);
+    }
 
 }
 
@@ -68,12 +72,6 @@ void GameEngine::runGame() {
             //Check which players turn it is:
             if(firstPlayerTurn) {
                 currentPlayer = players[0];
-                
-                //When retruning to 1st player place any full pattern line rows tiles to grid 
-                for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-                    addTilesToMosaicFromPatternLine(players[i]);
-                }
-
             } else {
                 currentPlayer = players[1];
             }
@@ -86,11 +84,15 @@ void GameEngine::runGame() {
 
         //Fill the factories back up
         factories->FillFactoriesFromTileBag(tileBag);
-        
+
+        //Move tiles from mosaic to patternline for all players
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            addTilesToMosaicFromPatternLine(players[i]);
+        }
+
         //Update Scoring
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
             players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-            
         }
         
         //Increment round
@@ -114,7 +116,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
     //Get player input 
     if(playerEntersTurn(currentPlayer)) {
         turns.back();
-
     } else {
         keepPlaying = false;
     }
@@ -291,6 +292,7 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     Colour tileColour =  convertCharToColour(toupper(colour));
     Mosaic* mosaic = currentPlayer->getMosaic();
 
+    //Check if factory and colour within range - then check if colour exists in factory
     if(factoryNumber < 0 || factoryNumber >= NUMBER_OF_FACTORIES) {
         validTurn = false;
         cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
@@ -300,10 +302,16 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     } else if(factories->getFactory(factoryNumber)->getIndexOfSameColourTile(tileColour) == INVALID_INDEX) {
         validTurn = false;
         cout << "Given colour does not exist in chosen factory." << endl;
-    } else if (factories->getFactory(factoryNumber)->size() == 0) {
+    }
+    
+    //Check that factory contains tiles
+    if (factories->getFactory(factoryNumber)->size() == 0) {
         validTurn = false;
         cout << "Selected factory is empty" << endl;
-    } else if(patternLineRow < 0 || patternLineRow >= ROWS) {
+    }
+    
+    //Check that patternline is within range, is not already full, and is of matching colour.
+    if(patternLineRow < 0 || patternLineRow >= ROWS) {
         validTurn = false;
         cout << "Invalid patternLine row was given. Should be between 0 and " << ROWS << endl;
     } else if(mosaic->patternLineFull(patternLineRow)) {
@@ -314,16 +322,48 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
         cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
     }
 
-    //TODO Check if grid already contains colour in a given patternline.
+    //Check if grid already contains colour in a given patternline.
+    for(int colm = 0; colm < COLS; ++colm) {
+        if(mosaic->getGridTile(patternLineRow, colm)->getColour() == tileColour) {
+            validTurn = false;
+            cout << "Tile is already within the grid row. Choose a different Tile or Row" << endl;
+        }
+    }
 
     return validTurn;
 }
 
 void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
-    //TODO
+    //create template for grid tiles to match
+    Tile* matchGrid[ROWS][COLS] = 
+     { {new Tile(DARK_BLUE), new Tile(YELLOW), new Tile(RED), new Tile(BLACK), new Tile(LIGHT_BLUE)},
+        {new Tile(LIGHT_BLUE), new Tile(DARK_BLUE), new Tile(YELLOW), new Tile(RED), new Tile(BLACK)},
+        {new Tile(BLACK), new Tile(LIGHT_BLUE), new Tile(DARK_BLUE), new Tile(YELLOW), new Tile(RED)},
+        {new Tile(RED), new Tile(BLACK), new Tile(LIGHT_BLUE), new Tile(DARK_BLUE), new Tile(YELLOW)},
+        {new Tile(YELLOW), new Tile(RED), new Tile(BLACK), new Tile(LIGHT_BLUE), new Tile(DARK_BLUE)}
+     };
+    
+    //loops through each row of patternLine and matchGrid
+     for(int row = 0; row < ROWS; ++row) {
+        //create 1D array for each patternLine row
+        Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
+         //loops through each element of patternLine 
+        for(int colm = 0; colm < COLS; ++colm) {
+             //loops through each element of matchGrid 
+             for(int i = 0; i < COLS; ++i) {
+                  //compares if tile in element of patternLine matches matchGrid tile
+                 if(patternLineRow[colm]->getCharColour() == matchGrid[row][i]->getCharColour()){
+                     //adds tile of patternLine to grid
+                    currentPlayer->getMosaic()->setGrid(new Tile(patternLineRow[colm]->getColour()),row, i);
+                     //replace tile of patternLine with no tile
+                    patternLineRow[colm] = new Tile(NO_TILE);
+
+           }
+         }
+      }   
+    }
+
 }
-
-
 
 void GameEngine::saveGame(string fileName) {
     // Create a new file with name defined by 'fileName' var
@@ -370,7 +410,7 @@ void GameEngine::printPlayerMosaic(Player* player) {
         std::cout << endl;
     }
 
-    //prints broken tile
+    //prints broken tile by looping through vector
     std::cout << "broken: " ;
     for(int i = 0; i < (signed int) brokenTile.size(); ++i){
         std::cout << brokenTile.at(i)->getCharColour() << " ";
