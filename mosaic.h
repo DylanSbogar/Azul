@@ -43,8 +43,8 @@ public:
 
     //INPUT: row must be between 0 and ROWS
     //OUTPUT: If tile colour matches patternLine adds tile and returns true
-    //NOTE: Patternline row SHOULD NOT be full
-    bool addTileToPatternLine(Tile* tile, int row); 
+    //NOTE: Patternline row SHOULD NOT be full and should match tiles already in patternLine
+    void addTileToPatternLine(Tile* tile, int row); 
 
     //INPUT: row must be between 0 and ROWS
     //OUTPUT: Returns pointer to the array at specified row
@@ -53,6 +53,10 @@ public:
     //INPUT: row must be between 0 and ROWS
     //OUTPUT: Returns true if patternLine row is full
     bool patternLineFull(int row);
+
+    //INPUT: row must be between 0 and ROWS
+    //OUTPUT: returns colour of patternline
+    Colour getPatternLineColour(int row);
     
 private:
     Tile *patternLine[ROWS][COLS];
