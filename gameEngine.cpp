@@ -403,7 +403,7 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
             //loops through each element of patternLine 
             for(int colm = 0; colm < COLS; ++colm) {
                 //checks if there is a tile in element if patternLine
-                if(patternLineRow[colm]->getCharColour() != NO_TILE && patternLineRow[colm]->getCharColour() != BLANK){
+                if(patternLineRow[colm]->getCharColour() != '.' && patternLineRow[colm]->getCharColour() != ' '){
                     //adds tile back to tilebag
                     tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
                     //replace tile of patternLine with no tile
