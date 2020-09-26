@@ -56,6 +56,9 @@ public:
     //Returns true if all inputs are valid
     bool validateTurnInput(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow);
 
+    //Used when in loading mode or testing mode
+    void setGameVariables(string player1, string player2, string tileBag, vector <string> allTurns);
+
 private:
     TileBag* tileBag;
     Factories* factories;

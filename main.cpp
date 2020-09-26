@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-// #include "load.cpp"
+#include "load.h"
 #include "gameEngine.h"
 
 
@@ -108,5 +108,5 @@ void loadGame() {
     cin >> fileName;
     cout << endl;
 
-    // loadGame(fileName);
+    loadGame(fileName);
 }

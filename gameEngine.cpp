@@ -19,7 +19,7 @@ using std::vector;
 GameEngine::GameEngine() {
     //Create and fill TileBag
     tileBag = new TileBag();
-    tileBag->generateFixedTileBag();
+    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
 
     //Create and fill factories
     factories = new Factories();
@@ -398,7 +398,7 @@ void GameEngine::saveGame(string fileName) {
     saveFile.open(".//saves//" + fileName + ".save");
 
     // Write to this new file we created.
-    saveFile << tileBag.generateFixedTileBag() + "\n";
+    // saveFile << tileBag.generateFixedTileBag() + "\n";
     
     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
         saveFile << players[i]->getPlayerName() << "\n";
@@ -487,4 +487,8 @@ int GameEngine::calculatePlayerScores(Player* player) {
     player->setPlayerScore(roundScore);
     
     return roundScore;
+}
+
+void GameEngine::setGameVariables(string player1, string player2, string newTileBag, vector <string> allTurns) {
+    tileBag->generateTileBag(newTileBag);
 }

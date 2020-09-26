@@ -25,7 +25,7 @@ public:
     ~TileBag();
 
     //Generates fixed Tile bag
-    std::string generateFixedTileBag();
+    std::string generateTileBag(std::string tileBag);
 
     //Tiles returned from the front of the tile bag
     //NOTE: returns nullptr if bag is empty

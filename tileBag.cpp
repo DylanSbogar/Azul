@@ -52,17 +52,16 @@ TileBag::~TileBag() {
     clear();
 }
 
-std::string TileBag::generateFixedTileBag() {
+std::string TileBag::generateTileBag(std::string tileBag) {
     //Ensure tile bag is empty
     clear();
 
     //Read in fixed tile bag and add as tiles in the tile bag
-    char fixedTileBag[] = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
     for(int i = 0; i < TILE_BAG_SIZE; ++i) {
-        Colour colour = convertCharToColour(fixedTileBag[i]);
+        Colour colour = convertCharToColour(tileBag[i]);
         addTile(new Tile(colour));
     }
-    return std::string(fixedTileBag);
+    return std::string(tileBag);
 }
 
 Tile* TileBag::drawTile() {
