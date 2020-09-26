@@ -68,6 +68,12 @@ void GameEngine::runGame() {
             //Check which players turn it is:
             if(firstPlayerTurn) {
                 currentPlayer = players[0];
+                
+                //When retruning to 1st player place any full pattern line rows tiles to grid 
+                for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                    addTilesToMosaicFromPatternLine(players[i]);
+                }
+
             } else {
                 currentPlayer = players[1];
             }
@@ -78,10 +84,14 @@ void GameEngine::runGame() {
             keepPlaying = runTurn(currentPlayer);
         }
 
-        //Fill factories back up
+        //Fill the factories back up
         factories->FillFactoriesFromTileBag(tileBag);
-
-        //TODO Add End of Round Scoring and move tiles to mosaic
+        
+        //Update Scoring
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            
+        }
         
         //Increment round
         ++rounds;
@@ -304,6 +314,8 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
         cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
     }
 
+    //TODO Check if grid already contains colour in a given patternline.
+
     return validTurn;
 }
 
@@ -337,7 +349,6 @@ void GameEngine::saveGame(string fileName) {
 
 void GameEngine::printPlayerMosaic(Player* player) {
     Mosaic* mosaic = player->getMosaic();
-    // Tile** patternLine = player->getMosaic()->getPatternLine();
     vector<Tile*> brokenTile = player->getMosaic()->getBrokenTiles();
 
     for(int row = 0; row < ROWS; ++row) {
@@ -369,8 +380,36 @@ void GameEngine::printPlayerMosaic(Player* player) {
 }
 
 int GameEngine::calculatePlayerScores(Player* player) {
-    //TODO caclculate player scores
+    int brokenTile_size = player->getMosaic()->getBrokenTiles().size();
+    int roundScore = 0;
 
-    //PLACEHOLDER, please replace
-    return 0;
+    //Iterate through entire grid and check for non- 'NO-TILE' tiles 
+    for (int row = 0; row != ROWS; ++row){
+        for (int colm = 0; colm != COLS; ++colm) {
+            Mosaic* playerMosaic = player->getMosaic();
+
+            if(playerMosaic->getGridTile(row, colm)->getColour() != NO_TILE) {
+                //Score point for individual tile
+                ++roundScore;
+
+                //Score additional point for an intersecting tile:
+                //Check if there is tile above or below
+                if((colm - 1 >= 0 && playerMosaic->getGridTile(row, colm - 1)->getColour() != NO_TILE) ||
+                    (colm + 1 < COLS && playerMosaic->getGridTile(row, colm + 1)->getColour() != NO_TILE)) {
+                    
+                    //Check if there is tile right or left
+                    if((row - 1 >= 0 && playerMosaic->getGridTile(row - 1, colm)->getColour() != NO_TILE) ||
+                        (row + 1 < ROWS && playerMosaic->getGridTile(row + 1, colm)->getColour() != NO_TILE)) {
+                            ++roundScore;
+                        }
+                }
+            }
+        }
+    }
+
+    //TODO Fix up broken tiles point deduction
+    roundScore -= brokenTile_size;
+    player->setPlayerScore(roundScore);
+    
+    return roundScore;
 }

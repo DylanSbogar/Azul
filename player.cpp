@@ -3,6 +3,7 @@
     Player::Player(std::string playerName){
         this->playerName = playerName;
         playerMosaic = new Mosaic();
+        score = 0;
 
     }
     Player::~Player(){

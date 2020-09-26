@@ -57,6 +57,8 @@ public:
     //INPUT: row must be between 0 and ROWS
     //OUTPUT: returns colour of patternline
     Colour getPatternLineColour(int row);
+
+    
     
 private:
     Tile *patternLine[ROWS][COLS];
