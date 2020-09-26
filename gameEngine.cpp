@@ -363,6 +363,8 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
 }
 
 void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
+
+
     //create template for grid tiles to match
     Tile* matchGrid[ROWS][COLS] = 
      { {new Tile(DARK_BLUE), new Tile(YELLOW), new Tile(RED), new Tile(BLACK), new Tile(LIGHT_BLUE)},
@@ -373,26 +375,44 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
      };
     
     //loops through each row of patternLine and matchGrid
-     for(int row = 0; row < ROWS; ++row) {
+    for(int row = 0; row < ROWS; ++row) {
         //create 1D array for each patternLine row
         Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
-         //loops through each element of patternLine 
-        for(int colm = 0; colm < COLS; ++colm) {
-             //loops through each element of matchGrid 
-             for(int i = 0; i < COLS; ++i) {
-                  //compares if tile in element of patternLine matches matchGrid tile
-                 if(patternLineRow[colm]->getCharColour() == matchGrid[row][i]->getCharColour()){
-                     //adds tile of patternLine to grid
-                    currentPlayer->getMosaic()->setGrid(new Tile(patternLineRow[colm]->getColour()),row, i);
-                     //replace tile of patternLine with no tile
-                    patternLineRow[colm] = new Tile(NO_TILE);
+         //checks if patternLine is full
+        if(currentPlayer->getMosaic()->patternLineFull(row)){
+            //loops through each element of patternLine 
+            for(int colm = 0; colm < COLS; ++colm) {
+                //loops through each element of matchGrid 
+                for(int i = 0; i < COLS; ++i) {
+                    //compares if tile in element of patternLine matches matchGrid tile
+                    if(patternLineRow[colm]->getCharColour() == matchGrid[row][i]->getCharColour()){
+                        //adds tile of patternLine to grid
+                        currentPlayer->getMosaic()->setGrid(new Tile(patternLineRow[colm]->getColour()),row, i);
+                        //replace tile of patternLine with no tile
+                        patternLineRow[colm] = new Tile(NO_TILE);
 
-           }
-         }
-      }   
+                    }
+                }
+            }   
+        }
     }
 
+    for(int row = 0; row < ROWS; ++row) {
+         //create 1D array for each patternLine row
+        Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
+            //loops through each element of patternLine 
+            for(int colm = 0; colm < COLS; ++colm) {
+                //checks if there is a tile in element if patternLine
+                if(patternLineRow[colm]->getCharColour() != NO_TILE && patternLineRow[colm]->getCharColour() != BLANK){
+                    //adds tile back to tilebag
+                    tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
+                    //replace tile of patternLine with no tile
+                    patternLineRow[colm] = new Tile(NO_TILE);
+                }
+            }
+         }
 }
+
 
 void GameEngine::saveGame(string fileName) {
     // Create a new file with name defined by 'fileName' var
@@ -449,7 +469,6 @@ void GameEngine::printPlayerMosaic(Player* player) {
 }
 
 int GameEngine::calculatePlayerScores(Player* player) {
-    int brokenTile_size = player->getMosaic()->getBrokenTiles().size();
     int roundScore = 0;
 
     //Iterate through entire grid and check for non- 'NO-TILE' tiles 
@@ -476,8 +495,23 @@ int GameEngine::calculatePlayerScores(Player* player) {
         }
     }
 
-    //TODO Fix up broken tiles point deduction
-    roundScore -= brokenTile_size;
+
+
+   vector<Tile*> brokenTiles = player->getMosaic()->getBrokenTiles();
+    for(int i = 0; i < (signed int) brokenTiles.size() ; ++i){
+        if(i<2){
+            --roundScore;
+        }
+
+        else if(i >= 2 && i<4){
+            roundScore -=2;
+        }
+
+        else if(i >= 4 ){
+            roundScore -=3;
+        }
+    }
+
     player->setPlayerScore(roundScore);
     
     return roundScore;
