@@ -58,3 +58,15 @@ void Factories::FillFactoriesFromTileBag(TileBag* tilebag) {
         }
     }
 }
+
+bool Factories::allFactoriesAreEmpty() {
+    bool allFactoriesAreEmpty = true;
+
+    for(int i = 0; i < NUMBER_OF_FACTORIES; ++i) {
+       if(allFactories[i]->size() != 0) {
+           allFactoriesAreEmpty = false;
+       }
+    }
+
+    return allFactoriesAreEmpty;
+}

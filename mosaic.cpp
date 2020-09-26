@@ -1,6 +1,7 @@
 #include "mosaic.h"
 
 Mosaic::Mosaic() {
+
    //Instantiating all grid tiles to NO_TILE
    for (int i = 0; i != ROWS; ++i){
       for (int j = 0; j != COLS; ++j) {
@@ -48,17 +49,17 @@ void Mosaic::setGrid(Tile* tile, int row, int cols){
    grid[row][cols]= tile;
 }
 
-void Mosaic::setPatternLine(Tile* tile, int row, int cols){
-   patternLine[row][cols]= tile;
-}
+// void Mosaic::setPatternLine(Tile* tile, int row, int cols){
+//    patternLine[row][cols]= tile;
+// }
 
-Tile** Mosaic::getGrid(){
-   return *grid;
-}
+// Tile** Mosaic::getGrid(){
+//    return *grid;
+// }
 
-Tile** Mosaic::getPatternLine(){
-   return *patternLine;
-}
+// Tile** Mosaic::getPatternLine(){
+//    return *patternLine;
+// }
 
 void Mosaic::addBrokenTiles(Tile* broken_Tile){
    brokenTiles.push_back(broken_Tile);
@@ -68,36 +69,42 @@ std::vector<Tile*> Mosaic::getBrokenTiles(){
    return brokenTiles;
 }
 
-//ADD FOLLOWING TEST METHOD IN MAIN TO TEST
-// void testMosaicClass() {
-//     mosaic* m = new mosaic();
+Tile* Mosaic::getGridTile(int row, int colm) {
+   return grid[row][colm];
+}
 
-    
-//     Tile** grid = m->getGrid();
-//     std::cout << "Printing Grid" << std::endl;
-//     for(int i = 0; i < ROWS; ++i) {
-//         for(int j = 0; j < COLS; ++j) {
-//             std::cout << grid[i]->getCharColour() << " ";
-//         }
-//         std::cout << std::endl;
-//     }
+Tile** Mosaic::getPatternLineRow(int row) {
+   return patternLine[row];
+}
 
-//     Tile** p = m->getPatternLine();
-//     std::cout << "Printing Patter Line (inverted)" << std::endl;
+void Mosaic::addTileToPatternLine(Tile* tile, int row) {
+   int colm = COLS-1;
 
-//     for(int i = 0; i < ROWS * COLS; ++i) {
+   while(patternLine[row][colm]->getColour() != NO_TILE && colm >= 0) {
+      --colm;
+   }
 
-//         if(p[i] != nullptr) {
-//             std::cout << p[i]->getCharColour();
-//         } else {
-//             std::cout << "*";
-//         }
+   //delete empty tile
+   delete patternLine[row][colm];
+   patternLine[row][colm] = nullptr;
 
-//         if(i%5 == 4) {
-//             std::cout << std::endl;
-//         }
-//     }
+   //Add new tile
+   patternLine[row][colm] = tile;
+}
 
-//     delete m;
-// }
- 
+bool Mosaic::patternLineFull(int row) {
+   bool rowIsFull = true;
+
+   //Iterate through patternLine row and check for NO_TILE tiles
+   for(int colm = 0; colm < COLS; ++colm) {
+      if(patternLine[row][colm]->getColour() == NO_TILE) {
+         rowIsFull = false;
+      }
+   }
+
+   return rowIsFull;
+}
+
+Colour Mosaic::getPatternLineColour(int row) {
+   return patternLine[row][COLS-1]->getColour();
+}

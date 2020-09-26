@@ -22,6 +22,10 @@ public:
     //NOTE: Ensure tile bag is not nullptr
     void FillFactoriesFromTileBag(TileBag* tilebag); 
 
+
+    //Checks if all factories are empty
+    bool allFactoriesAreEmpty();
+
 private:
     Factory* centreFactory;
     Factory* allFactories[NUMBER_OF_FACTORIES];

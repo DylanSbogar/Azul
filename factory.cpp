@@ -37,8 +37,10 @@ bool Factory::removeTileAt(int index) {
     //Ensure index is within valid range
     if(factoryTiles.size() > 0 && index >=0 && index < length) {
 
-        //Delete tile at given index
-        delete factoryTiles[index];
+        // //Delete tile at given index
+        // delete factoryTiles[index];
+
+        //Just loose pointer since it is being moved
         factoryTiles[index] = nullptr;
 
         //Shift rest of the tiles to fill in deleted space
