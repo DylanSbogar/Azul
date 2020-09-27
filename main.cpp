@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-// #include "load.cpp"
+#include "load.h"
 #include "gameEngine.h"
 
 
@@ -109,20 +109,5 @@ void loadGame() {
     cin >> fileName;
     cout << endl;
 
-    // loadGame(fileName);
-}
-
-void saveGame(string fileName, string player1, string player2, vector <string> turns) {
-    // Create a new file with name defined by 'fileName' var
-    ofstream saveFile(fileName);
-    string allTurns;
-    string initTileBag;
-    TileBag tileBag;
-
-    // loop through the turns array and add each turn to a formatted string to save
-    for(size_t n = 0; n < turns.size(); ++n) {
-        allTurns.append(turns[n] + "\n");
-    }
-    // Write to this new file we created.
-    saveFile << tileBag.generateFixedTileBag() + "\n" + player1 + "\n" + player2 + "\n" + allTurns;
+    loadGame(fileName);
 }

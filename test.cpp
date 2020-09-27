@@ -219,7 +219,7 @@ void testMosaicClass() {
 void testFactoriesClass() {
     //Create fixed tile bag
     TileBag* tileBag = new TileBag();
-    tileBag->generateFixedTileBag();
+    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
 
     Factories* factories = new Factories();
     factories->FillFactoriesFromTileBag(tileBag);
@@ -282,7 +282,7 @@ void testTileBagClass() {
     TileBag* tileBag = new TileBag();
 
     std::cout << "Fixed Tile Bag: ";
-    tileBag->generateFixedTileBag();
+    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
     for(int i = 0; i < tileBag->getLength(); ++i) {
         std::cout << tileBag->get(i)->getCharColour();
     }

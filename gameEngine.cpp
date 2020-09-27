@@ -19,7 +19,7 @@ using std::vector;
 GameEngine::GameEngine() {
     //Create and fill TileBag
     tileBag = new TileBag();
-    tileBag->generateFixedTileBag();
+    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
 
     //Create and fill factories
     factories = new Factories();
@@ -416,7 +416,7 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
 
 void GameEngine::saveGame(string fileName) {
     // Create a new file with name defined by 'fileName' var
-    ofstream saveFile(fileName);
+    ofstream saveFile;
     string allTurns;
     string initTileBag;
     TileBag tileBag;
@@ -425,8 +425,11 @@ void GameEngine::saveGame(string fileName) {
     for(size_t n = 0; n < turns.size(); ++n) {
         allTurns.append(turns[n] + "\n");
     }
+    // Add a .save extension to the file and save it in the 'saves' folder.
+    saveFile.open(".//saves//" + fileName + ".save");
+
     // Write to this new file we created.
-    saveFile << tileBag.generateFixedTileBag() + "\n";
+    // saveFile << tileBag.generateFixedTileBag() + "\n";
     
     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
         saveFile << players[i]->getPlayerName() << "\n";
@@ -515,4 +518,8 @@ int GameEngine::calculatePlayerScores(Player* player) {
     player->setPlayerScore(roundScore);
     
     return roundScore;
+}
+
+void GameEngine::setGameVariables(string player1, string player2, string newTileBag, vector <string> allTurns) {
+    tileBag->generateTileBag(newTileBag);
 }
