@@ -65,8 +65,11 @@ void testGameEngineAddToGrid() {
 
     //TEST 1 - Check not full patternLine isn't moved
     std::cout << "TEST 1 - Check not full patternLine isn't moved " << std::endl;
+    std::cout << "Printing Blank Player Mosaic: " << std::endl;
+    gameEngine->printPlayerMosaic(player);
 
     player->getMosaic()->addTileToPatternLine(new Tile(RED), 4);
+
 
     std::cout << "Printing Player Mosaic With PatternLine Tiles: " << std::endl;
     gameEngine->printPlayerMosaic(player);
@@ -85,39 +88,12 @@ void testGameEngineAddToGrid() {
     std::cout << "TEST 2 - Check that full patternLine is moved " << std::endl;
     int patternLineRow = 1;
 
+    std::cout << "Printing Blank Player Mosaic: " << std::endl;
+    gameEngine->printPlayerMosaic(player);
+
     while(!player->getMosaic()->patternLineFull(patternLineRow)) {
         player->getMosaic()->addTileToPatternLine(new Tile(YELLOW), patternLineRow);
     }
-
-    std::cout << "Printing Player Mosaic With PatternLine Tiles: " << std::endl;
-    gameEngine->printPlayerMosaic(player);
-
-    gameEngine->addTilesToMosaicFromPatternLine(player);    
-
-    std::cout << "Printing Player Mosaic After Method Call: " << std::endl;
-    gameEngine->printPlayerMosaic(player);
-    std::cout << std::endl;
-
-    //Clear player for next test 
-    delete player;
-    player = new Player("Tom");
-
-    //TEST 3 - Check with multiple full patternLines
-    std::cout << "TEST 3 - ..." << std::endl;
-
-    std::cout << "Printing Player Mosaic Blank: " << std::endl;
-    gameEngine->printPlayerMosaic(player);
-
-    while(!player->getMosaic()->patternLineFull(1)) {
-        player->getMosaic()->addTileToPatternLine(new Tile(YELLOW), 1);
-    }
-
-    while(!player->getMosaic()->patternLineFull(2)) {
-        player->getMosaic()->addTileToPatternLine(new Tile(RED), 2);
-    }
-
-    player->getMosaic()->addTileToPatternLine(new Tile(RED), 4);
-    player->getMosaic()->addTileToPatternLine(new Tile(RED), 4);
 
     std::cout << "Printing Player Mosaic With PatternLine Tiles: " << std::endl;
     gameEngine->printPlayerMosaic(player);
@@ -243,7 +219,7 @@ void testMosaicClass() {
 void testFactoriesClass() {
     //Create fixed tile bag
     TileBag* tileBag = new TileBag();
-    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
+    tileBag->generateFixedTileBag();
 
     Factories* factories = new Factories();
     factories->FillFactoriesFromTileBag(tileBag);
@@ -306,7 +282,7 @@ void testTileBagClass() {
     TileBag* tileBag = new TileBag();
 
     std::cout << "Fixed Tile Bag: ";
-    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
+    tileBag->generateFixedTileBag();
     for(int i = 0; i < tileBag->getLength(); ++i) {
         std::cout << tileBag->get(i)->getCharColour();
     }
