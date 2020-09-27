@@ -363,8 +363,6 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
 }
 
 void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
-
-
     //create template for grid tiles to match
     Tile* matchGrid[ROWS][COLS] = 
      { {new Tile(DARK_BLUE), new Tile(YELLOW), new Tile(RED), new Tile(BLACK), new Tile(LIGHT_BLUE)},
@@ -392,25 +390,35 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
                         patternLineRow[colm] = new Tile(NO_TILE);
 
                     }
+
                 }
+                    if(patternLineRow[colm]->getCharColour() != '.' && patternLineRow[colm]->getCharColour() != ' '){
+                        //adds tile back to tilebag
+                        tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
+                        //replace tile of patternLine with no tile
+                        patternLineRow[colm] = new Tile(NO_TILE);
+
+
+                    }
             }   
         }
     }
 
-    for(int row = 0; row < ROWS; ++row) {
-         //create 1D array for each patternLine row
-        Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
-            //loops through each element of patternLine 
-            for(int colm = 0; colm < COLS; ++colm) {
-                //checks if there is a tile in element if patternLine
-                if(patternLineRow[colm]->getCharColour() != NO_TILE && patternLineRow[colm]->getCharColour() != BLANK){
-                    //adds tile back to tilebag
-                    tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
-                    //replace tile of patternLine with no tile
-                    patternLineRow[colm] = new Tile(NO_TILE);
-                }
-            }
-         }
+
+    // for(int row = 0; row < ROWS; ++row) {
+    //      //create 1D array for each patternLine row
+    //     Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
+    //         //loops through each element of patternLine 
+    //         for(int colm = 0; colm < COLS; ++colm) {
+    //             //checks if there is a tile in element if patternLine
+    //             if(patternLineRow[colm]->getCharColour() != '.' && patternLineRow[colm]->getCharColour() != ' '){
+    //                 //adds tile back to tilebag
+    //                 tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
+    //                 //replace tile of patternLine with no tile
+    //                 patternLineRow[colm] = new Tile(NO_TILE);
+    //             }
+    //         }
+    //      }
 }
 
 
