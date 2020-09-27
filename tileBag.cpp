@@ -65,6 +65,18 @@ std::string TileBag::generateFixedTileBag() {
     return std::string(fixedTileBag);
 }
 
+std::string TileBag::generateTileBag(std::string tileBag) {
+    //Ensure tile bag is empty
+    clear();
+
+    //Read in fixed tile bag and add as tiles in the tile bag
+    for(int i = 0; i < TILE_BAG_SIZE; ++i) {
+        Colour colour = convertCharToColour(tileBag[i]);
+        addTile(new Tile(colour));
+    }
+    return std::string(tileBag);
+}
+
 Tile* TileBag::drawTile() {
     //Check if head is no null, then return tile at head, otherwise return null
     return head != nullptr ? head->tile : nullptr;

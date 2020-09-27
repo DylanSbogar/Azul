@@ -24,8 +24,11 @@ public:
     TileBag(TileBag&& other);
     ~TileBag();
 
-    //Generates fixed Tile bag
+     //Generates fixed Tile bag
     std::string generateFixedTileBag();
+
+    //Generates fixed Tile bag
+    std::string generateTileBag(std::string tileBag);
 
     //Tiles returned from the front of the tile bag
     //NOTE: returns nullptr if bag is empty
