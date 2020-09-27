@@ -82,10 +82,17 @@ void GameEngine::runGame() {
             keepPlaying = runTurn(currentPlayer);
         }
 
-        //Update Scoring
+        cout << "=== END OF ROUND " << endl;
+
+        //Move tiles from mosaic to patternline for all players
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            addTilesToMosaicFromPatternLine(players[i]);
         }
+
+        // //Update Scoring
+        // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        //     players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        // }
 
         //Check which player has for first player marker
         int playerIndexWithFirstTile = INVALID_INDEX;
@@ -110,15 +117,31 @@ void GameEngine::runGame() {
 
         //Fill the factories back up
         factories->FillFactoriesFromTileBag(tileBag);
-
-        //Move tiles from mosaic to patternline for all players
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            addTilesToMosaicFromPatternLine(players[i]);
-        }
         
         //Increment round
         ++rounds;
     }
+
+    //END OF GAME SCORING
+    cout << "=== GAME OVER === "  << endl;
+
+    cout << "=== Final Scores === " << endl;
+    // Update Scoring
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+    }
+
+    //Check which player won
+    if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
+        cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
+    } else if(players[2]->getPlayerScore() > players[1]->getPlayerScore()) {
+        cout << "Player "<< players[2]->getPlayerName() << " wins!" << endl;
+    } else {
+        cout << "It was a draw!" << endl;
+    }
+
+
 }
 
 bool GameEngine::runTurn(Player* currentPlayer) {
