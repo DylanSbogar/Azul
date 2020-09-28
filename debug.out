@@ -18,10 +18,10 @@ Mosaic for rob:
 5 . . . . . || . . . . . 
 broken: 
 
-> error: unknown function defined, please try again.
-
-> error: unknown function defined, please try again.
+> Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>
+EXAMPLE: > turn 2 B 3
 
 > Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>
 EXAMPLE: > turn 2 B 3
 
+> 
