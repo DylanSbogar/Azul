@@ -55,13 +55,17 @@ void loadGame(std::string fileName) {
         allTurns.push_back(fileText);
     }
 
-    cout << tileBag + "\n" + player1Name + "\n" + player2Name << endl;
-
-    for(std::size_t i = 0; i < allTurns.size(); ++i) {
-        cout << allTurns[i] << endl;
-    }
+    cout << "Azul game successfully loaded" << endl;
+    cout << "<game play continues from here>" << endl;
     cout << endl;
 
-    GameEngine* gameEngine = new GameEngine();
-    gameEngine->setGameVariables(player1Name, player2Name, tileBag, allTurns);
+    // cout << tileBag + "\n" + player1Name + "\n" + player2Name << endl;
+
+    // for(std::size_t i = 0; i < allTurns.size(); ++i) {
+    //     cout << allTurns[i] << endl;
+    // }
+    // cout << endl;
+
+    // GameEngine* gameEngine = new GameEngine();
+    // gameEngine->setGameVariables(player1Name, player2Name, tileBag, allTurns);
 }

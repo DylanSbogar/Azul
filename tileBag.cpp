@@ -101,10 +101,6 @@ void TileBag::addTile(Tile* tile) {
     ++length;
 }
 
-int TileBag::getLength() {
-    return length;
-}
-
 void TileBag::clear() {
     //Keep removing tiles until tile bag is empty
     while(head != nullptr) {

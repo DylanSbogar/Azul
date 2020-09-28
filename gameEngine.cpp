@@ -7,7 +7,6 @@
 #include "factories.h"
 #include "utils.h"
 
-
 using std::cout;
 using std::endl;
 using std::cin;
@@ -16,9 +15,12 @@ using std::vector;
 
 #define MAX_ROUNDS 5
 
+string initTileBag;
+
 GameEngine::GameEngine() {
     //Create and fill TileBag
     tileBag = new TileBag();
+    initTileBag = tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
     tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
 
     //Create and fill factories
@@ -387,7 +389,6 @@ void GameEngine::saveGame(string fileName) {
     // Create a new file with name defined by 'fileName' var
     ofstream saveFile;
     string allTurns;
-    string initTileBag;
     TileBag tileBag;
 
     // loop through the turns array and add each turn to a formatted string to save
@@ -399,6 +400,7 @@ void GameEngine::saveGame(string fileName) {
 
     // Write to this new file we created.
     // saveFile << tileBag.generateFixedTileBag() + "\n";
+    saveFile << initTileBag + "\n";
     
     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
         saveFile << players[i]->getPlayerName() << "\n";
@@ -490,5 +492,13 @@ int GameEngine::calculatePlayerScores(Player* player) {
 }
 
 void GameEngine::setGameVariables(string player1, string player2, string newTileBag, vector <string> allTurns) {
-    tileBag->generateTileBag(newTileBag);
+    //Set the new tile bag from the save file being loaded.
+    initTileBag = tileBag->generateTileBag(newTileBag);
+
+    // //Create new players, with the names provided by the save file.
+    // Player* player_1 = new Player(player1);
+    // Player* player_2 = new Player(player2);
+    
+    //TBD: Loop through the vector of turns and perform them all? Would need a way of getting 
+    // currentPlayer passed through. (maybe just runGame()?)
 }
