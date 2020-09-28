@@ -6,8 +6,11 @@
 int main(void) {
     GameEngine* game = new GameEngine();
 
+    //Should load the game and run it, reading from the input
+    //Once input has been read, call runGame again to run from terminal
+
     //Load Game
-    //Read file:
+    //Input file
     std::ifstream inFile;
     inFile.open("inFile.txt");
 
@@ -15,11 +18,6 @@ int main(void) {
     std::string filename("debug.out");
     std::ofstream outFile;
     outFile.open(filename);
-
-
-    // std::string filename = "/saves/test.save";
-    // std::ifstream file(filename);
-    // std::ifstream ifs ("test.txt", std::ifstream::in);
 
     game->runGame(&inFile, &outFile);
 
@@ -29,7 +27,7 @@ int main(void) {
 
 
 
-    //Run standard game
+    //Run standard game after you've read from the file
     game->runGame(&std::cin, &std::cout);
 
     delete game;

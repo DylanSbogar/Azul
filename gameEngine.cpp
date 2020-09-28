@@ -55,6 +55,7 @@ GameEngine::~GameEngine() {
 }
 
 void GameEngine::runGame(std::istream* cin, std::ostream* cout) {
+    //INPUT AND OUTPUT DEFINED HERE
     this->cin = cin;
     this->cout = cout;
 

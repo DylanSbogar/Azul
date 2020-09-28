@@ -64,6 +64,8 @@ private:
     Factories* factories;
     Player* players[TOTAL_PLAYERS];
     vector<string> turns;
+
+    //ADDED THESE HERE
     std::istream* cin;
     std::ostream* cout;
 
