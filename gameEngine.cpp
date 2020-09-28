@@ -7,21 +7,23 @@
 #include "factories.h"
 #include "utils.h"
 
-using std::cout;
+// using std::cout;
+// using std::cin;
 using std::endl;
-using std::cin;
 using std::ofstream;
 using std::vector;
 
 #define MAX_ROUNDS 5
 
-string initTileBag;
 
 GameEngine::GameEngine() {
+    // this->cin = &std::cin;
+    // this->cout = &std::cout;
+
     //Create and fill TileBag
     tileBag = new TileBag();
     initTileBag = tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
-    tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
+    // tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
 
     //Create and fill factories
     factories = new Factories();
@@ -52,12 +54,15 @@ GameEngine::~GameEngine() {
     }
 }
 
-void GameEngine::runGame() {
+void GameEngine::runGame(std::istream* cin, std::ostream* cout) {
+    this->cin = cin;
+    this->cout = cout;
+
     //Create players 
     createPlayers();
 
-    cout << "Let's Play!" << endl;
-    cout << endl;
+    *cout << "Let's Play!" << endl;
+    *cout << endl;
 
     //Run Round
     bool keepPlaying = true;
@@ -66,11 +71,11 @@ void GameEngine::runGame() {
 
     //Run Rounds
     int rounds = 0;
-    while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-        cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
+    while(keepPlaying && !(*cin).eof() && rounds < MAX_ROUNDS) {
+        *cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
 
         //Run Single Round:
-        while(keepPlaying && !cin.eof() && !(factories->allFactoriesAreEmpty())) {
+        while(keepPlaying && !(*cin).eof() && !(factories->allFactoriesAreEmpty())) {
             //Check which players turn it is:
             if(firstPlayerTurn) {
                 currentPlayer = players[0];
@@ -105,15 +110,15 @@ void GameEngine::runGame() {
 bool GameEngine::runTurn(Player* currentPlayer) {
     bool keepPlaying = true;
 
-    cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
+    *cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
 
     //Display Factories:
-    cout << "Factories: " << endl;
+    *cout << "Factories: " << endl;
     printFactories();
 
-    cout << "Mosaic for " << currentPlayer->getPlayerName() << ": " << endl;
+    *cout << "Mosaic for " << currentPlayer->getPlayerName() << ": " << endl;
     printPlayerMosaic(currentPlayer);
-    cout << endl;
+    *cout << endl;
 
     //Get player input 
     if(playerEntersTurn(currentPlayer)) {
@@ -129,32 +134,32 @@ void GameEngine::printFactories() {
     for(int i = 0; i < NUMBER_OF_FACTORIES; ++i) {
         Factory* current = factories->getFactory(i);
 
-        std::cout << i << ": ";
+        *cout << i << ": ";
         for(int j = 0; j < current->size(); ++j) {
-            std::cout << current->getTileAt(j)->getCharColour() << " ";
+            *cout << current->getTileAt(j)->getCharColour() << " ";
         }
-        std::cout << std::endl;
+        *cout << std::endl;
     }
-    std::cout << std::endl;
+    *cout << std::endl;
 }
 
 void GameEngine::createPlayers() {
     //Create players
     string playerName;
     int i = 0;
-    while(i < TOTAL_PLAYERS && !cin.eof()) {
-        cout << "Enter a name for player " << i + 1 << endl;
-        cout << "> ";
+    while(i < TOTAL_PLAYERS && !(*cin).eof()) {
+        *cout << "Enter a name for player " << i + 1 << endl;
+        *cout << "> ";
 
-        if(cin.good()) {
-            cin >> playerName;
+        if((*cin).good()) {
+            *cin >> playerName;
             players[i] = new Player(playerName);
             ++i;
         } else {
-            cout << "Input was not accepted, please try again." << endl;
+            *cout << "Input was not accepted, please try again." << endl;
         }
 
-        cout << endl;
+        *cout << endl;
     }
 }
 
@@ -166,10 +171,10 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
     do {
         invalidInput = true;
 
-            cout << "> ";
-            cin >> function;
+            *cout << "> ";
+            *cin >> function;
 
-        if(cin.eof()) {
+        if((*cin).eof()) {
             invalidInput = false;
             turnEntered = false;
         
@@ -177,7 +182,7 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
             // if the user types "save x x x" only take the first x value as the fileName and pass
             if(function == "save") {
                 string fileName;
-                cin >> fileName;
+                *cin >> fileName;
                 saveGame(fileName);
                 invalidInput = false;
 
@@ -186,11 +191,11 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
                 char colour;
                 int factoryNumber, patternLineRow;
-                cin >> factoryNumber;
-                cin >> colour;
-                cin >> patternLineRow;
+                *cin >> factoryNumber;
+                *cin >> colour;
+                *cin >> patternLineRow;
 
-                if(cin.good()) {
+                if((*cin).good()) {
                     //Process turns
                     if(!addTileFromFactoryToMosaic(currentPlayer, factoryNumber, colour, patternLineRow)) {
                         invalidInput = true;
@@ -207,22 +212,22 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
                     }
 
                 } else {
-                    cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
-                    cout << "EXAMPLE: > turn 2 B 3" << endl;
+                    *cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
+                    *cout << "EXAMPLE: > turn 2 B 3" << endl;
                     invalidInput = true;
 
                     //Clear current input, so user can re enter input.
-                    cin.clear();
-                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    (*cin).clear();
+                    (*cin).ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 }
 
             } else {
-                cout << "error: unknown function defined, please try again." << endl;
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                *cout << "error: unknown function defined, please try again." << endl;
+                (*cin).clear();
+                (*cin).ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             
-            cout << endl;
+            *cout << endl;
         }
         
     } while (invalidInput);
@@ -238,7 +243,7 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
 
     //Validate input
     if(validateTurnInput(currentPlayer, factoryNumber, colour, patternLineRow)) {
-        std::cout << "Turn successful." << endl;
+        *cout << "Turn successful." << endl;
 
         Factory* factory = factories->getFactory(factoryNumber);
         int factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
@@ -297,38 +302,38 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     //Check if factory and colour within range - then check if colour exists in factory
     if(factoryNumber < 0 || factoryNumber >= NUMBER_OF_FACTORIES) {
         validTurn = false;
-        cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
+        *cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
     } else if(tileColour == BLANK || tileColour == NO_TILE) {
         validTurn = false;
-        cout << "Invalid colour was entered. Enter one of the following: R Y B L U F" << endl;
+        *cout << "Invalid colour was entered. Enter one of the following: R Y B L U F" << endl;
     } else if(factories->getFactory(factoryNumber)->getIndexOfSameColourTile(tileColour) == INVALID_INDEX) {
         validTurn = false;
-        cout << "Given colour does not exist in chosen factory." << endl;
+        *cout << "Given colour does not exist in chosen factory." << endl;
     }
     
     //Check that factory contains tiles
     if (factories->getFactory(factoryNumber)->size() == 0) {
         validTurn = false;
-        cout << "Selected factory is empty" << endl;
+        *cout << "Selected factory is empty" << endl;
     }
     
     //Check that patternline is within range, is not already full, and is of matching colour.
     if(patternLineRow < 0 || patternLineRow >= ROWS) {
         validTurn = false;
-        cout << "Invalid patternLine row was given. Should be between 0 and " << ROWS << endl;
+        *cout << "Invalid patternLine row was given. Should be between 0 and " << ROWS << endl;
     } else if(mosaic->patternLineFull(patternLineRow)) {
         validTurn = false;
-        cout << "Chosen patternLine row is full, please choose a different row." << ROWS << endl;
+        *cout << "Chosen patternLine row is full, please choose a different row." << ROWS << endl;
     } else if(mosaic->getPatternLineColour(patternLineRow) != NO_TILE && mosaic->getPatternLineColour(patternLineRow) != tileColour) {
         validTurn = false;
-        cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
+        *cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
     }
 
     //Check if grid already contains colour in a given patternline.
     for(int colm = 0; colm < COLS; ++colm) {
         if(mosaic->getGridTile(patternLineRow, colm)->getColour() == tileColour) {
             validTurn = false;
-            cout << "Tile is already within the grid row. Choose a different Tile or Row" << endl;
+            *cout << "Tile is already within the grid row. Choose a different Tile or Row" << endl;
         }
     }
 
@@ -415,31 +420,31 @@ void GameEngine::printPlayerMosaic(Player* player) {
     vector<Tile*> brokenTile = player->getMosaic()->getBrokenTiles();
 
     for(int row = 0; row < ROWS; ++row) {
-        std::cout << row + 1 << " ";
+        *cout << row + 1 << " ";
 
         //Print PatternLine
         Tile** patternLineRow = mosaic->getPatternLineRow(row);
         for(int colm = 0; colm < COLS; ++colm) {
-            cout << patternLineRow[colm]->getCharColour() << " ";
+            *cout << patternLineRow[colm]->getCharColour() << " ";
         }
 
-        std::cout << "|| ";
+        *cout << "|| ";
 
         //Print Grid
         for(int colm = 0; colm < COLS; ++colm) {
-            cout << mosaic->getGridTile(row, colm)->getCharColour() << " ";
+            *cout << mosaic->getGridTile(row, colm)->getCharColour() << " ";
         }
 
-        std::cout << endl;
+        *cout << endl;
     }
 
     //prints broken tile by looping through vector
-    std::cout << "broken: " ;
+    *cout << "broken: " ;
     for(int i = 0; i < (signed int) brokenTile.size(); ++i){
-        std::cout << brokenTile.at(i)->getCharColour() << " ";
+        *cout << brokenTile.at(i)->getCharColour() << " ";
     }
     
-    std::cout << std::endl;
+    *cout << std::endl;
 }
 
 int GameEngine::calculatePlayerScores(Player* player) {
@@ -472,7 +477,7 @@ int GameEngine::calculatePlayerScores(Player* player) {
 
 
    vector<Tile*> brokenTiles = player->getMosaic()->getBrokenTiles();
-    for(int i=0; i<brokenTiles.size() ; ++i){
+    for(int i=0; i < (signed int) brokenTiles.size() ; ++i){
         if(i<2){
             --roundScore;
         }

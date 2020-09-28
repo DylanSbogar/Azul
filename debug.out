@@ -1,0 +1,28 @@
+Enter a name for player 1
+> 
+Enter a name for player 2
+> 
+Let's Play!
+
+=== Start Round 1 ===
+TURN FOR PLAYER: rob
+Factories: 
+0: 
+1: R Y L Y 
+2: R L R L 
+3: L L U L 
+4: Y Y L U 
+5: L Y U U 
+
+Mosaic for rob: 
+1         . || . . . . . 
+2       . . || . . . . . 
+3     . . . || . . . . . 
+4   . . . . || . . . . . 
+5 . . . . . || . . . . . 
+broken: 
+
+> Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>
+EXAMPLE: > turn 2 B 3
+
+> 

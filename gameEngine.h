@@ -19,7 +19,7 @@ public:
     ~GameEngine();
 
     //Runs the main game loop
-    void runGame();
+    void runGame(std::istream* cin, std::ostream* cout);
 
 // private:
     //Transfers tiles from factory to mosaic
@@ -64,6 +64,12 @@ private:
     Factories* factories;
     Player* players[TOTAL_PLAYERS];
     vector<string> turns;
+    std::istream* cin;
+    std::ostream* cout;
+
+
+    std::string initTileBag;
+
 };
 
 #endif //GAME_ENGINE_H
