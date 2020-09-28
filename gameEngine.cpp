@@ -17,8 +17,8 @@ using std::vector;
 
 
 GameEngine::GameEngine() {
-    // this->cin = &std::cin;
-    // this->cout = &std::cout;
+    this->cin = &std::cin;
+    this->cout = &std::cout;
 
     //Create and fill TileBag
     tileBag = new TileBag();
@@ -59,8 +59,8 @@ void GameEngine::runGame(std::istream* cin, std::ostream* cout) {
     this->cin = cin;
     this->cout = cout;
 
-    //Create players 
-    createPlayers();
+    // //Create players 
+    // createPlayers();
 
     *cout << "Let's Play!" << endl;
     *cout << endl;

@@ -8,6 +8,7 @@ int main(void) {
 
     //Should load the game and run it, reading from the input
     //Once input has been read, call runGame again to run from terminal
+    game->createPlayers();
 
     //Load Game
     //Input file
