@@ -37,14 +37,12 @@ void loadGame(std::string fileName) {
     // open the desired save file from the 'saves' folder.
     loadedFile.open(".//saves//" + fileName);
 
-    std::streambuf *cinbuf = cin.rdbuf();
-    cin.rdbuf(loadedFile.rdbuf());
-
-    while(getline(cin, fileText)) {
+    cout << "=====DEBUG=====" << endl;
+    while(getline(loadedFile, fileText)) {
         cout << fileText << endl;
     }
-    
-    std::cin.rdbuf(cinbuf);
+    cout << "===END DEBUG===" << endl;
+    cout << endl;
 
     cout << "Azul game successfully loaded" << endl;
     cout << "<game play continues from here>" << endl;
