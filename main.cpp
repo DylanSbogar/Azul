@@ -5,9 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "load.h"
 #include "gameEngine.h"
-
+#include "load.h"
 
 using std::string;
 using std::cin;

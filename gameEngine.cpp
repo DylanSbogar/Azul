@@ -16,6 +16,7 @@ using std::vector;
 #define MAX_ROUNDS 5
 
 string initTileBag;
+bool isLoading = false;
 
 GameEngine::GameEngine() {
     //Create and fill TileBag
@@ -26,6 +27,7 @@ GameEngine::GameEngine() {
     //Create and fill factories
     factories = new Factories();
     factories->FillFactoriesFromTileBag(tileBag);
+
 }
 
 GameEngine::GameEngine(const GameEngine& other) {
@@ -53,52 +55,123 @@ GameEngine::~GameEngine() {
 }
 
 void GameEngine::runGame() {
-    //Create players 
-    createPlayers();
+    string player1Name;
+    string player2Name;
 
-    cout << "Let's Play!" << endl;
-    cout << endl;
+    if(isLoading == true) {
+        cout << "isLoading is true" << endl;
+        //Create players
+        createPlayers("player1Name", "player2Name");
 
-    //Run Round
-    bool keepPlaying = true;
-    bool firstPlayerTurn = true;
-    Player* currentPlayer;
+        // cout << "Let's Play!" << endl;
+        // cout << endl;
 
-    //Run Rounds
-    int rounds = 0;
-    while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-        cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
+        //Run Round
+        bool keepPlaying = true;
+        bool firstPlayerTurn = true;
+        Player* currentPlayer;
 
-        //Run Single Round:
-        while(keepPlaying && !cin.eof() && !(factories->allFactoriesAreEmpty())) {
-            //Check which players turn it is:
-            if(firstPlayerTurn) {
-                currentPlayer = players[0];
-            } else {
-                currentPlayer = players[1];
+        //Run Rounds
+        int rounds = 0;
+        while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
+            cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
+
+            //Run Single Round:
+            while(keepPlaying && !cin.eof() && !(factories->allFactoriesAreEmpty())) {
+                //Check which players turn it is:
+                if(firstPlayerTurn) {
+                    currentPlayer = players[0];
+                } else {
+                    currentPlayer = players[1];
+                }
+
+                //Flip the player turn for next turn.
+                firstPlayerTurn = !firstPlayerTurn;
+
+                keepPlaying = runTurn(currentPlayer);
             }
 
-            //Flip the player turn for next turn.
-            firstPlayerTurn = !firstPlayerTurn;
+            //Fill the factories back up
+            factories->FillFactoriesFromTileBag(tileBag);
 
-            keepPlaying = runTurn(currentPlayer);
+            //Move tiles from mosaic to patternline for all players
+            for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                addTilesToMosaicFromPatternLine(players[i]);
+            }
+
+            //Update Scoring
+            for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            }
+            
+            //Increment round
+            ++rounds;
+        }
+    } else {
+        cout << "isLoading is false" << endl;
+        cout << "Enter a name for Player 1" << endl;
+        cout << ">";
+        cin >> player1Name;
+
+        if(cin.good()) {
+            cout << "Enter a name for Player 2" << endl;
+            cout << ">";
+            cin >> player2Name;
+
+            if(cin.good()) {
+                createPlayers(player1Name, player2Name);
+            }
+        } else {
+
+            cout << "Input was not accepted, please try again." << endl;
         }
 
-        //Fill the factories back up
-        factories->FillFactoriesFromTileBag(tileBag);
+            cout << endl;
 
-        //Move tiles from mosaic to patternline for all players
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            addTilesToMosaicFromPatternLine(players[i]);
-        }
+        cout << "Let's Play!" << endl;
+        cout << endl;
 
-        //Update Scoring
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        //Run Round
+        bool keepPlaying = true;
+        bool firstPlayerTurn = true;
+        Player* currentPlayer;
+
+        //Run Rounds
+        int rounds = 0;
+        while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
+            cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
+
+            //Run Single Round:
+            while(keepPlaying && !cin.eof() && !(factories->allFactoriesAreEmpty())) {
+                //Check which players turn it is:
+                if(firstPlayerTurn) {
+                    currentPlayer = players[0];
+                } else {
+                    currentPlayer = players[1];
+                }
+
+                //Flip the player turn for next turn.
+                firstPlayerTurn = !firstPlayerTurn;
+
+                keepPlaying = runTurn(currentPlayer);
+            }
+
+            //Fill the factories back up
+            factories->FillFactoriesFromTileBag(tileBag);
+
+            //Move tiles from mosaic to patternline for all players
+            for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                addTilesToMosaicFromPatternLine(players[i]);
+            }
+
+            //Update Scoring
+            for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            }
+            
+            //Increment round
+            ++rounds;
         }
-        
-        //Increment round
-        ++rounds;
     }
 }
 
@@ -138,24 +211,9 @@ void GameEngine::printFactories() {
     std::cout << std::endl;
 }
 
-void GameEngine::createPlayers() {
-    //Create players
-    string playerName;
-    int i = 0;
-    while(i < TOTAL_PLAYERS && !cin.eof()) {
-        cout << "Enter a name for player " << i + 1 << endl;
-        cout << "> ";
-
-        if(cin.good()) {
-            cin >> playerName;
-            players[i] = new Player(playerName);
-            ++i;
-        } else {
-            cout << "Input was not accepted, please try again." << endl;
-        }
-
-        cout << endl;
-    }
+void GameEngine::createPlayers(string player1Name, string player2Name) {
+    players[0] = new Player(player1Name);
+    players[1] = new Player (player2Name);
 }
 
 bool GameEngine::playerEntersTurn(Player* currentPlayer) {

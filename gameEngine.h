@@ -8,9 +8,9 @@
 #include "player.h"
 
 using std::string;
+extern bool isLoading;
 
 #define TOTAL_PLAYERS 2
-
 
 class GameEngine {
 public:
@@ -40,7 +40,7 @@ public:
     bool playerEntersTurn(Player* currentPlayer);
 
     //Generates players at the start of the game.
-    void createPlayers();
+    void createPlayers(string player1Name, string player2Name);
 
     //runs a single turn for given player 
     //Returns false to indicate game to exit 

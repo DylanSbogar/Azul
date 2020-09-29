@@ -6,6 +6,7 @@
 using std::string;
 using std::ifstream;
 using std::endl;
+using std::cin;
 using std::cout;
 
 /* the primary difference between the two methods, is that the testingMode() function
@@ -30,42 +31,26 @@ void testingMode(std::string fileName) {
 void loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
-    string tileBag;
-    string player1Name;
-    string player2Name;
-    std::vector <string> allTurns;
+
+    isLoading = true;
 
     // open the desired save file from the 'saves' folder.
     loadedFile.open(".//saves//" + fileName);
 
-    // get the first line of the file and define it as the tilebag
-    getline(loadedFile, fileText);
-    tileBag = fileText;
+    std::streambuf *cinbuf = cin.rdbuf();
+    cin.rdbuf(loadedFile.rdbuf());
 
-    // get the second line of the file and define it as player 1's name
-    getline(loadedFile, fileText);
-    player1Name = fileText;
-
-    // get the third line of the file and define it as player 2's name
-    getline(loadedFile, fileText);
-    player2Name = fileText;
-
-    // for every line after, save the line to a vector of turns
-    while(getline(loadedFile, fileText)) {
-        allTurns.push_back(fileText);
+    while(getline(cin, fileText)) {
+        cout << fileText << endl;
     }
+    
+    std::cin.rdbuf(cinbuf);
 
     cout << "Azul game successfully loaded" << endl;
     cout << "<game play continues from here>" << endl;
     cout << endl;
 
-    // cout << tileBag + "\n" + player1Name + "\n" + player2Name << endl;
-
-    // for(std::size_t i = 0; i < allTurns.size(); ++i) {
-    //     cout << allTurns[i] << endl;
-    // }
-    // cout << endl;
-
-    // GameEngine* gameEngine = new GameEngine();
+    GameEngine* gameEngine = new GameEngine();
     // gameEngine->setGameVariables(player1Name, player2Name, tileBag, allTurns);
+    gameEngine->runGame();
 }
