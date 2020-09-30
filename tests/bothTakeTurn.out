@@ -1,0 +1,25 @@
+Factories:
+0: F Y L Y L Y
+1:  
+2: R L R L 
+3: L L U L 
+4: Y Y L U 
+5:
+
+Score for Player Rob: 0
+Mosaic for Player Rob: 
+1         . || . . . . . 
+2       . . || . . . . . 
+3     . . . || . . . . . 
+4   . . . R || . . . . . 
+5 . . . . . || . . . . . 
+broken: 
+
+Score for Player Bob: 0
+Mosaic for Player Bob: 
+1         . || . . . . . 
+2       . . || . . . . U 
+3     . . . || . . . . . 
+4   . . . . || . . . . . 
+5 . . . . . || . . . . . 
+broken: 
