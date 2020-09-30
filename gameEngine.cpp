@@ -87,7 +87,6 @@ void GameEngine::runGame() {
 
                 //Flip the player turn for next turn.
                 firstPlayerTurn = !firstPlayerTurn;
-
                 keepPlaying = runTurn(currentPlayer);
             }
 
@@ -177,22 +176,45 @@ void GameEngine::runGame() {
 
 bool GameEngine::runTurn(Player* currentPlayer) {
     bool keepPlaying = true;
+    string function;
+    string param1, param2, param3;
 
-    cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
+    if(isLoading == false) {
+        cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
 
-    //Display Factories:
-    cout << "Factories: " << endl;
-    printFactories();
+        //Display Factories:
+        cout << "Factories: " << endl;
+        printFactories();
 
-    cout << "Mosaic for " << currentPlayer->getPlayerName() << ": " << endl;
-    printPlayerMosaic(currentPlayer);
-    cout << endl;
+        cout << "Mosaic for " << currentPlayer->getPlayerName() << ": " << endl;
+        printPlayerMosaic(currentPlayer);
+        cout << endl;
 
-    //Get player input 
-    if(playerEntersTurn(currentPlayer)) {
-        turns.back();
+        cout << "> ";
+        cin >> function;
+
+        //Get player input 
+        if(playerEntersTurn(currentPlayer, function)) {
+            turns.back();
+        } else {
+            keepPlaying = false;
+        }
     } else {
-        keepPlaying = false;
+        //Pass through the turn from save file
+        //TODO: get a string representing a turn "turn 3 L 3" and split it into function + params 1-4.
+        if(playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
+            turns.back();
+        } else {
+            keepPlaying = false;
+        }
+
+        // TESTING: MULTIPLE TURNS TO SEE IF THEY ACTUALLY SUCCEDED.
+        // playerEntersTurn(currentPlayer, "turn", "3", "L", "3");
+        // playerEntersTurn(currentPlayer, "turn", "0", "U", "1");
+        // playerEntersTurn(currentPlayer, "turn", "4", "Y", "2");
+        // playerEntersTurn(currentPlayer, "turn", "0", "L", "4");
+        // playerEntersTurn(currentPlayer, "turn", "5", "Y", "1");
+        // playerEntersTurn(currentPlayer, "turn", "0", "U", "2");
     }
 
     return keepPlaying;
@@ -216,16 +238,12 @@ void GameEngine::createPlayers(string player1Name, string player2Name) {
     players[1] = new Player (player2Name);
 }
 
-bool GameEngine::playerEntersTurn(Player* currentPlayer) {
+bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  string param1, string param2, string param3) {
     bool turnEntered = false;
-    string function;
     
     bool invalidInput = true;
     do {
         invalidInput = true;
-
-            cout << "> ";
-            cin >> function;
 
         if(cin.eof()) {
             invalidInput = false;
@@ -234,19 +252,34 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
         } else {
             // if the user types "save x x x" only take the first x value as the fileName and pass
             if(function == "save") {
-                string fileName;
-                cin >> fileName;
-                saveGame(fileName);
-                invalidInput = false;
+                if(isLoading == true) {
+                    saveGame(param1);
+                    invalidInput = false;
+                } else {
+                    string fileName;
+                    cin >> fileName;
+                    saveGame(fileName);
+                    invalidInput = false;
+                }
 
-            // if the user types "turn x y z" use x,y,z and take the turn.
+            // if the first word the player types is (turn)
             } else if(function == "turn") {
-
+                cout << "Turn: " + function + " " + param1 + " " + param2 + " " + param3 << endl;
                 char colour;
                 int factoryNumber, patternLineRow;
-                cin >> factoryNumber;
-                cin >> colour;
-                cin >> patternLineRow;
+
+                // if a game is being loaded, play a simplified version with no cout
+                if(isLoading == true) {
+                    factoryNumber = std::stoi(param1);
+                    colour = param2[0];
+                    patternLineRow = std::stoi(param3);
+                // if the player types 'turn x y z', use x,y,z and take the turn.
+                } else {
+                    cin >> factoryNumber;
+                    cin >> colour;
+                    cin >> patternLineRow;
+                }
+
 
                 if(cin.good()) {
                     //Process turns
@@ -265,8 +298,10 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
                     }
 
                 } else {
-                    cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
-                    cout << "EXAMPLE: > turn 2 B 3" << endl;
+                    if(isLoading == false) {
+                        cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
+                        cout << "EXAMPLE: > turn 2 B 3" << endl;
+                    } 
                     invalidInput = true;
 
                     //Clear current input, so user can re enter input.
@@ -275,7 +310,9 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
                 }
 
             } else {
-                cout << "error: unknown function defined, please try again." << endl;
+                if(isLoading == false) {
+                    cout << "error: unknown function defined, please try again." << endl;
+                }
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
