@@ -1,9 +1,7 @@
-#include "gameEngine.h"
 #include "load.h"
 #include <fstream>
 #include <vector>
 
-using std::string;
 using std::ifstream;
 using std::endl;
 using std::cin;
@@ -14,7 +12,19 @@ reads from the /tests folder for a file. Whereas the loadGame() function reads f
 the /saves folder. Currently deciding whether to make them both the same folder and 
 just changing the extension (.test or .save) then we can do it that way. */
 
-void testingMode(std::string fileName) {
+Load::Load() {
+    //TODO
+}
+
+Load::Load(const Load& other){
+    //TODO
+}
+
+Load::~Load() {
+    //TODO
+}
+
+void Load::testingMode(std::string fileName) {
     cout << "you have now entered the super secret testing mode!" << std::endl;
     cout << std::endl;
 
@@ -28,7 +38,7 @@ void testingMode(std::string fileName) {
     cout << endl;
 }
 
-void loadGame(std::string fileName) {
+void Load::loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
 
@@ -51,4 +61,16 @@ void loadGame(std::string fileName) {
     GameEngine* gameEngine = new GameEngine();
     // gameEngine->setGameVariables(player1Name, player2Name, tileBag, allTurns);
     gameEngine->runGame();
+}
+
+TileBag* Load::getTileBag() {
+    //TODO
+}
+
+Player** Load::getPlayers() {
+    //TODO
+}
+
+vector<string> Load::getTurns() {
+    //TODO
 }
