@@ -9,7 +9,7 @@ using std::string;
 
 class Load {
 public:
-    Load();
+    Load(string fileName);
     Load(const Load& other);
     ~Load();
 
@@ -21,6 +21,7 @@ public:
     vector<string> getTurns();
     
 private:
+    string fileName;
     TileBag* initTileBag;
     Player* players[TOTAL_PLAYERS];
     vector<string> turns;

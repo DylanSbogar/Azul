@@ -12,8 +12,8 @@ reads from the /tests folder for a file. Whereas the loadGame() function reads f
 the /saves folder. Currently deciding whether to make them both the same folder and 
 just changing the extension (.test or .save) then we can do it that way. */
 
-Load::Load() {
-    //TODO
+Load::Load(string fileName) {
+    this->fileName = fileName;
 }
 
 Load::Load(const Load& other){

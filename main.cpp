@@ -107,5 +107,6 @@ void loadGame() {
     cin >> fileName;
     cout << endl;
 
-    loadGame(fileName);
+    Load* loadGame = new Load(fileName);
+    // loadGame(fileName);
 }
