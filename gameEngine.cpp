@@ -77,6 +77,20 @@ void GameEngine::runGame() {
         player2Name = load->getPlayer2();
         createPlayers(player1Name, player2Name);
 
+        for(int size_t = 0; size_t < load->getTurns().size(); size_t++) {
+        std::istringstream iss(load->getTurns()[size_t]);
+        vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
+
+        function = splitTurn[0];
+        param1 = splitTurn[1];
+        if(function == "turn") {
+            param2 = splitTurn[2];
+            param3 = splitTurn[3];
+        }
+
+        cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
+    }
+
     } else {
         cout << "Enter a name for Player 1" << endl;
         cout << ">";
@@ -98,24 +112,7 @@ void GameEngine::runGame() {
 
         cout << "Let's Play!" << endl;
         cout << endl;
-    }
-
-    for(int size_t = 0; size_t < load->getTurns().size(); size_t++) {
-        std::istringstream iss(load->getTurns()[size_t]);
-        vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
-
-        function = splitTurn[0];
-        param1 = splitTurn[1];
-        if(function == "turn") {
-            param2 = splitTurn[2];
-            param3 = splitTurn[3];
-        }
-
-        cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
-    }
-
-    
-
+    }    
     //Run Round
     bool keepPlaying = true;
     bool firstPlayerTurn = true;
