@@ -1,12 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <sstream>
 
 #include "gameEngine.h"
 
 #define MAX_ROUNDS 5
 
 string initTileBag;
+string function;
+string param1, param2, param3;
 
 bool isLoading = false;
 
@@ -91,12 +94,27 @@ void GameEngine::runGame() {
 
             cout << "Input was not accepted, please try again." << endl;
         }
-
-            cout << endl;
+        cout << endl;
 
         cout << "Let's Play!" << endl;
         cout << endl;
     }
+
+    for(int size_t = 0; size_t < load->getTurns().size(); size_t++) {
+        std::istringstream iss(load->getTurns()[size_t]);
+        vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
+
+        function = splitTurn[0];
+        param1 = splitTurn[1];
+        if(function == "turn") {
+            param2 = splitTurn[2];
+            param3 = splitTurn[3];
+        }
+
+        cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
+    }
+
+    
 
     //Run Round
     bool keepPlaying = true;
@@ -144,8 +162,6 @@ void GameEngine::runGame() {
 
 bool GameEngine::runTurn(Player* currentPlayer) {
     bool keepPlaying = true;
-    string function;
-    string param1, param2, param3;
 
     if(isLoading == false) {
         cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
@@ -176,14 +192,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         } else {
             keepPlaying = false;
         }
-
-        // TESTING: MULTIPLE TURNS TO SEE IF THEY ACTUALLY SUCCEDED.
-        // playerEntersTurn(currentPlayer, "turn", "3", "L", "3");
-        // playerEntersTurn(currentPlayer, "turn", "0", "U", "1");
-        // playerEntersTurn(currentPlayer, "turn", "4", "Y", "2");
-        // playerEntersTurn(currentPlayer, "turn", "0", "L", "4");
-        // playerEntersTurn(currentPlayer, "turn", "5", "Y", "1");
-        // playerEntersTurn(currentPlayer, "turn", "0", "U", "2");
     }
 
     return keepPlaying;
