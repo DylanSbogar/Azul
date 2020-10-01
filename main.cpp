@@ -107,6 +107,11 @@ void loadGame() {
     cin >> fileName;
     cout << endl;
 
-    Load* loadGame = new Load(fileName);
-    // loadGame(fileName);
+    if(cin.good()) {
+        Load* load = new Load(fileName);
+        load->loadGame(fileName);
+        GameEngine* gameEngine = new GameEngine();
+        gameEngine->runGame(load);
+    }
+
 }

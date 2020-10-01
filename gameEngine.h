@@ -6,9 +6,15 @@
 #include "tileBag.h"
 #include "factories.h"
 #include "player.h"
+#include "utils.h"
+#include "load.h"
 
 using std::string;
-extern bool isLoading;
+using std::endl;
+using std::cout;
+using std::cin;
+using std::ofstream;
+using std::vector;
 
 #define TOTAL_PLAYERS 2
 
@@ -20,6 +26,9 @@ public:
 
     //Runs the main game loop
     void runGame();
+
+    //TESTING
+    void runGame(Load* load);
 
 // private:
     //Transfers tiles from factory to mosaic
@@ -64,6 +73,7 @@ private:
     Factories* factories;
     Player* players[TOTAL_PLAYERS];
     vector<string> turns;
+    Load* load;
 };
 
 #endif //GAME_ENGINE_H

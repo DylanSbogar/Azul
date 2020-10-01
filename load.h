@@ -2,10 +2,16 @@
 #define LOAD_H
 
 #include <iostream>
-#include "gameEngine.h"
-
+#include <vector>
 
 using std::string;
+using std::ifstream;
+using std::endl;
+using std::cin;
+using std::cout;
+using std::vector;
+
+extern bool isLoading;
 
 class Load {
 public:
@@ -16,14 +22,16 @@ public:
     void loadGame(std::string fileName);
     void testingMode(std::string fileName);
 
-    TileBag* getTileBag();
-    Player** getPlayers();
+    string getTileBag();
+    string getPlayer1();
+    string getPlayer2();
     vector<string> getTurns();
     
 private:
     string fileName;
-    TileBag* initTileBag;
-    Player* players[TOTAL_PLAYERS];
+    string initTileBag;
+    string player1Name;
+    string player2Name;
     vector<string> turns;
 };
 
