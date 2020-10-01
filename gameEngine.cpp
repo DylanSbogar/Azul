@@ -88,6 +88,7 @@ void GameEngine::runGame() {
             param3 = splitTurn[3];
         }
 
+        //more testing
         cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
     }
 
@@ -183,9 +184,8 @@ bool GameEngine::runTurn(Player* currentPlayer) {
     } else {
         //Pass through the turn from save file
         //TODO: get a string representing a turn "turn 3 L 3" and split it into function + params 1-4.
-        if(playerEntersTurn(currentPlayer, "save", "newTest", param2, param3)) {
+        if(playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
             turns.back();
-            isLoading = false;
         } else {
             keepPlaying = false;
         }
