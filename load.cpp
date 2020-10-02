@@ -24,17 +24,12 @@ Load::~Load() {
 }
 
 void Load::testingMode(std::string fileName) {
-    cout << "you have now entered the super secret testing mode!" << std::endl;
-    cout << std::endl;
-
-    string fileText;
-    ifstream loadedFile;
-    loadedFile.open(".//tests//" + fileName);
-
-    while(getline(loadedFile, fileText)) {
-        cout << fileText << endl;
-    }
-    cout << endl;
+    cout << "Super Secret Testing Mode!" << endl;
+    loadGame(fileName);
+    //Making sure the game does not resume
+    isLoading = true;
+    cout.eof();
+    //Need to implement something here that prints out the factory and mosaics for 
 }
 
 void Load::loadGame(std::string fileName) {
@@ -62,9 +57,6 @@ void Load::loadGame(std::string fileName) {
     while(getline(loadedFile, fileText)) {
         turns.push_back(fileText);
     }
-
-    cout << "Azul game successfully loaded" << endl;
-    cout << endl;
 }
 
 string Load::getTileBag() {
