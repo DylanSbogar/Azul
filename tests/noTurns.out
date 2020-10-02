@@ -1,24 +1,24 @@
 Factories:
-0: F Y L Y L Y
-1:  
+0: F
+1: R Y L Y 
 2: R L R L 
 3: L L U L 
 4: Y Y L U 
-5:
+5: L Y U U
 
-Score for Player Rob: 0
-Mosaic for Player Rob: 
+Score for Player A: 0
+Mosaic for Player A: 
 1         . || . . . . . 
 2       . . || . . . . . 
 3     . . . || . . . . . 
-4   . . . R || . . . . . 
+4   . . . . || . . . . . 
 5 . . . . . || . . . . . 
 broken: 
 
-Score for Player Bob: 1
-Mosaic for Player Bob: 
+Score for Player B: 0
+Mosaic for Player B: 
 1         . || . . . . . 
-2       U U || . . . . . 
+2       . . || . . . . . 
 3     . . . || . . . . . 
 4   . . . . || . . . . . 
 5 . . . . . || . . . . . 
