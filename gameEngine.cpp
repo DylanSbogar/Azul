@@ -187,6 +187,7 @@ bool GameEngine::runTurn(Player* currentPlayer) {
             if(n >= load->getTurns().size()) {
                 cout << "Azul game successfully loaded" << endl;
                 cout << endl;
+                isLoading = false;
             }
         } else {
             keepPlaying = false;
