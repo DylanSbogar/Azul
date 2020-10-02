@@ -10,6 +10,7 @@
 string initTileBag;
 string function;
 string param1, param2, param3;
+int n = 0;
 
 bool isLoading = false;
 
@@ -77,20 +78,19 @@ void GameEngine::runGame() {
         player2Name = load->getPlayer2();
         createPlayers(player1Name, player2Name);
 
-        for(int size_t = 0; size_t < load->getTurns().size(); size_t++) {
-        std::istringstream iss(load->getTurns()[size_t]);
-        vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
+        // for(int size_t = 0; size_t < load->getTurns().size(); size_t++) {
+            // std::istringstream iss(load->getTurns()[size_t]);
+            // vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
+            // function = splitTurn[0];
+            // param1 = splitTurn[1];
+            // if(function == "turn") {
+            //     param2 = splitTurn[2];
+            //     param3 = splitTurn[3];
+            // }
 
-        function = splitTurn[0];
-        param1 = splitTurn[1];
-        if(function == "turn") {
-            param2 = splitTurn[2];
-            param3 = splitTurn[3];
-        }
-
-        //more testing
-        cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
-    }
+            // //more testing
+            // cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
+        // }
 
     } else {
         cout << "Enter a name for Player 1" << endl;
@@ -122,23 +122,22 @@ void GameEngine::runGame() {
     //Run Rounds
     int rounds = 0;
     while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-    if(isLoading == false) {
-        cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
-    }
+        if(isLoading == false) {
+            cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
+        }
 
-    //Run Single Round:
-    while(keepPlaying && !cin.eof() && !(factories->allFactoriesAreEmpty())) {
-    //Check which players turn it is:
-    if(firstPlayerTurn) {
-        currentPlayer = players[0];
-    } else {
-        currentPlayer = players[1];
-    }
-
-    //Flip the player turn for next turn.
-    firstPlayerTurn = !firstPlayerTurn;
-    keepPlaying = runTurn(currentPlayer);
-    }
+        //Run Single Round:
+        while(keepPlaying && !cin.eof() && !(factories->allFactoriesAreEmpty())) {
+        //Check which players turn it is:
+            if(firstPlayerTurn) {
+                currentPlayer = players[0];
+            } else {
+                currentPlayer = players[1];
+            }
+            //Flip the player turn for next turn.
+            firstPlayerTurn = !firstPlayerTurn;
+            keepPlaying = runTurn(currentPlayer);
+        }
 
         //Fill the factories back up
         factories->FillFactoriesFromTileBag(tileBag);
@@ -182,15 +181,32 @@ bool GameEngine::runTurn(Player* currentPlayer) {
             keepPlaying = false;
         }
     } else {
+
+        //TESTING
+        std::istringstream iss(load->getTurns()[n]); 
+        vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
+        function = splitTurn[0];
+        param1 = splitTurn[1];
+        if(function == "turn") {
+            param2 = splitTurn[2];
+            param3 = splitTurn[3];
+        }
+        cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
+        //END TESTING
+
         //Pass through the turn from save file
         //TODO: get a string representing a turn "turn 3 L 3" and split it into function + params 1-4.
         if(playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
             turns.back();
+            n++;
+            if(n >= load->getTurns().size()) {
+                isLoading = false;
+            }
         } else {
             keepPlaying = false;
         }
     }
-
+    
     return keepPlaying;
 }
 
