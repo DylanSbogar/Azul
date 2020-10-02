@@ -64,7 +64,6 @@ void Load::loadGame(std::string fileName) {
     }
 
     cout << "Azul game successfully loaded" << endl;
-    cout << "<game play continues from here>" << endl;
     cout << endl;
 }
 

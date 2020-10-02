@@ -69,28 +69,14 @@ void GameEngine::runGame() {
 
     if(isLoading == true) {
         //TESTING
-        cout << "TileBag: " + load->getTileBag() << endl;
-        cout << "Player1: " + load->getPlayer1() << endl;
-        cout << "Player2: " + load->getPlayer2() << endl;
+        // cout << "TileBag: " + load->getTileBag() << endl;
+        // cout << "Player1: " + load->getPlayer1() << endl;
+        // cout << "Player2: " + load->getPlayer2() << endl;
 
         //Create players
         player1Name = load->getPlayer1();
         player2Name = load->getPlayer2();
         createPlayers(player1Name, player2Name);
-
-        // for(int size_t = 0; size_t < load->getTurns().size(); size_t++) {
-            // std::istringstream iss(load->getTurns()[size_t]);
-            // vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
-            // function = splitTurn[0];
-            // param1 = splitTurn[1];
-            // if(function == "turn") {
-            //     param2 = splitTurn[2];
-            //     param3 = splitTurn[3];
-            // }
-
-            // //more testing
-            // cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
-        // }
 
     } else {
         cout << "Enter a name for Player 1" << endl;
@@ -191,7 +177,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
             param2 = splitTurn[2];
             param3 = splitTurn[3];
         }
-        cout << function + " " + param1 + " " + param2 + " " + param3 << endl;
         //END TESTING
 
         //Pass through the turn from save file
@@ -254,7 +239,6 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  strin
 
             // if the first word the player types is (turn)
             } else if(function == "turn") {
-                cout << "Turn: " + function + " " + param1 + " " + param2 + " " + param3 << endl;
                 char colour;
                 int factoryNumber, patternLineRow;
 
@@ -323,8 +307,9 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
 
     //Validate input
     if(validateTurnInput(currentPlayer, factoryNumber, colour, patternLineRow)) {
-        std::cout << "Turn successful." << endl;
-
+        if(isLoading == false) {
+            std::cout << "Turn successful." << endl;
+        }
         Factory* factory = factories->getFactory(factoryNumber);
         int factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
 
@@ -382,38 +367,54 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     //Check if factory and colour within range - then check if colour exists in factory
     if(factoryNumber < 0 || factoryNumber >= NUMBER_OF_FACTORIES) {
         validTurn = false;
-        cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
+        if(isLoading == false) {
+            cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
+        }
     } else if(tileColour == BLANK || tileColour == NO_TILE) {
         validTurn = false;
-        cout << "Invalid colour was entered. Enter one of the following: R Y B L U F" << endl;
+        if(isLoading == false) {
+            cout << "Invalid colour was entered. Enter one of the following: R Y B L U F" << endl;
+        }
     } else if(factories->getFactory(factoryNumber)->getIndexOfSameColourTile(tileColour) == INVALID_INDEX) {
         validTurn = false;
-        cout << "Given colour does not exist in chosen factory." << endl;
+        if(isLoading == false) {
+            cout << "Given colour does not exist in chosen factory." << endl;   
+        }
     }
     
     //Check that factory contains tiles
     if (factories->getFactory(factoryNumber)->size() == 0) {
         validTurn = false;
-        cout << "Selected factory is empty" << endl;
+        if(isLoading == false) {
+            cout << "Selected factory is empty" << endl;
+        }
     }
     
     //Check that patternline is within range, is not already full, and is of matching colour.
     if(patternLineRow < 0 || patternLineRow >= ROWS) {
         validTurn = false;
-        cout << "Invalid patternLine row was given. Should be between 0 and " << ROWS << endl;
+        if(isLoading == false) {
+            cout << "Invalid patternLine row was given. Should be between 0 and " << ROWS << endl;
+        }
     } else if(mosaic->patternLineFull(patternLineRow)) {
         validTurn = false;
-        cout << "Chosen patternLine row is full, please choose a different row." << ROWS << endl;
+        if(isLoading == false) {
+            cout << "Chosen patternLine row is full, please choose a different row." << ROWS << endl;
+        }
     } else if(mosaic->getPatternLineColour(patternLineRow) != NO_TILE && mosaic->getPatternLineColour(patternLineRow) != tileColour) {
         validTurn = false;
-        cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
+        if(isLoading == false) {
+            cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
+        }
     }
 
     //Check if grid already contains colour in a given patternline.
     for(int colm = 0; colm < COLS; ++colm) {
         if(mosaic->getGridTile(patternLineRow, colm)->getColour() == tileColour) {
             validTurn = false;
-            cout << "Tile is already within the grid row. Choose a different Tile or Row" << endl;
+            if(isLoading == false) {
+                cout << "Tile is already within the grid row. Choose a different Tile or Row" << endl;
+            }
         }
     }
 
