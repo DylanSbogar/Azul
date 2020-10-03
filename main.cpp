@@ -97,6 +97,7 @@ void showCredits() {
 void startNewGame() {
     GameEngine* gameEngine = new GameEngine();
     gameEngine->runGame();
+    delete gameEngine;
 }
 
 void loadGame() {

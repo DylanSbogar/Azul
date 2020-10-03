@@ -3,6 +3,7 @@
 
 Factories::Factories() {
     centreFactory = new Factory(0);
+    centreFactory->addTile(new Tile(FIRST_PLAYER));
     allFactories[0] = centreFactory;
 
     for(int i = 1; i < NUMBER_OF_FACTORIES; i++) {

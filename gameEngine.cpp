@@ -2,6 +2,7 @@
 #include <fstream>
 #include <limits>
 #include <sstream>
+#include <iterator>
 
 #include "gameEngine.h"
 
@@ -125,22 +126,66 @@ void GameEngine::runGame() {
             keepPlaying = runTurn(currentPlayer);
         }
 
-        //Fill the factories back up
-        factories->FillFactoriesFromTileBag(tileBag);
+        cout << "=== END OF ROUND " << endl;
 
         //Move tiles from mosaic to patternline for all players
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
             addTilesToMosaicFromPatternLine(players[i]);
         }
 
-        //Update Scoring
+        // //Update Scoring
+        // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        //     players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        // }
+
+        //Check which player has for first player marker
+        int playerIndexWithFirstTile = INVALID_INDEX;
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            if(players[i]->getMosaic()->getBrokenTiles().size() > 0 && players[i]->getMosaic()->getBrokenTiles()[0]->getColour() == FIRST_PLAYER) {
+                playerIndexWithFirstTile = i;
+            }
         }
-            
+
+        if(playerIndexWithFirstTile == 0) {
+            firstPlayerTurn = true;
+        } else {
+            firstPlayerTurn = false;
+        }
+
+        //Move First Player tile back to centre factory
+        if(playerIndexWithFirstTile != INVALID_INDEX) {
+            Tile* firstPlayerTile = players[playerIndexWithFirstTile]->getMosaic()->getBrokenTiles()[0];
+            factories->getFactory(0)->addTile(firstPlayerTile);
+            players[playerIndexWithFirstTile]->getMosaic()->removeBrokenTiles(0);
+        }
+
+        //Fill the factories back up
+        factories->FillFactoriesFromTileBag(tileBag);
+        
         //Increment round
         ++rounds;
     }
+
+    //END OF GAME SCORING
+    cout << "=== GAME OVER === "  << endl;
+
+    cout << "=== Final Scores === " << endl;
+    // Update Scoring
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+    }
+
+    //Check which player won
+    if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
+        cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
+    } else if(players[2]->getPlayerScore() > players[1]->getPlayerScore()) {
+        cout << "Player "<< players[2]->getPlayerName() << " wins!" << endl;
+    } else {
+        cout << "It was a draw!" << endl;
+    }
+
+
 }
 
 bool GameEngine::runTurn(Player* currentPlayer) {
@@ -184,7 +229,7 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         if(playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
             turns.back();
             n++;
-            if(n >= load->getTurns().size()) {
+            if(n >= (signed int) load->getTurns().size()) {
                 cout << "Azul game successfully loaded" << endl;
                 cout << endl;
                 isLoading = false;
@@ -315,6 +360,14 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
         Factory* factory = factories->getFactory(factoryNumber);
         int factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
 
+        //If centre factory is chosen check for first player tile:
+        //NOTE: Assumes that First Player tile is at position 0. 
+        if(factoryNumber == 0 && factory->getTileAt(0)->getColour() == FIRST_PLAYER) {
+            //Move First Player tile to broken tile.
+            mosaic->addBrokenTileAtFront(factory->getTileAt(0));
+            factory->removeTileAt(0);
+        } 
+
         //If factory still contains Tile colour keep adding to mosaic
         while(factoryColourIndex != INVALID_INDEX) {
             //If patternline is not full add there, otherwise add rest to broken tiles
@@ -334,7 +387,7 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
             factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
         }
 
-        //Empty the rest of the tiles within the chosen factory
+        //If not centre factory, empty the rest of the tiles to centre factory
         if(factoryNumber != 0) {
             //Add rest of tiles to centre factory
             while(factory->size() > 0) {
@@ -372,7 +425,7 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
         if(isLoading == false) {
             cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
         }
-    } else if(tileColour == BLANK || tileColour == NO_TILE) {
+    } else if(tileColour == BLANK || tileColour == NO_TILE || tileColour == FIRST_PLAYER) {
         validTurn = false;
         if(isLoading == false) {
             cout << "Invalid colour was entered. Enter one of the following: R Y B L U F" << endl;
@@ -434,7 +487,7 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
      };
     
     //loops through each row of patternLine and matchGrid
-     for(int row = 0; row < ROWS; ++row) {
+    for(int row = 0; row < ROWS; ++row) {
         //create 1D array for each patternLine row
         Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
          //checks if patternLine is full
@@ -450,26 +503,36 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
                         //replace tile of patternLine with no tile
                         patternLineRow[colm] = new Tile(NO_TILE);
 
-            }
-            }
-        }   
-    }
-}
+                    }
 
-    for(int row = 0; row < ROWS; ++row) {
-         //create 1D array for each patternLine row
-        Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
-            //loops through each element of patternLine 
-            for(int colm = 0; colm < COLS; ++colm) {
-                //checks if there is a tile in element if patternLine
-                if(patternLineRow[colm]->getCharColour() != NO_TILE && patternLineRow[colm]->getCharColour() != BLANK){
-                    //adds tile back to tilebag
-                    tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
-                    //replace tile of patternLine with no tile
-                    patternLineRow[colm] = new Tile(NO_TILE);
                 }
-            }
-         }
+                    if(patternLineRow[colm]->getCharColour() != '.' && patternLineRow[colm]->getCharColour() != ' '){
+                        //adds tile back to tilebag
+                        tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
+                        //replace tile of patternLine with no tile
+                        patternLineRow[colm] = new Tile(NO_TILE);
+
+
+                    }
+            }   
+        }
+    }
+
+
+    // for(int row = 0; row < ROWS; ++row) {
+    //      //create 1D array for each patternLine row
+    //     Tile** patternLineRow = currentPlayer->getMosaic()->getPatternLineRow(row);
+    //         //loops through each element of patternLine 
+    //         for(int colm = 0; colm < COLS; ++colm) {
+    //             //checks if there is a tile in element if patternLine
+    //             if(patternLineRow[colm]->getCharColour() != '.' && patternLineRow[colm]->getCharColour() != ' '){
+    //                 //adds tile back to tilebag
+    //                 tileBag->addTile(new Tile(patternLineRow[colm]->getColour()));
+    //                 //replace tile of patternLine with no tile
+    //                 patternLineRow[colm] = new Tile(NO_TILE);
+    //             }
+    //         }
+    //      }
 }
 
 
@@ -560,7 +623,7 @@ int GameEngine::calculatePlayerScores(Player* player) {
 
 
    vector<Tile*> brokenTiles = player->getMosaic()->getBrokenTiles();
-    for(int i=0; i<brokenTiles.size() ; ++i){
+    for(int i = 0; i < (signed int) brokenTiles.size() ; ++i){
         if(i<2){
             --roundScore;
         }

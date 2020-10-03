@@ -31,6 +31,12 @@ public:
     //adds new broken tiles to brokenTile array for mosaic
     void addBrokenTiles(Tile* tile);
 
+    // Removes tile at given index
+    void removeBrokenTiles(int index);
+
+    //Adds tile to the front of broken tile.
+    void addBrokenTileAtFront(Tile* tile);
+
 
     /**
      * NEW METHOD TO REPLACE 'getGrid()', 'getPatternLine()', 

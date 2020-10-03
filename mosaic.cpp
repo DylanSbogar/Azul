@@ -108,3 +108,32 @@ bool Mosaic::patternLineFull(int row) {
 Colour Mosaic::getPatternLineColour(int row) {
    return patternLine[row][COLS-1]->getColour();
 }
+
+void Mosaic::removeBrokenTiles(int index) {
+   if ((signed int) brokenTiles.size() > 0 && index >= 0 && index < (signed int) brokenTiles.size()) {
+      for (int i = index; i < (signed int) brokenTiles.size() - 1; ++i) {
+         brokenTiles[i] = brokenTiles[i+1];
+      }
+
+      brokenTiles.pop_back();
+   }
+}
+
+void Mosaic::addBrokenTileAtFront(Tile* tile) {
+   if (brokenTiles.size() == 0 ) {
+      brokenTiles.push_back(tile);
+   } else {
+      //Re size array to fit new value
+      int newSize = (signed int) brokenTiles.size() + 1;
+      brokenTiles.resize(newSize);
+
+      //Move all the tiles infront
+      for(int i = newSize - 1; i >= 0; --i) {
+         brokenTiles[i] = brokenTiles[i-1];
+      }
+
+      //Add new tile to position 0
+      brokenTiles[0] = tile;
+
+   }
+}

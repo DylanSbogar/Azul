@@ -24,6 +24,9 @@ public:
     TileBag(TileBag&& other);
     ~TileBag();
 
+     //Generates fixed Tile bag
+    std::string generateFixedTileBag();
+
     //Generates fixed Tile bag
     std::string generateTileBag(std::string tileBag);
 
