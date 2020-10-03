@@ -14,6 +14,7 @@ string param1, param2, param3;
 int n = 0;
 
 bool isLoading = false;
+bool isTesting = false;
 
 GameEngine::GameEngine() {
     //Create and fill TileBag
@@ -110,9 +111,8 @@ void GameEngine::runGame() {
     //Run Rounds
     int rounds = 0;
 
-
     while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-        if(load->isTesting() && n >= load->getTurns().size()) {
+        if(isTesting == true) {
             isLoading = false;
             cout << "Factories: " << endl;
             printFactories();

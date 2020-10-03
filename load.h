@@ -12,6 +12,7 @@ using std::cout;
 using std::vector;
 
 extern bool isLoading;
+extern bool isTesting;
 
 class Load {
 public:
@@ -24,7 +25,6 @@ public:
     string getPlayer1();
     string getPlayer2();
     vector<string> getTurns();
-    bool isTesting();
     
 private:
     string fileName;
@@ -32,7 +32,6 @@ private:
     string player1Name;
     string player2Name;
     vector<string> turns;
-    bool testing = false;
 };
 
 #endif //LOAD_H

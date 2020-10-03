@@ -13,11 +13,10 @@ Load::Load(string fileName) {
     player1Name = "";
     player2Name = "";
     turns = {};
-    testing = false;
 }
 
 void Load::testingMode(std::string fileName) {
-    testing = true;
+    isTesting = true;
     loadGame(fileName);
 }
 
@@ -26,6 +25,7 @@ void Load::loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
 
+    isTesting = false;
     isLoading = true;
 
     // open the desired save file from the 'saves' folder.
@@ -64,9 +64,4 @@ string Load::getPlayer2() {
 // Returns the vector of strings read from the saveFile.
 vector<string> Load::getTurns() {
     return turns;
-}
-
-// Returns either true or false, set depending on whether testingMode() has been called.
-bool Load::isTesting() {
-    return testing;
 }
