@@ -109,20 +109,22 @@ void GameEngine::runGame() {
 
     //Run Rounds
     int rounds = 0;
+
+
     while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-        if(load->isTesting() == true && n >= load->getTurns().size()) {
-        isLoading = false;
-        cout << "Factories: " << endl;
-        printFactories();
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-            cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
-            cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
-            printPlayerMosaic(players[i]);
-            cout << endl;
+        if(load->isTesting() && n >= load->getTurns().size()) {
+            isLoading = false;
+            cout << "Factories: " << endl;
+            printFactories();
+            for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+                cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+                cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
+                printPlayerMosaic(players[i]);
+                cout << endl;
+            }
+            std::_Exit(EXIT_SUCCESS);
         }
-        std::_Exit(EXIT_SUCCESS);
-    }
 
         if(isLoading == false) {
             cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
@@ -180,26 +182,26 @@ void GameEngine::runGame() {
         ++rounds;
     }
 
-    //END OF GAME SCORING
-    cout << "=== GAME OVER === "  << endl;
+    if(rounds >= MAX_ROUNDS) {
+        //END OF GAME SCORING
+        cout << "=== GAME OVER === "  << endl;
 
-    cout << "=== Final Scores === " << endl;
-    // Update Scoring
-    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-        cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        cout << "=== Final Scores === " << endl;
+        // Update Scoring
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        }
+
+        //Check which player won
+        if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
+            cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
+        } else if(players[2]->getPlayerScore() > players[1]->getPlayerScore()) {
+            cout << "Player "<< players[2]->getPlayerName() << " wins!" << endl;
+        } else {
+            cout << "It was a draw!" << endl;
+        }
     }
-
-    //Check which player won
-    if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
-        cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
-    } else if(players[2]->getPlayerScore() > players[1]->getPlayerScore()) {
-        cout << "Player "<< players[2]->getPlayerName() << " wins!" << endl;
-    } else {
-        cout << "It was a draw!" << endl;
-    }
-
-
 }
 
 bool GameEngine::runTurn(Player* currentPlayer) {

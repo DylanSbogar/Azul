@@ -32,7 +32,7 @@ private:
     string player1Name;
     string player2Name;
     vector<string> turns;
-    bool testing;
+    bool testing = false;
 };
 
 #endif //LOAD_H
