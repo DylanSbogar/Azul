@@ -219,15 +219,8 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         printPlayerMosaic(currentPlayer);
         cout << endl;
 
-        cout << "> ";
-        cin >> function;
-
-        //Get player input 
-        if(playerEntersTurn(currentPlayer, function)) {
-            turns.back();
-        } else {
-            keepPlaying = false;
-        }
+        keepPlaying = playerEntersTurn(currentPlayer);
+        
     } else {
 
         //TESTING
@@ -277,13 +270,15 @@ void GameEngine::createPlayers(string player1Name, string player2Name) {
     players[1] = new Player (player2Name);
 }
 
-bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  string param1, string param2, string param3) {
+bool GameEngine::playerEntersTurn(Player* currentPlayer) {
     bool turnEntered = false;
+    string function;
     
     bool invalidInput = true;
     do {
         invalidInput = true;
-
+            cout << "> ";
+            cin >> function;
         if(cin.eof()) {
             invalidInput = false;
             turnEntered = false;
@@ -291,34 +286,17 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  strin
         } else {
             // if the user types "save x x x" only take the first x value as the fileName and pass
             if(function == "save") {
-                if(isLoading == true) {
-                    saveGame(param1);
-                    invalidInput = false;
-                } else {
-                    string fileName;
-                    cin >> fileName;
-                    saveGame(fileName);
-                    invalidInput = false;
-                }
-
-            // if the first word the player types is (turn)
+                string fileName;
+                cin >> fileName;
+                saveGame(fileName);
+                invalidInput = false;
+            // if the user types "turn x y z" use x,y,z and take the turn.
             } else if(function == "turn") {
                 char colour;
                 int factoryNumber, patternLineRow;
-
-                // if a game is being loaded, play a simplified version with no cout
-                if(isLoading == true) {
-                    factoryNumber = std::stoi(param1);
-                    colour = param2[0];
-                    patternLineRow = std::stoi(param3);
-                // if the player types 'turn x y z', use x,y,z and take the turn.
-                } else {
-                    cin >> factoryNumber;
-                    cin >> colour;
-                    cin >> patternLineRow;
-                }
-
-
+                cin >> factoryNumber;
+                cin >> colour;
+                cin >> patternLineRow;
                 if(cin.good()) {
                     //Process turns
                     if(!addTileFromFactoryToMosaic(currentPlayer, factoryNumber, colour, patternLineRow)) {
@@ -326,40 +304,148 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  strin
                     } else {
                         //Save turn variable for saving
                         turns.push_back(function + " " + std::to_string(factoryNumber) + " " + colour + " " + std::to_string(patternLineRow));
-
                         turnEntered = true;
                         invalidInput = false;
-
                         // TESTING METHOD: Displays player's updated mosaic
                         // cout << currentPlayer->getPlayerName() << "'s Updated Mosaic: " << endl;
                         // printPlayerMosaic(currentPlayer);
                     }
-
                 } else {
-                    if(isLoading == false) {
-                        cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
-                        cout << "EXAMPLE: > turn 2 B 3" << endl;
-                    } 
+                    cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
+                    cout << "EXAMPLE: > turn 2 B 3" << endl;
                     invalidInput = true;
-
                     //Clear current input, so user can re enter input.
                     cin.clear();
                     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 }
-
             } else {
-                if(isLoading == false) {
-                    cout << "error: unknown function defined, please try again." << endl;
-                }
+                cout << "error: unknown function defined, please try again." << endl;
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
-            if(isLoading == false) {
-                cout << endl;
-            }
+            
+            cout << endl;
         }
         
     } while (invalidInput);
+
+    return turnEntered;
+}
+
+
+// bool GameEngine::playerEntersTurn(Player* currentPlayer) {
+//     bool turnEntered = false;
+//     bool invalidInput = true;
+
+//     do {
+//         invalidInput = true;
+
+//         if(cin.eof()) {
+//             invalidInput = false;
+//             turnEntered = false;
+        
+//         } else {
+//             // if the user types "save x x x" only take the first x value as the fileName and pass
+//             if(function == "save") {
+//                 if(isLoading == true) {
+//                     saveGame(param1);
+//                     invalidInput = false;
+//                 } else {
+//                     string fileName;
+//                     cin >> fileName;
+//                     saveGame(fileName);
+//                     invalidInput = false;
+//                 }
+
+//             // if the first word the player types is (turn)
+//             } else if(function == "turn") {
+//                 char colour;
+//                 int factoryNumber, patternLineRow;
+
+//                 // if a game is being loaded, play a simplified version with no cout
+//                 if(isLoading == true) {
+//                     factoryNumber = std::stoi(param1);
+//                     colour = param2[0];
+//                     patternLineRow = std::stoi(param3);
+//                 // if the player types 'turn x y z', use x,y,z and take the turn.
+//                 } else {
+//                     cin >> factoryNumber;
+//                     cin >> colour;
+//                     cin >> patternLineRow;
+//                 }
+
+
+//                 if(cin.good()) {
+//                     //Process turns
+//                     if(!addTileFromFactoryToMosaic(currentPlayer, factoryNumber, colour, patternLineRow)) {
+//                         invalidInput = true;
+//                     } else {
+//                         //Save turn variable for saving
+//                         turns.push_back(function + " " + std::to_string(factoryNumber) + " " + colour + " " + std::to_string(patternLineRow));
+
+//                         turnEntered = true;
+//                         invalidInput = false;
+
+//                         // TESTING METHOD: Displays player's updated mosaic
+//                         // cout << currentPlayer->getPlayerName() << "'s Updated Mosaic: " << endl;
+//                         // printPlayerMosaic(currentPlayer);
+//                     }
+
+//                 } else {
+//                     if(isLoading == false) {
+//                         cout << "Invalid turn entered. Should enter <Factory Row Number> <Colour> <Mosaic Row>" << endl;
+//                         cout << "EXAMPLE: > turn 2 B 3" << endl;
+//                     } 
+//                     invalidInput = true;
+
+//                     //Clear current input, so user can re enter input.
+//                     cin.clear();
+//                     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+//                 }
+
+//             } else {
+//                 if(isLoading == false) {
+//                     cout << "error: unknown function defined, please try again." << endl;
+//                 }
+//                 cin.clear();
+//                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+//             }
+//             if(isLoading == false) {
+//                 cout << endl;
+//             }
+//         }
+        
+//     } while (invalidInput);
+
+//     return turnEntered;
+// }
+
+bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  string param1, string param2, string param3) {
+    bool turnEntered = false;
+    bool invalidInput = true;
+    
+    do {
+        if(function == "save") {
+            saveGame(param1);
+            invalidInput = false;
+        } else if(function == "turn") {
+            int factoryNumber = std::stoi(param1);
+            char colour = param2[0];
+            int patternLineRow = std::stoi(param3);
+
+            //Process turns
+            if(!addTileFromFactoryToMosaic(currentPlayer, factoryNumber, colour, patternLineRow)) {
+                invalidInput = true;
+            } else {
+                //Save turn variable for saving
+                turns.push_back(function + " " + std::to_string(factoryNumber) + " " + colour + " " + std::to_string(patternLineRow));
+
+                turnEntered = true;
+                invalidInput = false;
+            }
+        }
+
+    } while(invalidInput);
 
     return turnEntered;
 }

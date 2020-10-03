@@ -44,9 +44,12 @@ public:
     //saves current game
     void saveGame(string fileName);
 
+    //Loads player turns from vector
+    bool playerEntersTurn(Player* currentPlayer, string function, string param1, string param2, string param3);
+
     //Gets user input and adds to turns vector
     //Returns true is player enters a turn input 
-    bool playerEntersTurn(Player* currentPlayer, string function, string param1 = "", string param2 = "", string param3 = "");
+    bool playerEntersTurn(Player* currentPlayer);
 
     //Generates players at the start of the game.
     void createPlayers(string player1Name, string player2Name);
