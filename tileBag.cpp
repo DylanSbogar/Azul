@@ -16,13 +16,6 @@ Node::Node(const Node& other) {
     }
 }
 
-Node::Node(Node&& other) {
-    tile = new Tile(std::move(*other.tile));
-    
-    if(next != nullptr) {
-        next = new Node(std::move(*other.next));
-    }
-}
 
 TileBag::TileBag() {
     head = nullptr;
