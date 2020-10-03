@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
         Load* load = new Load(argv[2]);
         load->testingMode(argv[2]);
         GameEngine* gameEngine = new GameEngine();
-        gameEngine->runGame(load);
+        gameEngine->initialiseGame(load);
     } else {
         mainMenu();
     }
@@ -99,7 +99,7 @@ void showCredits() {
 
 void startNewGame() {
     GameEngine* gameEngine = new GameEngine();
-    gameEngine->runGame();
+    gameEngine->initialiseGame();
     delete gameEngine;
 }
 
@@ -115,7 +115,7 @@ void loadGame() {
         Load* load = new Load(fileName);
         load->loadGame(fileName);
         GameEngine* gameEngine = new GameEngine();
-        gameEngine->runGame(load);
+        gameEngine->initialiseGame(load);
 
         //Clean up memory
         delete gameEngine;

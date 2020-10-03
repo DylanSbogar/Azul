@@ -25,11 +25,15 @@ GameEngine::GameEngine() {
     if(isLoading == false) {
         initTileBag = tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
         tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
+        
+        //Create factories
+        factories = new Factories();
+        factories->FillFactoriesFromTileBag(tileBag);
+    } else {
+        factories = new Factories();
     }
 
-    //Create and fill factories
-    factories = new Factories();
-    factories->FillFactoriesFromTileBag(tileBag);
+
 }
 
 GameEngine::GameEngine(const GameEngine& other) {
@@ -56,53 +60,55 @@ GameEngine::~GameEngine() {
     }
 }
 
-void GameEngine::runGame(Load* load) {
+void GameEngine::initialiseGame(Load* load) {
     this->load = load;
 
+    //Load Tile bag and create factories
     initTileBag = tileBag->generateTileBag(load->getTileBag());
     tileBag->generateTileBag(load->getTileBag());
     factories->FillFactoriesFromTileBag(tileBag);
+
+    //Laod players
+    createPlayers(load->getPlayer1(), load->getPlayer2());
+
+
+    //Ensure that turns is not empty
+    if(load->getTurns().size() == 0) {
+        isLoading = false;
+    }
+
+    runGame();
+}
+
+void GameEngine::initialiseGame() {
+    string player1Name;
+    string player2Name;
+
+    cout << "Enter a name for Player 1" << endl;
+    cout << ">";
+    cin >> player1Name;
+
+    if(cin.good()) {
+        cout << "Enter a name for Player 2" << endl;
+        cout << ">";
+        cin >> player2Name;
+
+        if(cin.good()) {
+            createPlayers(player1Name, player2Name);
+        }
+    } else {
+
+        cout << "Input was not accepted, please try again." << endl;
+    }
+    cout << endl;
+
+    cout << "Let's Play!" << endl;
+    cout << endl;
 
     runGame();
 }
 
 void GameEngine::runGame() {
-    string player1Name;
-    string player2Name;
-
-    if(isLoading == true) {
-        //TESTING
-        // cout << "TileBag: " + load->getTileBag() << endl;
-        // cout << "Player1: " + load->getPlayer1() << endl;
-        // cout << "Player2: " + load->getPlayer2() << endl;
-
-        //Create players
-        player1Name = load->getPlayer1();
-        player2Name = load->getPlayer2();
-        createPlayers(player1Name, player2Name);
-
-    } else {
-        cout << "Enter a name for Player 1" << endl;
-        cout << ">";
-        cin >> player1Name;
-
-        if(cin.good()) {
-            cout << "Enter a name for Player 2" << endl;
-            cout << ">";
-            cin >> player2Name;
-
-            if(cin.good()) {
-                createPlayers(player1Name, player2Name);
-            }
-        } else {
-
-            cout << "Input was not accepted, please try again." << endl;
-        }
-        cout << endl;
-
-        cout << "Let's Play!" << endl;
-        cout << endl;
-    }    
     //Run Round
     bool keepPlaying = true;
     bool firstPlayerTurn = true;
@@ -220,7 +226,7 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         cout << endl;
 
         keepPlaying = playerEntersTurn(currentPlayer);
-        
+
     } else {
 
         //TESTING

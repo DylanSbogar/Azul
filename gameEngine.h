@@ -24,13 +24,16 @@ public:
     GameEngine(const GameEngine& other);
     ~GameEngine();
 
+    //Initialize loading game
+    void initialiseGame(Load* load);
+
+    //Initialise terminal game
+    void initialiseGame();
+
+private:
     //Runs the main game loop
     void runGame();
 
-    //TESTING
-    void runGame(Load* load);
-
-// private:
     //Transfers tiles from factory to mosaic
     //OUTPUT: returns true valid input was given
     bool addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNumber, char colour, int pattRow); 
@@ -68,7 +71,7 @@ public:
     //Returns true if all inputs are valid
     bool validateTurnInput(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow);
 
-private:
+// private:
     TileBag* tileBag;
     Factories* factories;
     Player* players[TOTAL_PLAYERS];
