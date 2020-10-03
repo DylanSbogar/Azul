@@ -60,6 +60,7 @@ void GameEngine::runGame(Load* load) {
 
     initTileBag = tileBag->generateTileBag(load->getTileBag());
     tileBag->generateTileBag(load->getTileBag());
+    factories->FillFactoriesFromTileBag(tileBag);
 
     runGame();
 }
