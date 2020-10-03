@@ -15,6 +15,10 @@ Load::Load(string fileName) {
     turns = {};
 }
 
+Load::~Load() 
+{
+}
+
 void Load::testingMode(std::string fileName) {
     isTesting = true;
     loadGame(fileName);

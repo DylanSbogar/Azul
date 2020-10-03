@@ -17,6 +17,7 @@ extern bool isTesting;
 class Load {
 public:
     Load(string fileName);
+    ~Load();
 
     void loadGame(std::string fileName);
     void testingMode(std::string fileName);

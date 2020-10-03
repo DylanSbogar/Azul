@@ -116,6 +116,10 @@ void loadGame() {
         load->loadGame(fileName);
         GameEngine* gameEngine = new GameEngine();
         gameEngine->runGame(load);
+
+        //Clean up memory
+        delete gameEngine;
+        delete load;
     }
 
 }
