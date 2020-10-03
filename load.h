@@ -16,8 +16,6 @@ extern bool isLoading;
 class Load {
 public:
     Load(string fileName);
-    Load(const Load& other);
-    ~Load();
 
     void loadGame(std::string fileName);
     void testingMode(std::string fileName);
@@ -26,6 +24,7 @@ public:
     string getPlayer1();
     string getPlayer2();
     vector<string> getTurns();
+    bool isTesting();
     
 private:
     string fileName;
@@ -33,6 +32,7 @@ private:
     string player1Name;
     string player2Name;
     vector<string> turns;
+    bool testing;
 };
 
 #endif //LOAD_H

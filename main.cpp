@@ -30,7 +30,10 @@ int main(int argc, char **argv) {
         mainMenu();
     // else if the second input was -t (the testing mode keyword)
     } else if(strcmp(argv[1], "-t") == 0) {
-        // testingMode(argv[2]);
+        Load* load = new Load(argv[2]);
+        load->testingMode(argv[2]);
+        GameEngine* gameEngine = new GameEngine();
+        gameEngine->runGame(load);
     } else {
         mainMenu();
     }

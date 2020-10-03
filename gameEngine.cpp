@@ -110,6 +110,20 @@ void GameEngine::runGame() {
     //Run Rounds
     int rounds = 0;
     while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
+        if(load->isTesting() == true && n >= load->getTurns().size()) {
+        isLoading = false;
+        cout << "Factories: " << endl;
+        printFactories();
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+            cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
+            printPlayerMosaic(players[i]);
+            cout << endl;
+        }
+        std::_Exit(EXIT_SUCCESS);
+    }
+
         if(isLoading == false) {
             cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
         }
@@ -126,8 +140,6 @@ void GameEngine::runGame() {
             firstPlayerTurn = !firstPlayerTurn;
             keepPlaying = runTurn(currentPlayer);
         }
-
-        cout << "=== END OF ROUND " << endl;
 
         //Move tiles from mosaic to patternline for all players
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
@@ -164,6 +176,7 @@ void GameEngine::runGame() {
         factories->FillFactoriesFromTileBag(tileBag);
         
         //Increment round
+        cout << "=== END OF ROUND ===" << endl;
         ++rounds;
     }
 
@@ -191,6 +204,7 @@ void GameEngine::runGame() {
 
 bool GameEngine::runTurn(Player* currentPlayer) {
     bool keepPlaying = true;
+    // HERE
 
     if(isLoading == false) {
         cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
@@ -338,8 +352,9 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  strin
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
-            
-            cout << endl;
+            if(isLoading == false) {
+                cout << endl;
+            }
         }
         
     } while (invalidInput);
@@ -641,16 +656,4 @@ int GameEngine::calculatePlayerScores(Player* player) {
     player->setPlayerScore(roundScore);
     
     return roundScore;
-}
-
-void GameEngine::setGameVariables(string player1, string player2, string newTileBag, vector <string> allTurns) {
-    //Set the new tile bag from the save file being loaded.
-    initTileBag = tileBag->generateTileBag(newTileBag);
-
-    // //Create new players, with the names provided by the save file.
-    // Player* player_1 = new Player(player1);
-    // Player* player_2 = new Player(player2);
-    
-    //TBD: Loop through the vector of turns and perform them all? Would need a way of getting 
-    // currentPlayer passed through. (maybe just runGame()?)
 }

@@ -13,25 +13,15 @@ Load::Load(string fileName) {
     player1Name = "";
     player2Name = "";
     turns = {};
-}
-
-Load::Load(const Load& other){
-    //TODO
-}
-
-Load::~Load() {
-    //TODO
+    testing = false;
 }
 
 void Load::testingMode(std::string fileName) {
-    cout << "Super Secret Testing Mode!" << endl;
+    testing = true;
     loadGame(fileName);
-    //Making sure the game does not resume
-    isLoading = true;
-    cout.eof();
-    //Need to implement something here that prints out the factory and mosaics for 
 }
 
+//TODO URGENT: ERROR CHECKING ON THE FILE BEING LOADED
 void Load::loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
@@ -39,7 +29,7 @@ void Load::loadGame(std::string fileName) {
     isLoading = true;
 
     // open the desired save file from the 'saves' folder.
-    loadedFile.open(".//saves//" + fileName);
+    loadedFile.open(".//saves-tests//" + fileName);
 
     //Get the first line of the saveFile and set it to the initial tilebag.
     getline(loadedFile, fileText);
@@ -60,20 +50,23 @@ void Load::loadGame(std::string fileName) {
 }
 
 string Load::getTileBag() {
-    //TODO
     return this->initTileBag;
 }
 
 string Load::getPlayer1() {
-    //TODO
     return this->player1Name;
 }
 
 string Load::getPlayer2() {
-    //TODO
     return this->player2Name;
 }
+
+// Returns the vector of strings read from the saveFile.
 vector<string> Load::getTurns() {
-    //TODO
     return turns;
+}
+
+// Returns either true or false, set depending on whether testingMode() has been called.
+bool Load::isTesting() {
+    return testing;
 }
