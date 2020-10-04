@@ -80,6 +80,9 @@ private:
     //As well as determining where the first player token should be, etc.
     void endRound();
 
+    //Updates and prints the final results for test mode 
+    void printTestModeResults();
+
     TileBag* tileBag;
     Factories* factories;
     Player* players[TOTAL_PLAYERS];

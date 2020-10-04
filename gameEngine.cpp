@@ -53,8 +53,8 @@ void GameEngine::initialiseGame(Load* load) {
     this->load = load;
 
     //Load Tile bag and create factories
-    initTileBag = tileBag->generateTileBag(load->getTileBag());
-    tileBag->generateTileBag(load->getTileBag());
+    initTileBag = tileBag->generateTileBag(load->getTileBag());    
+
     factories->FillFactoriesFromTileBag(tileBag);
 
     //Laod players
@@ -63,6 +63,11 @@ void GameEngine::initialiseGame(Load* load) {
     //Ensure that turns is not empty
     if(load->getTurnsSize() == 0) {
         isLoading = false;
+
+        //Check if testing mode is active
+        if(isTesting) {
+            printTestModeResults();
+        }
     }
     runGame();
 }
@@ -269,20 +274,21 @@ bool GameEngine::runTurn(Player* currentPlayer) {
 
         if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
             if(isTesting == true) {
-                if(factories->allFactoriesAreEmpty()) {
-                    endRound();
-                }
-                isLoading = false;
-                cout << "Factories: " << endl;
-                printFactories();
-                for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-                    players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-                    cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
-                    cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
-                    printPlayerMosaic(players[i]);
-                    cout << endl;
-                }
-            std::_Exit(EXIT_SUCCESS);
+                printTestModeResults();
+                // if(factories->allFactoriesAreEmpty()) {
+                //     endRound();
+                // }
+                // isLoading = false;
+                // cout << "Factories: " << endl;
+                // printFactories();
+                // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                //     players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+                //     cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+                //     cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
+                //     printPlayerMosaic(players[i]);
+                //     cout << endl;
+                // }
+            // std::_Exit(EXIT_SUCCESS);
             } else {
                 cout << "Azul game successfully loaded" << endl;
                 cout << endl;
@@ -292,6 +298,25 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         load->incrementTurn();
     }
     return keepPlaying;
+}
+
+void GameEngine::printTestModeResults() {
+    if(factories->allFactoriesAreEmpty()) {
+        endRound();
+    }
+
+    isLoading = false;
+    cout << "Factories: " << endl;
+    printFactories();
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
+        printPlayerMosaic(players[i]);
+        cout << endl;
+    }
+
+    std::_Exit(EXIT_SUCCESS);
 }
 
 void GameEngine::printFactories() {
