@@ -5,20 +5,18 @@
 string initTileBag;
 string function;
 string param1, param2, param3;
-bool firstPlayerTurn = true;
 
+bool firstPlayerTurn = true;
 bool isLoading = false;
 bool isTesting = false;
 
 GameEngine::GameEngine() {
-    //Create and fill TileBag
     /*Only fill the TileBag if it is a new game, otherwise go on normally,
     and the tilebag will be filled on runGame() */
     tileBag = new TileBag();
-
-    if(isLoading == false) {
+    if(!isLoading) {
+        //Create and fill TileBag
         initTileBag = tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
-
         //Create factories
         factories = new Factories();
         factories->FillFactoriesFromTileBag(tileBag);
@@ -40,7 +38,6 @@ GameEngine::GameEngine(const GameEngine& other) {
 GameEngine::~GameEngine() {
     delete tileBag;
     delete factories;
-
     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
         if(players[i] != nullptr) {
             delete players[i];
@@ -54,16 +51,14 @@ void GameEngine::initialiseGame(Load* load) {
 
     //Load Tile bag and create factories
     initTileBag = tileBag->generateTileBag(load->getTileBag());    
-
     factories->FillFactoriesFromTileBag(tileBag);
 
-    //Laod players
+    //Load players
     createPlayers(load->getPlayer1(), load->getPlayer2());
 
     //Ensure that turns is not empty
     if(load->getTurnsSize() == 0) {
         isLoading = false;
-
         //Check if testing mode is active
         if(isTesting) {
             printTestModeResults();
@@ -89,11 +84,9 @@ void GameEngine::initialiseGame() {
             createPlayers(player1Name, player2Name);
         }
     } else {
-
         cout << "Input was not accepted, please try again." << endl;
     }
     cout << endl;
-
     cout << "Let's Play!" << endl;
     cout << endl;
 
@@ -105,12 +98,11 @@ void GameEngine::runGame() {
     bool keepPlaying = true;
     // bool firstPlayerTurn = true;
     Player* currentPlayer;
-
     //Run Rounds
     int rounds = 0;
 
     while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
         }
 
@@ -126,34 +118,32 @@ void GameEngine::runGame() {
             firstPlayerTurn = !firstPlayerTurn;
             keepPlaying = runTurn(currentPlayer);
         }
-
         endRound();
-
-        if(isLoading == false) {
-            cout << "=== END OF ROUND ===" << endl;
-        }
         //Increment round
         ++rounds;
     }
 
-    if(rounds >= MAX_ROUNDS) {
+    if(rounds > MAX_ROUNDS) {
         //END OF GAME SCORING
         cout << "=== GAME OVER === "  << endl;
-        cout << "=== Final Scores === " << endl;
+        cout << endl;
+        cout << "Final Scores:" << endl;
 
         //Print Final Score
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+            cout << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
         }
+        cout << endl;
 
         //Check which player won
         if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
-            cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
+            cout << players[1]->getPlayerName() << " wins!" << endl;
         } else if(players[2]->getPlayerScore() > players[1]->getPlayerScore()) {
-            cout << "Player "<< players[2]->getPlayerName() << " wins!" << endl;
+            cout << players[2]->getPlayerName() << " wins!" << endl;
         } else {
             cout << "It was a draw!" << endl;
         }
+        cout << endl;
     }
 }
 
@@ -193,10 +183,10 @@ void GameEngine::endRound() {
     //Update Scoring and display end of Round scoring
     if(!isLoading && !isTesting) {
         cout << endl;
-        cout << "=== END OF ROUND SCORE === "<< endl;
 
-        cout << "Player "<< players[0]->getPlayerName() << ": " << roundScore1 << endl;
-        cout << "Player "<< players[1]->getPlayerName() << ": " << roundScore2 << endl;
+        cout << "=== END OF ROUND SCORE === "<< endl;
+        cout << players[0]->getPlayerName() << ": " << roundScore1 << endl;
+        cout << players[1]->getPlayerName() << ": " << roundScore2 << endl;
 
         cout << endl;
     }
@@ -205,17 +195,14 @@ void GameEngine::endRound() {
 bool GameEngine::runTurn(Player* currentPlayer) {
     bool keepPlaying = true;
 
-    if(isLoading == false) {
+    if(!isLoading) {
         cout << "TURN FOR PLAYER: " << currentPlayer->getPlayerName() << endl;
-
         //Display Factories:
         cout << "Factories: " << endl;
         printFactories();
-
         cout << "Mosaic for " << currentPlayer->getPlayerName() << ": " << endl;
         printPlayerMosaic(currentPlayer);
         cout << endl;
-
         keepPlaying = playerEntersTurn(currentPlayer);
     } else {
         std::istringstream iss(load->getCurrentTurn()); 
@@ -241,7 +228,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
                     param2 = splitTurn[2];
                     param3 = splitTurn[3];
                 }
-
             } else {
                 isLoading = false;
             }
@@ -265,7 +251,6 @@ void GameEngine::printTestModeResults() {
     if(factories->allFactoriesAreEmpty()) {
         endRound();
     }
-
     isLoading = false;
     cout << "Factories: " << endl;
     printFactories();
@@ -275,14 +260,12 @@ void GameEngine::printTestModeResults() {
         printPlayerMosaic(players[i]);
         cout << endl;
     }
-
     std::_Exit(EXIT_SUCCESS);
 }
 
 void GameEngine::printFactories() {
     for(int i = 0; i < NUMBER_OF_FACTORIES; ++i) {
         Factory* current = factories->getFactory(i);
-
         std::cout << i << ": ";
         for(int j = 0; j < current->size(); ++j) {
             std::cout << current->getTileAt(j)->getCharColour() << " ";
@@ -300,7 +283,6 @@ void GameEngine::createPlayers(string player1Name, string player2Name) {
 bool GameEngine::playerEntersTurn(Player* currentPlayer) {
     bool turnEntered = false;
     string function;
-    
     bool invalidInput = true;
     do {
         invalidInput = true;
@@ -354,23 +336,19 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
 bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  string param1, string param2, string param3) {
     bool turnEntered = false;
-    
     if(function == "save") {
         saveGame(param1);
         turnEntered = true;
-
     } else if(function == "turn") {
         int factoryNumber = INVALID_INDEX;
         char colour = '*';
         int patternLineRow = INVALID_INDEX;
-
         //Validate turns
         bool parsedTurnsAreValid = true;
         try {
             factoryNumber = std::stoi(param1);
             colour = param2[0];
             patternLineRow = std::stoi(param3);
-
         } catch(...) {
             parsedTurnsAreValid = false;
         }
@@ -393,11 +371,10 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
 
     //Validate input
     if(validateTurnInput(currentPlayer, factoryNumber, colour, patternLineRow)) {
-        if(isLoading == false) {
+        if(!isLoading) {
             std::cout << "Turn successful." << endl;
         }
         Factory* factory = factories->getFactory(factoryNumber);
-
         //If centre factory is chosen check for first player tile:
         //NOTE: Assumes that First Player tile is at position 0. 
         if(factoryNumber == 0 && factory->getTileAt(0)->getColour() == FIRST_PLAYER) {
@@ -405,7 +382,6 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
             mosaic->addBrokenTileAtFront(factory->getTileAt(0));
             factory->removeTileAt(0);
         } 
-
         //Get index of same colour tile
         int factoryColourIndex = factory->getIndexOfSameColourTile(tileColour);
 
@@ -420,7 +396,6 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
             } else {
                 mosaic->addBrokenTiles(addTile);
             }
-
             //Remove tile from factory
             factory->removeTileAt(factoryColourIndex);
 
@@ -459,23 +434,23 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     //Check if factory and colour within range - then check if colour exists in factory
     if(factoryNumber < 0 || factoryNumber >= NUMBER_OF_FACTORIES) {
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Invalid factoryNumber was given. Should be between 0 and " << FACTORY_SIZE << endl;
         }
     } else if(tileColour == BLANK || tileColour == NO_TILE || tileColour == FIRST_PLAYER) {
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Invalid colour was entered. Enter one of the following: R Y B L U" << endl;
         }
     } else if(factories->getFactory(factoryNumber)->getIndexOfSameColourTile(tileColour) == INVALID_INDEX) {
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Given colour does not exist in chosen factory." << endl;   
         }
     } else if (factories->getFactory(factoryNumber)->size() == 0) {
         //Check that factory contains tiles
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Selected factory is empty" << endl;
         }
     }
@@ -484,26 +459,25 @@ bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, cha
     else if(patternLineRow < 0 || patternLineRow >= ROWS) {
         //Check that patternline is within range, is not already full, and is of matching colour.
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Invalid patternLine row was given. Should be between 0 and " << ROWS << endl;
         }
     } else if(mosaic->patternLineFull(patternLineRow)) {
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Chosen patternLine row is full, please choose a different row." << ROWS << endl;
         }
     } else if(mosaic->getPatternLineColour(patternLineRow) != NO_TILE && mosaic->getPatternLineColour(patternLineRow) != tileColour) {
         validTurn = false;
-        if(isLoading == false) {
+        if(!isLoading) {
             cout << "Invalid colour. Chosen pattern line already contains tiles of a different colour." << endl;
         }
     }
-
     //Check if grid already contains colour in a given patternline.
     for(int colm = 0; colm < COLS; ++colm) {
         if(validTurn && mosaic->getGridTile(patternLineRow, colm)->getColour() == tileColour) {
             validTurn = false;
-            if(isLoading == false) {
+            if(!isLoading) {
                 cout << "Tile is already within the grid row. Choose a different Tile or Row" << endl;
             }
         }
@@ -549,7 +523,6 @@ void GameEngine::addTilesToMosaicFromPatternLine(Player* currentPlayer) {
     }
 }
 
-
 void GameEngine::saveGame(string fileName) {
     // Create a new file with name defined by 'fileName' var
     ofstream saveFile;
@@ -572,7 +545,6 @@ void GameEngine::saveGame(string fileName) {
     saveFile << allTurns;
 }
 
-
 void GameEngine::printPlayerMosaic(Player* player) {
     Mosaic* mosaic = player->getMosaic();
     vector<Tile*> brokenTile = player->getMosaic()->getBrokenTiles();
@@ -591,7 +563,6 @@ void GameEngine::printPlayerMosaic(Player* player) {
         }
         std::cout << endl;
     }
-
     //prints broken tile by looping through vector
     std::cout << "broken: " ;
     for(int i = 0; i < (signed int) brokenTile.size(); ++i){
@@ -602,7 +573,6 @@ void GameEngine::printPlayerMosaic(Player* player) {
 
 int GameEngine::calculatePlayerScores(Player* player) {
     int roundScore = 0;
-
     //Iterate through entire grid and check for non- 'NO-TILE' tiles 
     for (int row = 0; row != ROWS; ++row){
         for (int colm = 0; colm != COLS; ++colm) {
@@ -623,8 +593,8 @@ int GameEngine::calculatePlayerScores(Player* player) {
             }
         }
     }
-//deducts points depending on how many broken tiles 
-   vector<Tile*> brokenTiles = player->getMosaic()->getBrokenTiles();
+    //deducts points depending on how many broken tiles 
+    vector<Tile*> brokenTiles = player->getMosaic()->getBrokenTiles();
     for(int i = 0; i < (signed int) brokenTiles.size() ; ++i){
         if(i<2){
             --roundScore;
@@ -634,7 +604,6 @@ int GameEngine::calculatePlayerScores(Player* player) {
             roundScore -=3;
         }
     }
-
     //adds end of round score to total score
     player->setPlayerScore(roundScore);
     return roundScore;
