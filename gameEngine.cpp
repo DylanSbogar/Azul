@@ -271,9 +271,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
 
         //Increment turns
         // ++n;
-        load->incrementTurn();
-
-
         if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
             if(isTesting == true) {
                 isLoading = false;
@@ -294,6 +291,9 @@ bool GameEngine::runTurn(Player* currentPlayer) {
                 
             }
         } 
+
+
+        load->incrementTurn();
     }
     
     return keepPlaying;
