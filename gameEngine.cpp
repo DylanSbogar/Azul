@@ -141,6 +141,11 @@ void GameEngine::runGame() {
         cout << "=== GAME OVER === "  << endl;
         cout << "=== Final Scores === " << endl;
 
+        //Print Final Score
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        }
+
         //Check which player won
         if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
             cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
@@ -188,15 +193,9 @@ void GameEngine::endRound() {
         cout << "=== END OF ROUND SCORE === "<< endl;
 
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-            cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+            cout << "Player "<< players[i]->getPlayerName() << ": " << calculatePlayerScores(players[i]) << endl;
         }
 
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-            cout << "Player "<< players[i]->getPlayerName() << "'s Score: " << players[i]->getPlayerScore() << endl;
-            cout << endl;
-        }
         cout << endl;
     }
 }

@@ -110,7 +110,7 @@ void Load::incrementTurn() {
 
 //Iterates through the tileBag and checks for any incorrect characters, returns false if 1 or more incorrect chars found.
 bool Load::checkTileBag(string tileBag) {
-    bool isGood;
+    bool isGood = true;
     int errors = 0;
     for(string::size_type i = 0; i < tileBag.size(); ++i) {
         if(tileBag[i] == 'R' || tileBag[i] == 'Y' || tileBag[i] == 'L' || tileBag[i] == 'U' || tileBag[i] == 'B') {
@@ -120,9 +120,8 @@ bool Load::checkTileBag(string tileBag) {
         //If there is 1 or more errors, the tileBag is not good.
         if(errors > 0) {
             isGood = false;
-        } else {
-            isGood = true;
         }
     }
+
     return isGood;
 }
