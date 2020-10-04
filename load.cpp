@@ -1,10 +1,6 @@
 #include "load.h"
 
-/* the primary difference between the two methods, is that the testingMode() function
-reads from the /tests folder for a file. Whereas the loadGame() function reads from
-the /saves folder. Currently deciding whether to make them both the same folder and 
-just changing the extension (.test or .save) then we can do it that way. */
-
+//Constructor
 Load::Load(string fileName) {
     this->fileName = fileName;
     initTileBag = "";
@@ -14,15 +10,18 @@ Load::Load(string fileName) {
     index = 0;
 }
 
+//Deconstructor
 Load::~Load() {
 }
 
+//Calls loadGame() and sets global var isTesting to true
 void Load::testingMode(std::string fileName) {
     isTesting = true;
     loadGame(fileName);
 }
 
-//TODO URGENT: ERROR CHECKING ON THE FILE BEING LOADED
+/*First checks if the save file is valid, if true then it 
+will read the file line-by-line, variables to the load object*/
 void Load::loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
@@ -49,6 +48,9 @@ void Load::loadGame(std::string fileName) {
                 turns.push_back(fileText);
             } 
         } else {
+            /*If the user inputs an incorrect fileName for something that does not exist,
+            an error is issued, and users are allowed to try again until they input a fileName
+            that is correct. */
             cout << "Error: Save file does not exist!" << endl;
             cout << "Please try again." << endl;
             cout << endl;
@@ -58,30 +60,37 @@ void Load::loadGame(std::string fileName) {
         }
 }
 
+//Returns a string of the tileBag being loaded
 string Load::getTileBag() {
     return this->initTileBag;
 }
 
+//Returns a string of player 1's name being loaded
 string Load::getPlayer1() {
     return this->player1Name;
 }
 
+//Returns a string of player 2's name being loaded
 string Load::getPlayer2() {
     return this->player2Name;
 }
 
+//Returns the total size of the turns vector
 int Load::getTurnsSize() {
     return turns.size();
 }
 
+//Returns a string of the current turn to be input
 string Load::getCurrentTurn() {
     return turns[index];
 }
 
+//Returns the current index of the turn vector that is being loaded
 int Load::getCurrentTurnIndex() {
     return index;
 }
 
+//Increments the turn counter after each turn has been loaded
 void Load::incrementTurn() {
     ++index;
 }
