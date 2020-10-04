@@ -5,6 +5,8 @@
 string initTileBag;
 string function;
 string param1, param2, param3;
+bool firstPlayerTurn = true;
+// int n = 0;
 
 bool isLoading = false;
 bool isTesting = false;
@@ -98,7 +100,7 @@ void GameEngine::initialiseGame() {
 void GameEngine::runGame() {
     //Run Round
     bool keepPlaying = true;
-    bool firstPlayerTurn = true;
+    // bool firstPlayerTurn = true;
     Player* currentPlayer;
 
     //Run Rounds
@@ -122,38 +124,41 @@ void GameEngine::runGame() {
             keepPlaying = runTurn(currentPlayer);
         }
 
-        //Move tiles from mosaic to patternline for all players
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            addTilesToMosaicFromPatternLine(players[i]);
-        }
+        endRound();
 
-        //Check which player has for first player marker
-        int playerIndexWithFirstTile = INVALID_INDEX;
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            if(players[i]->getMosaic()->getBrokenTiles().size() > 0 && players[i]->getMosaic()->getBrokenTiles()[0]->getColour() == FIRST_PLAYER) {
-                playerIndexWithFirstTile = i;
-            }
-        }
+        // // Move tiles from mosaic to patternline for all players
+        // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        //     addTilesToMosaicFromPatternLine(players[i]);
+        // }
 
-        if(playerIndexWithFirstTile == 0) {
-            firstPlayerTurn = true;
-        } else {
-            firstPlayerTurn = false;
-        }
+        // //Check which player has for first player marker
+        // int playerIndexWithFirstTile = INVALID_INDEX;
+        // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        //     if(players[i]->getMosaic()->getBrokenTiles().size() > 0 && players[i]->getMosaic()->getBrokenTiles()[0]->getColour() == FIRST_PLAYER) {
+        //         playerIndexWithFirstTile = i;
+        //     }
+        // }
 
-        //Move First Player tile back to centre factory
-        if(playerIndexWithFirstTile != INVALID_INDEX) {
-            Tile* firstPlayerTile = players[playerIndexWithFirstTile]->getMosaic()->getBrokenTiles()[0];
-            factories->getFactory(0)->addTile(firstPlayerTile);
-            players[playerIndexWithFirstTile]->getMosaic()->removeBrokenTiles(0);
-        }
+        // if(playerIndexWithFirstTile == 0) {
+        //     firstPlayerTurn = true;
+        // } else {
+        //     firstPlayerTurn = false;
+        // }
 
-        //Fill the factories back up
-        factories->FillFactoriesFromTileBag(tileBag);
-         if(isLoading == false) {
+        // //Move First Player tile back to centre factory
+        // if(playerIndexWithFirstTile != INVALID_INDEX) {
+        //     Tile* firstPlayerTile = players[playerIndexWithFirstTile]->getMosaic()->getBrokenTiles()[0];
+        //     factories->getFactory(0)->addTile(firstPlayerTile);
+        //     players[playerIndexWithFirstTile]->getMosaic()->removeBrokenTiles(0);
+        // }
+
+        // //Fill the factories back up
+        // factories->FillFactoriesFromTileBag(tileBag);
+
+        if(isLoading == false) {
+            cout << "=== END OF ROUND ===" << endl;
+        }
         //Increment round
-        cout << "=== END OF ROUND ===" << endl;
-         }
         ++rounds;
     }
 
@@ -177,6 +182,37 @@ void GameEngine::runGame() {
             cout << "It was a draw!" << endl;
         }
     }
+}
+
+void GameEngine::endRound() {
+    //Move tiles from mosaic to patternline for all players
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        addTilesToMosaicFromPatternLine(players[i]);
+    }
+
+    //Check which player has for first player marker
+    int playerIndexWithFirstTile = INVALID_INDEX;
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        if(players[i]->getMosaic()->getBrokenTiles().size() > 0 && players[i]->getMosaic()->getBrokenTiles()[0]->getColour() == FIRST_PLAYER) {
+            playerIndexWithFirstTile = i;
+        }
+    }
+
+    if(playerIndexWithFirstTile == 0) {
+        firstPlayerTurn = true;
+    } else {
+        firstPlayerTurn = false;
+    }
+
+    //Move First Player tile back to centre factory
+    if(playerIndexWithFirstTile != INVALID_INDEX) {
+        Tile* firstPlayerTile = players[playerIndexWithFirstTile]->getMosaic()->getBrokenTiles()[0];
+        factories->getFactory(0)->addTile(firstPlayerTile);
+        players[playerIndexWithFirstTile]->getMosaic()->removeBrokenTiles(0);
+    }
+
+    //Fill the factories back up
+    factories->FillFactoriesFromTileBag(tileBag);
 }
 
 bool GameEngine::runTurn(Player* currentPlayer) {
@@ -226,6 +262,9 @@ bool GameEngine::runTurn(Player* currentPlayer) {
 
         if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
             if(isTesting == true) {
+                if(factories->allFactoriesAreEmpty()) {
+                    endRound();
+                }
                 isLoading = false;
                 cout << "Factories: " << endl;
                 printFactories();
@@ -241,7 +280,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
                 cout << "Azul game successfully loaded" << endl;
                 cout << endl;
                 isLoading = false;
-                
             }
         } 
         load->incrementTurn();

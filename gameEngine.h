@@ -76,6 +76,10 @@ private:
     //Returns true if all inputs are valid
     bool validateTurnInput(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow);
 
+    //Performs actions that take place at the rounds end, including refilling factories
+    //As well as determining where the first player token should be, etc.
+    void endRound();
+
     TileBag* tileBag;
     Factories* factories;
     Player* players[TOTAL_PLAYERS];
