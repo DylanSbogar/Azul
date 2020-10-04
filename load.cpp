@@ -27,30 +27,30 @@ void Load::testingMode(std::string fileName) {
 
 //TODO URGENT: ERROR CHECKING ON THE FILE BEING LOADED
 void Load::loadGame(std::string fileName) {
-    string fileText;
-    ifstream loadedFile;
+    // string fileText;
+    // ifstream loadedFile;
 
-    isLoading = true;
+    // isLoading = true;
 
-    // open the desired save file from the 'saves' folder.
-    loadedFile.open(".//saves-tests//" + fileName);
+    // // open the desired save file from the 'saves' folder.
+    // loadedFile.open(".//saves-tests//" + fileName);
 
-    //Get the first line of the saveFile and set it to the initial tilebag.
-    getline(loadedFile, fileText);
-    initTileBag = fileText;
+    // //Get the first line of the saveFile and set it to the initial tilebag.
+    // getline(loadedFile, fileText);
+    // initTileBag = fileText;
 
-    //Get the second line of the saveFile and set it to player 1s name
-    getline(loadedFile, fileText);
-    player1Name = fileText;
+    // //Get the second line of the saveFile and set it to player 1s name
+    // getline(loadedFile, fileText);
+    // player1Name = fileText;
 
-    //Get the third line of the saveFile and set it to player 2s name
-    getline(loadedFile, fileText);
-    player2Name = fileText;
+    // //Get the third line of the saveFile and set it to player 2s name
+    // getline(loadedFile, fileText);
+    // player2Name = fileText;
 
-    // Get every line hereafter and add it to the vector of turns.
-    while(getline(loadedFile, fileText)) {
-        turns.push_back(fileText);
-    }
+    // // Get every line hereafter and add it to the vector of turns.
+    // while(getline(loadedFile, fileText)) {
+    //     turns.push_back(fileText);
+    // }
 
 
     // std::cout << initTileBag << endl;
@@ -62,22 +62,22 @@ void Load::loadGame(std::string fileName) {
     // }
 
     //DEBUGGIGN:
-    // isTesting = false;
-    // isLoading = true;
+    isLoading = true;
 
-    // initTileBag = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
-    // player1Name = "A";
-    // player2Name = "B";
+    initTileBag = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
+    player1Name = "A";
+    player2Name = "B";
+
+    turns.push_back("turn 1 r 4"); //0
+    turns.push_back("turn 5 u 2"); //1
 
     // turns.push_back("turn 5 u 2"); //0
     // turns.push_back("turn 3 l 3"); //1
     // turns.push_back("turn 4 y 4"); //2
-    // turns.push_back("turn 2 r 2"); //3
+    // turns.push_back("turn 2 r 2"); //3 
     // turns.push_back("turn 0 L 5"); //4
     // turns.push_back("turn 2 y 1"); //5
     // turns.push_back("turn 0 l 1"); //6
-
-    
 }
 
 string Load::getTileBag() {

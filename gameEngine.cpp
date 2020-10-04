@@ -291,6 +291,7 @@ bool GameEngine::runTurn(Player* currentPlayer) {
                 cout << "Azul game successfully loaded" << endl;
                 cout << endl;
                 isLoading = false;
+                
             }
         } 
     }
