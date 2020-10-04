@@ -165,12 +165,6 @@ void GameEngine::runGame() {
         cout << "=== GAME OVER === "  << endl;
         cout << "=== Final Scores === " << endl;
 
-        // Update Scoring
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-            cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
-        }
-
         //Check which player won
         if(players[1]->getPlayerScore() > players[2]->getPlayerScore()) {
             cout << "Player "<< players[1]->getPlayerName() << " wins!" << endl;
@@ -211,6 +205,12 @@ void GameEngine::endRound() {
 
     //Fill the factories back up
     factories->FillFactoriesFromTileBag(tileBag);
+
+    //Update Scoring
+    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+    }
 
     //display end of Round scoring
     if(!isLoading && !isTesting) {
