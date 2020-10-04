@@ -1,4 +1,3 @@
-TURN FOR PLAYER: Patrick
 Factories: 
 0: B Y B 
 1: 
@@ -7,6 +6,16 @@ Factories:
 4: 
 5: 
 
+Score for Gary: 6
+Mosaic for Gary: 
+1         U || B Y R . . 
+2       B B || L . . R U 
+3     . B B || U . . Y . 
+4   . . U U || . . L . . 
+5 . . . . L || . R . . . 
+broken: F B Y L 
+
+Score for Patrick: 14
 Mosaic for Patrick: 
 1         . || B Y R . L 
 2       L L || . B Y R . 
