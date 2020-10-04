@@ -14,14 +14,6 @@ Factory::Factory(const Factory& other) :
     }
 }
 
-Factory::Factory(Factory&& other) :
-    factoryNumber(other.factoryNumber)
-{
-    for(int i = 0; i < (signed int) factoryTiles.size(); ++i) {
-        factoryTiles.push_back(new Tile(std::move(*other.factoryTiles[i])));
-    }
-}
-
 Factory::~Factory() {
     clear();
 }

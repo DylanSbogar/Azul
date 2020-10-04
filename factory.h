@@ -13,32 +13,35 @@ class Factory {
 public:
     Factory(int factoryNumber);
     Factory(const Factory& other);
-    Factory(Factory&& other);
     ~Factory();
 
-    //Adds Tile to the back of the list
+    //INPUT: Tile shouldn't be nullptr
+    //OUTPUT: Adds Tile to the back of the factory vector
+    //NOTE: ensure that factories doesn't exceed limit of 'INITIAL_FACTORY_SIZE' tiles
+    //      aside from centre Factory
     void addTile(Tile* tile);
 
-    //Removes tile pointer from factory at given index
-    //Returns true if tile was removed successfully
-    //NOTE: Method assumes that tile has another pointer to it (or else memory leak will occur!)
+    //OUTPUT: Removes tile pointer from factory at given index and returns true.
+    //        Otherwise, method will simply return false.
+    //NOTE: Method assumes that tile has another pointer to it (otherwise memory leak will occur!)
     bool removeTileAt(int index);
 
-    //Returns the size of the factory
+    //OUTPUT: Returns the size of the factory
     int size();
 
-    //Returns index of rightmost tile of given colour
+    //OUTPUT: Returns index of rightmost tile of given colour
     //NOTE: Returns INVALID_INDEX if Colour is not present in factory 
     int getIndexOfSameColourTile(Colour colour);
 
-    //Clears the factory vector
+    //OUTPUT: Clears the factory vector
     void clear();
 
-    //returns factory number
+    //OUTPUT: returns factory number ID
+    //NOTE: This should be unique for each factory
     int getFactoryNumber();
 
     //INPUT: index > 0 and index < factory size
-    //OUTPUT: tile at given index
+    //OUTPUT: Returns tile at given index
     Tile* getTileAt(int index);
 
 private: 
