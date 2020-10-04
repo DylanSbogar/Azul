@@ -29,25 +29,33 @@ void Load::loadGame(std::string fileName) {
 
     isLoading = true;
 
-    // open the desired save file from the 'saves' folder.
     loadedFile.open(".//saves-tests//" + fileName);
+    // open the desired save file from the 'saves' folder.
+        if(loadedFile.is_open()) {
+            //Get the first line of the saveFile and set it to the initial tilebag.
+            getline(loadedFile, fileText);
+            initTileBag = fileText;
 
-    //Get the first line of the saveFile and set it to the initial tilebag.
-    getline(loadedFile, fileText);
-    initTileBag = fileText;
+            //Get the second line of the saveFile and set it to player 1s name
+            getline(loadedFile, fileText);
+            player1Name = fileText;
 
-    //Get the second line of the saveFile and set it to player 1s name
-    getline(loadedFile, fileText);
-    player1Name = fileText;
+            //Get the third line of the saveFile and set it to player 2s name
+            getline(loadedFile, fileText);
+            player2Name = fileText;
 
-    //Get the third line of the saveFile and set it to player 2s name
-    getline(loadedFile, fileText);
-    player2Name = fileText;
-
-    // Get every line hereafter and add it to the vector of turns.
-    while(getline(loadedFile, fileText)) {
-        turns.push_back(fileText);
-    }
+            // Get every line hereafter and add it to the vector of turns.
+            while(getline(loadedFile, fileText)) {
+                turns.push_back(fileText);
+            } 
+        } else {
+            cout << "Error: Save file does not exist!" << endl;
+            cout << "Please try again." << endl;
+            cout << endl;
+            cout << "> ";
+            cin >> fileName;
+            loadGame(fileName);
+        }
 }
 
 string Load::getTileBag() {
