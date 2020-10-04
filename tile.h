@@ -17,19 +17,22 @@ enum Colour {
 
 class Tile {
 public: 
+    //INPUT: Should be a valid colour enum
+    //OUTPUT: Creates a valid tile
     Tile(Colour colour);
     Tile(const Tile& other);
-    Tile(Tile&& other);
     ~Tile();
 
-    //Returns enum type of colour
+    //OUTPUT: Returns enum type of colour
     Colour getColour();
 
-    //Returns char value of colour
+    //OUTPUT: Returns char value of colour
     char getCharColour();
 
 private: 
-    //Converts enum colour to a char when Tile is instantiated
+    //INPUT: Should input valid colour from Colour enum
+    //OUTPUT: Converts enum colour to a char when Tile is instantiated
+    //NOTE: If invalid colour given, tile defaults to BLANK tile.
     char convertColourToChar(Colour colour);
     
     Colour colour;

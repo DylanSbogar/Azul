@@ -1,26 +1,16 @@
 #include "factories.h"
 
 Factories::Factories() {
-    centreFactory = new Factory(0);
-    centreFactory->addTile(new Tile(FIRST_PLAYER));
-    allFactories[0] = centreFactory;
-
-    for(int i = 1; i < NUMBER_OF_FACTORIES; i++) {
+    for(int i = 0; i < NUMBER_OF_FACTORIES; i++) {
         allFactories[i] = new Factory(i);
     }
+
+    allFactories[0]->addTile(new Tile(FIRST_PLAYER));
 }
 
 Factories::Factories(const Factories& other) {
-    centreFactory = new Factory(*other.centreFactory);
     for(int i = 0; i < NUMBER_OF_FACTORIES; ++i) {
         allFactories[i] = new Factory(*other.allFactories[i]); 
-    }
-}
-
-Factories::Factories(Factories&& other) {
-    centreFactory = new Factory(std::move(*other.centreFactory));
-    for(int i = 0; i < NUMBER_OF_FACTORIES; ++i) {
-        allFactories[i] = new Factory(std::move(*other.allFactories[i])); 
     }
 }
 
@@ -56,7 +46,7 @@ void Factories::FillFactoriesFromTileBag(TileBag* tilebag) {
     }
 }
 
-bool Factories::allFactoriesAreEmpty() {
+bool Factories::allFactoriesAreEmpty() const {
     bool allFactoriesAreEmpty = true;
 
     for(int i = 0; i < NUMBER_OF_FACTORIES; ++i) {

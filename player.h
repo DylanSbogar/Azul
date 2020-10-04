@@ -16,8 +16,8 @@ public:
     //returns player's name
     int getPlayerScore();
 
+
     //adds end of round score with total score
-    //INPUT: end of round score
     void setPlayerScore(int score);
 
     //return player's mosaic 

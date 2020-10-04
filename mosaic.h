@@ -16,7 +16,7 @@ public:
     //adds tiles into the patternLine array for mosaic
     void setGrid(Tile* tile, int row, int colm);
 
-    //returns all elements of brokenTile array for mosaic
+    //OUTPUT: returns all elements of brokenTile array for mosaic
     std::vector<Tile*> getBrokenTiles();
 
     //adds new broken tiles to brokenTile array for mosaic

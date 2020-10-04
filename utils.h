@@ -3,8 +3,9 @@
 
 #include "tile.h"
 
-//Useful for reading char input and extracting Colour which can be used to create Tile objects
-//NOTE: Invalid char returns BLANK Colour
+//INPUT: Valid char colour
+//OUTPUT: Returns Colour enum corresponding to given char value
+//NOTE: Invalid char returns 'BLANK' Colour
 Colour convertCharToColour(char colour);
 
 #endif //UTILS_H

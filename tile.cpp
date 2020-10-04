@@ -12,15 +12,8 @@ Tile::Tile(const Tile& other) :
 
 }
 
-Tile::~Tile() {
-    
-}
-
-Tile::Tile(Tile&& other) :
-    colour(other.colour),
-    charColour(other.charColour)
-{
-
+Tile::~Tile() 
+{   
 }
 
 Colour Tile::getColour() {
