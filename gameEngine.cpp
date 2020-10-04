@@ -151,9 +151,10 @@ void GameEngine::runGame() {
 
         //Fill the factories back up
         factories->FillFactoriesFromTileBag(tileBag);
-        
+         if(isLoading == false) {
         //Increment round
         cout << "=== END OF ROUND ===" << endl;
+         }
         ++rounds;
     }
 
