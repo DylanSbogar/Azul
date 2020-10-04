@@ -35,18 +35,31 @@ void Load::loadGame(std::string fileName) {
             getline(loadedFile, fileText);
             initTileBag = fileText;
 
-            //Get the second line of the saveFile and set it to player 1s name
-            getline(loadedFile, fileText);
-            player1Name = fileText;
+            //If the check returns true (the tileBag is valid)
+            if(checkTileBag(initTileBag)) {
+                //Get the second line of the saveFile and set it to player 1s name
+                getline(loadedFile, fileText);
+                player1Name = fileText;
 
-            //Get the third line of the saveFile and set it to player 2s name
-            getline(loadedFile, fileText);
-            player2Name = fileText;
+                //Get the third line of the saveFile and set it to player 2s name
+                getline(loadedFile, fileText);
+                player2Name = fileText;
 
-            // Get every line hereafter and add it to the vector of turns.
-            while(getline(loadedFile, fileText)) {
-                turns.push_back(fileText);
-            } 
+                // Get every line hereafter and add it to the vector of turns.
+                while(getline(loadedFile, fileText)) {
+                    turns.push_back(fileText);
+                }
+                /*If the save file contains an invalid tileBag, an error is issued, 
+                and users are allowed to try enter another save file until a valid one
+                is given.*/
+            } else {
+                cout << "Error: Invalid game detected!" << endl;
+                cout << "Please enter a valid game name." << endl;
+                cout << endl;
+                cout << "> ";
+                cin >> fileName;
+                loadGame(fileName);
+            }
         } else {
             /*If the user inputs an incorrect fileName for something that does not exist,
             an error is issued, and users are allowed to try again until they input a fileName
@@ -93,4 +106,23 @@ int Load::getCurrentTurnIndex() {
 //Increments the turn counter after each turn has been loaded
 void Load::incrementTurn() {
     ++index;
+}
+
+//Iterates through the tileBag and checks for any incorrect characters, returns false if 1 or more incorrect chars found.
+bool Load::checkTileBag(string tileBag) {
+    bool isGood;
+    int errors = 0;
+    for(string::size_type i = 0; i < tileBag.size(); ++i) {
+        if(tileBag[i] == 'R' || tileBag[i] == 'Y' || tileBag[i] == 'L' || tileBag[i] == 'U' || tileBag[i] == 'B') {
+        } else {
+            ++errors;
+        }
+        //If there is 1 or more errors, the tileBag is not good.
+        if(errors > 0) {
+            isGood = false;
+        } else {
+            isGood = true;
+        }
+    }
+    return isGood;
 }

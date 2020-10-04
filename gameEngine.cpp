@@ -452,7 +452,7 @@ bool GameEngine::addTileFromFactoryToMosaic(Player* currentPlayer, int factoryNu
 bool GameEngine::validateTurnInput(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow) {
     bool validTurn = true;
 
-    //Ensure facotryNumber and colour is valid
+    //Ensure factoryNumber and colour is valid
     Colour tileColour =  convertCharToColour(toupper(colour));
     Mosaic* mosaic = currentPlayer->getMosaic();
 
