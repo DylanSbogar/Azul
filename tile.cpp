@@ -9,7 +9,6 @@ Tile::Tile(const Tile& other) :
     colour(other.colour),
     charColour(other.charColour)
 {
-
 }
 
 Tile::~Tile() 

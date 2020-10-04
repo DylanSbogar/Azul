@@ -9,12 +9,10 @@ Node::Node(Tile* tile, Node* next) {
 
 Node::Node(const Node& other) {
     tile = new Tile(*other.tile);
-
     if(next != nullptr) {
         next = new Node(*other.next);
     }
 }
-
 
 TileBag::TileBag() {
     head = nullptr;
@@ -39,7 +37,6 @@ TileBag::~TileBag() {
 std::string TileBag::generateFixedTileBag() {
     char fixedTileBag[] = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
     generateTileBag(fixedTileBag);
-
     return std::string(fixedTileBag);
 }
 
@@ -76,7 +73,6 @@ void TileBag::removeTile() {
 
 void TileBag::addTile(Tile* tile) {
     Node* newNode = new Node(tile, nullptr);
-
     //If tile bag is empty, set newNode as head
     //Otherwise update pointer of old tail to point to new tail
     if(head == nullptr) {
