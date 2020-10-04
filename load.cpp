@@ -13,6 +13,7 @@ Load::Load(string fileName) {
     player1Name = "";
     player2Name = "";
     turns = {};
+    index = 0;
 }
 
 Load::~Load() 
@@ -51,6 +52,30 @@ void Load::loadGame(std::string fileName) {
     while(getline(loadedFile, fileText)) {
         turns.push_back(fileText);
     }
+
+    std::cout << initTileBag << endl;
+    std::cout << player1Name << endl;
+    std::cout << player2Name << endl;
+
+    for(int i = 0; i < (signed int) turns.size(); ++i) {
+        std::cout << turns[i] << endl;
+    }
+
+    //DEBUGGIGN:
+    // isTesting = false;
+    // isLoading = true;
+
+    // initTileBag = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
+    // player1Name = "A";
+    // player2Name = "B";
+
+    // turns.push_back("turn 5 u 2");
+    // turns.push_back("turn 3 l 3");
+    // turns.push_back("turn 4 y 4");
+    // turns.push_back("turn 2 r 2");
+    // turns.push_back("turn 0 L 5");
+    // turns.push_back("turn 2 y 1");
+    // turns.push_back("turn 0 l 1");
 }
 
 string Load::getTileBag() {
@@ -65,7 +90,23 @@ string Load::getPlayer2() {
     return this->player2Name;
 }
 
-// Returns the vector of strings read from the saveFile.
-vector<string> Load::getTurns() {
-    return turns;
+// // Returns the vector of strings read from the saveFile.
+// vector<string> Load::getTurns() {
+//     return turns;
+// }
+
+int Load::getTurnsSize() {
+    return turns.size();
+}
+
+string Load::getCurrentTurn() {
+    return turns[index];
+}
+
+int Load::getCurrentTurnIndex() {
+    return index;
+}
+
+void Load::incrementTurn() {
+    ++index;
 }

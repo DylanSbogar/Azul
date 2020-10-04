@@ -25,7 +25,12 @@ public:
     string getTileBag();
     string getPlayer1();
     string getPlayer2();
-    vector<string> getTurns();
+    // vector<string> getTurns();
+
+    string getCurrentTurn();
+    void incrementTurn();
+    int getTurnsSize();
+    int getCurrentTurnIndex();
     
 private:
     string fileName;
@@ -33,6 +38,7 @@ private:
     string player1Name;
     string player2Name;
     vector<string> turns;
+    int index;
 };
 
 #endif //LOAD_H

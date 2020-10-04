@@ -11,7 +11,7 @@
 string initTileBag;
 string function;
 string param1, param2, param3;
-int n = 0;
+// int n = 0;
 
 bool isLoading = false;
 bool isTesting = false;
@@ -73,7 +73,7 @@ void GameEngine::initialiseGame(Load* load) {
 
 
     //Ensure that turns is not empty
-    if(load->getTurns().size() == 0) {
+    if(load->getTurnsSize() == 0) {
         isLoading = false;
     }
 
@@ -229,8 +229,7 @@ bool GameEngine::runTurn(Player* currentPlayer) {
 
     } else {
 
-        //TESTING
-        std::istringstream iss(load->getTurns()[n]); 
+        std::istringstream iss(load->getCurrentTurn()); 
         vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
         function = splitTurn[0];
         param1 = splitTurn[1];
@@ -238,20 +237,47 @@ bool GameEngine::runTurn(Player* currentPlayer) {
             param2 = splitTurn[2];
             param3 = splitTurn[3];
         }
-        //END TESTING
 
-        //Pass through the turn from save file
-        //TODO: get a string representing a turn "turn 3 L 3" and split it into function + params 1-4.
-        if(playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
-            turns.back();
-            n++;
-            if(n >= (signed int) load->getTurns().size()) {
-                cout << "Azul game successfully loaded" << endl;
-                cout << endl;
+        //If player turn is false, then re-run current players turn with next turn values.
+        while(!playerEntersTurn(currentPlayer, function, param1, param2, param3) && isLoading) {
+            //Check that incremented turn is still within range, otherwise, it turns run out update laoding
+            if(load->getCurrentTurnIndex() + 1 < (signed int) load->getTurnsSize() - 1) {
+                load->incrementTurn();
+
+                //update turn values:
+                std::istringstream iss(load->getCurrentTurn()); 
+                vector<string> splitTurn(std::istream_iterator<string>{iss}, std::istream_iterator<string>());
+                function = splitTurn[0];
+                param1 = splitTurn[1];
+                if(function == "turn") {
+                    param2 = splitTurn[2];
+                    param3 = splitTurn[3];
+                }
+
+            } else {
                 isLoading = false;
             }
-        } else {
-            keepPlaying = false;
+        }
+        // if(!playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
+        //     //Check that incremented turn is still within range
+        //     if(n + 1 < (signed int) load->getTurns().size() - 1) {
+                
+        //     }
+        //     // turns.back();
+            
+        // } else {
+        //     // keepPlaying = false;
+        // }
+
+        //Increment turns
+        // ++n;
+        load->incrementTurn();
+
+
+        if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
+            cout << "Azul game successfully loaded" << endl;
+            cout << endl;
+            isLoading = false;
         }
     }
     
@@ -428,30 +454,24 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
 bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  string param1, string param2, string param3) {
     bool turnEntered = false;
-    bool invalidInput = true;
     
-    do {
-        if(function == "save") {
-            saveGame(param1);
-            invalidInput = false;
-        } else if(function == "turn") {
-            int factoryNumber = std::stoi(param1);
-            char colour = param2[0];
-            int patternLineRow = std::stoi(param3);
+    if(function == "save") {
+        saveGame(param1);
+        turnEntered = true;
 
-            //Process turns
-            if(!addTileFromFactoryToMosaic(currentPlayer, factoryNumber, colour, patternLineRow)) {
-                invalidInput = true;
-            } else {
-                //Save turn variable for saving
-                turns.push_back(function + " " + std::to_string(factoryNumber) + " " + colour + " " + std::to_string(patternLineRow));
+    } else if(function == "turn") {
+        int factoryNumber = std::stoi(param1);
+        char colour = param2[0];
+        int patternLineRow = std::stoi(param3);
 
-                turnEntered = true;
-                invalidInput = false;
-            }
+        //Process turns
+        if(addTileFromFactoryToMosaic(currentPlayer, factoryNumber, colour, patternLineRow)) {
+            //shouldn't save when loading
+            // turns.push_back(function + " " + std::to_string(factoryNumber) + " " + colour + " " + std::to_string(patternLineRow));
+
+            turnEntered = true;
         }
-
-    } while(invalidInput);
+    }
 
     return turnEntered;
 }
