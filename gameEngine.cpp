@@ -6,7 +6,6 @@ string initTileBag;
 string function;
 string param1, param2, param3;
 bool firstPlayerTurn = true;
-// int n = 0;
 
 bool isLoading = false;
 bool isTesting = false;
@@ -19,8 +18,7 @@ GameEngine::GameEngine() {
 
     if(isLoading == false) {
         initTileBag = tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
-        tileBag->generateTileBag("RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR");
-        
+
         //Create factories
         factories = new Factories();
         factories->FillFactoriesFromTileBag(tileBag);
@@ -213,6 +211,15 @@ void GameEngine::endRound() {
 
     //Fill the factories back up
     factories->FillFactoriesFromTileBag(tileBag);
+
+    //display end of Round scoring
+    if(!isLoading && !isTesting) {
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            cout << "Player "<< players[i]->getPlayerName() << "'s Score: " << players[i]->getPlayerScore() << endl;
+            cout << endl;
+        }
+    }
 }
 
 bool GameEngine::runTurn(Player* currentPlayer) {
