@@ -16,15 +16,6 @@ public:
     //adds tiles into the patternLine array for mosaic
     void setGrid(Tile* tile, int row, int colm);
 
-    // //adds tiles into the patternLine array for mosaic
-    // void setPatternLine(Tile* tile, int row, int colm);
-
-    // //returns all elements of grid array for mosaic
-    // Tile** getGrid();
-
-    // //returns all elements of patternLine array for mosaic
-    // Tile** getPatternLine();
-
     //returns all elements of brokenTile array for mosaic
     std::vector<Tile*> getBrokenTiles();
 
@@ -36,12 +27,6 @@ public:
 
     //Adds tile to the front of broken tile.
     void addBrokenTileAtFront(Tile* tile);
-
-
-    /**
-     * NEW METHOD TO REPLACE 'getGrid()', 'getPatternLine()', 
-     * and 'setPatternLine(Tile* tile, int row, int colm)'
-     */
 
     //INPUT: row must be between 0 and ROWS and colm must be between 0 and COLS
     //OUTPUT: Returns tile at specified row and column

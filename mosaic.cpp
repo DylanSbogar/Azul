@@ -43,29 +43,35 @@ Mosaic::~Mosaic(){
    brokenTiles.clear();
 }
 
+//adds tile to specific grid element
 void Mosaic::setGrid(Tile* tile, int row, int cols){
    grid[row][cols]= tile;
 }
 
+//adds broken tile to vector
 void Mosaic::addBrokenTiles(Tile* broken_Tile){
    brokenTiles.push_back(broken_Tile);
 }
 
+//returns vector with all broken tiles
 std::vector<Tile*> Mosaic::getBrokenTiles(){
    return brokenTiles;
 }
 
+//returns tile of spefic grid element of row and colm inputted
 Tile* Mosaic::getGridTile(int row, int colm) {
    return grid[row][colm];
 }
 
+//returns full row of the patternLine row inputted
 Tile** Mosaic::getPatternLineRow(int row) {
    return patternLine[row];
 }
 
+//adds tile inputted, into the patternLine row inputted
 void Mosaic::addTileToPatternLine(Tile* tile, int row) {
    int colm = COLS-1;
-
+   //goes through each element in patternLine row 
    while(patternLine[row][colm]->getColour() != NO_TILE && colm >= 0) {
       --colm;
    }
@@ -78,6 +84,7 @@ void Mosaic::addTileToPatternLine(Tile* tile, int row) {
    patternLine[row][colm] = tile;
 }
 
+//return boolean depending on if patternLine row has no tile
 bool Mosaic::patternLineFull(int row) {
    bool rowIsFull = true;
 
@@ -90,10 +97,12 @@ bool Mosaic::patternLineFull(int row) {
    return rowIsFull;
 }
 
+//returns colour of patternLine row 
 Colour Mosaic::getPatternLineColour(int row) {
    return patternLine[row][COLS-1]->getColour();
 }
 
+//removes specific broken tile from vector
 void Mosaic::removeBrokenTiles(int index) {
    if ((signed int) brokenTiles.size() > 0 && index >= 0 && index < (signed int) brokenTiles.size()) {
       for (int i = index; i < (signed int) brokenTiles.size() - 1; ++i) {

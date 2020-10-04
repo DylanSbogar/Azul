@@ -627,7 +627,7 @@ int GameEngine::calculatePlayerScores(Player* player) {
             }
         }
     }
-
+//deducts points depending on how many broken tiles 
    vector<Tile*> brokenTiles = player->getMosaic()->getBrokenTiles();
     for(int i = 0; i < (signed int) brokenTiles.size() ; ++i){
         if(i<2){
@@ -638,6 +638,8 @@ int GameEngine::calculatePlayerScores(Player* player) {
             roundScore -=3;
         }
     }
+
+    //adds end of round score to total score
     player->setPlayerScore(roundScore);
     return roundScore;
 }
