@@ -1,25 +1,29 @@
+=== END OF ROUND SCORE === 
+Player A: 2
+Player B: 2
+
 Factories: 
 0: F 
-1: Y R B L 
-2: L U R Y 
-3: B R Y Y 
-4: U U L U 
-5: U Y U L 
+1: R Y B Y 
+2: Y L R U 
+3: Y B L U 
+4: Y U L B 
+5: R U U U 
 
 Score for A: 2
 Mosaic for A: 
 1         . || . . . . L 
-2       . . || . . . R . 
-3     . . . || . . . Y . 
-4   . L L L || . . . . . 
-5 . . . . . || . . . . . 
-broken: R 
+2       . . || . . . . U 
+3     . . . || . . . . . 
+4   . . Y Y || . . . . . 
+5 . L L L L || . . . . . 
+broken: 
 
 Score for B: 2
 Mosaic for B: 
 1         . || . Y . . . 
-2       . . || . B . . . 
-3     . . . || . . . . R 
+2       . . || . . . R . 
+3     . . . || . L . . . 
 4   . . . . || . . . . . 
 5 . . . . . || . . . . . 
 broken: Y 

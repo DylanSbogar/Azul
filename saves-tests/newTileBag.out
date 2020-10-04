@@ -1,25 +1,29 @@
-Factories:
-0: F
-1: R Y L Y 
-2: R L R L 
-3: L L U L 
-4: Y Y L U 
-5: L Y U U
+=== END OF ROUND SCORE === 
+Player A: 2
+Player B: 2
 
-Score for Player A: 0
-Mosaic for Player A: 
-1         . || . . . . . 
-2       . . || . . . . . 
-3     . . . || . . . . . 
+Factories: 
+0: F 
+1: Y R B L 
+2: L U R Y 
+3: B R Y Y 
+4: U U L U 
+5: U Y U L 
+
+Score for A: 2
+Mosaic for A: 
+1         . || . . . . L 
+2       . . || . . . R . 
+3     . . . || . . . Y . 
+4   . L L L || . . . . . 
+5 . . . . . || . . . . . 
+broken: R 
+
+Score for B: 2
+Mosaic for B: 
+1         . || . Y . . . 
+2       . . || . B . . . 
+3     . . . || . . . . R 
 4   . . . . || . . . . . 
 5 . . . . . || . . . . . 
-broken: 
-
-Score for Player B: 0
-Mosaic for Player B: 
-1         . || . . . . . 
-2       . . || . . . . . 
-3     . . . || . . . . . 
-4   . . . . || . . . . . 
-5 . . . . . || . . . . . 
-broken: 
+broken: Y 
