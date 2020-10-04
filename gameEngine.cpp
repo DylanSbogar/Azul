@@ -239,9 +239,9 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         }
 
         //If player turn is false, then re-run current players turn with next turn values.
-        while(!playerEntersTurn(currentPlayer, function, param1, param2, param3) && isLoading) {
+        while(isLoading && !playerEntersTurn(currentPlayer, function, param1, param2, param3)) {
             //Check that incremented turn is still within range, otherwise, it turns run out update laoding
-            if(load->getCurrentTurnIndex() + 1 < (signed int) load->getTurnsSize() - 1) {
+            if(load->getCurrentTurnIndex() + 1 < (signed int) load->getTurnsSize()) {
                 load->incrementTurn();
 
                 //update turn values:
@@ -272,9 +272,8 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         //Increment turns
         // ++n;
         load->incrementTurn();
-
-
-        if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
+        
+        if(load->getCurrentTurnIndex() + 1 > (signed int) load->getTurnsSize() || !isLoading) {
             cout << "Azul game successfully loaded" << endl;
             cout << endl;
             isLoading = false;
@@ -451,6 +450,7 @@ bool GameEngine::playerEntersTurn(Player* currentPlayer) {
 
 //     return turnEntered;
 // }
+
 
 bool GameEngine::playerEntersTurn(Player* currentPlayer, string function,  string param1, string param2, string param3) {
     bool turnEntered = false;
