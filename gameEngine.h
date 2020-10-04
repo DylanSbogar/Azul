@@ -7,6 +7,9 @@
 #include <sstream>
 #include <iterator>
 #include <vector>
+#include <string>
+#include <string.h>
+#include <stdio.h>
 
 #include "tileBag.h"
 #include "factories.h"

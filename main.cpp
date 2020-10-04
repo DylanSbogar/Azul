@@ -1,10 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <string.h>
-#include <stdio.h>
-
 #include "gameEngine.h"
 #include "load.h"
 
@@ -53,7 +46,6 @@ void mainMenu() {
     while (notQuit) {
         cout << "Menu" << endl;
         cout << "------" << endl;
-
         cout << "1. New Game" << endl;
         cout << "2. Load Game" << endl;
         cout << "3. Credits" << endl;
@@ -106,7 +98,6 @@ void startNewGame() {
 
 void loadGame() {
     string fileName;
-
     cout << "Enter the filename from which to load a game" << endl;
     cout << "> ";
     cin >> fileName;

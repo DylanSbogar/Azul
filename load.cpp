@@ -25,52 +25,52 @@ will read the file line-by-line, variables to the load object*/
 void Load::loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
-
     isLoading = true;
 
+    //Open the desired save file from the 'saves' folder.
     loadedFile.open(".//saves-tests//" + fileName);
-    // open the desired save file from the 'saves' folder.
-        if(loadedFile.is_open()) {
-            //Get the first line of the saveFile and set it to the initial tilebag.
+    //Only advance if the file exists
+    if(loadedFile.is_open()) {
+        //Get the first line of the saveFile and set it to the initial tilebag.
+        getline(loadedFile, fileText);
+        initTileBag = fileText;
+
+        //If the check returns true (the tileBag is valid)
+        if(checkTileBag(initTileBag)) {
+            //Get the second line of the saveFile and set it to player 1s name
             getline(loadedFile, fileText);
-            initTileBag = fileText;
+            player1Name = fileText;
 
-            //If the check returns true (the tileBag is valid)
-            if(checkTileBag(initTileBag)) {
-                //Get the second line of the saveFile and set it to player 1s name
-                getline(loadedFile, fileText);
-                player1Name = fileText;
+            //Get the third line of the saveFile and set it to player 2s name
+            getline(loadedFile, fileText);
+            player2Name = fileText;
 
-                //Get the third line of the saveFile and set it to player 2s name
-                getline(loadedFile, fileText);
-                player2Name = fileText;
-
-                // Get every line hereafter and add it to the vector of turns.
-                while(getline(loadedFile, fileText)) {
-                    turns.push_back(fileText);
-                }
-                /*If the save file contains an invalid tileBag, an error is issued, 
-                and users are allowed to try enter another save file until a valid one
-                is given.*/
-            } else {
-                cout << "Error: Invalid game detected!" << endl;
-                cout << "Please enter a valid game name." << endl;
-                cout << endl;
-                cout << "> ";
-                cin >> fileName;
-                loadGame(fileName);
+            // Get every line hereafter and add it to the vector of turns.
+            while(getline(loadedFile, fileText)) {
+                turns.push_back(fileText);
             }
+            /*If the save file contains an invalid tileBag, an error is issued, 
+            and users are allowed to try enter another save file until a valid one
+            is given.*/
         } else {
-            /*If the user inputs an incorrect fileName for something that does not exist,
-            an error is issued, and users are allowed to try again until they input a fileName
-            that is correct. */
-            cout << "Error: Save file does not exist!" << endl;
-            cout << "Please try again." << endl;
+            cout << "Error: Invalid game detected!" << endl;
+            cout << "Please enter a valid game name." << endl;
             cout << endl;
             cout << "> ";
             cin >> fileName;
             loadGame(fileName);
         }
+    } else {
+        /*If the user inputs an incorrect fileName for something that does not exist,
+        an error is issued, and users are allowed to try again until they input a fileName
+        that is correct. */
+        cout << "Error: Save file does not exist!" << endl;
+        cout << "Please try again." << endl;
+        cout << endl;
+        cout << "> ";
+        cin >> fileName;
+        loadGame(fileName);
+    }
 }
 
 //Returns a string of the tileBag being loaded
@@ -122,6 +122,5 @@ bool Load::checkTileBag(string tileBag) {
             isGood = false;
         }
     }
-
     return isGood;
 }

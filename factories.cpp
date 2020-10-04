@@ -4,7 +4,6 @@ Factories::Factories() {
     for(int i = 0; i < NUMBER_OF_FACTORIES; i++) {
         allFactories[i] = new Factory(i);
     }
-
     allFactories[0]->addTile(new Tile(FIRST_PLAYER));
 }
 

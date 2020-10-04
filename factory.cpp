@@ -38,13 +38,10 @@ bool Factory::removeTileAt(int index) {
                 factoryTiles[i] = factoryTiles[i+1];
             }
         }
-
         //Remove last tile of list (which is a copy of tile at (length-2))
         factoryTiles.pop_back();
-        
         tileRemoved = true;
     }
-
     return tileRemoved;
 }
 
@@ -62,7 +59,6 @@ int Factory::getIndexOfSameColourTile(Colour colour) {
             index = i;
         }
     }
-
     return index;
  }
 
