@@ -212,10 +212,13 @@ void GameEngine::endRound() {
     factories->FillFactoriesFromTileBag(tileBag);
 
     //Update Scoring
+    cout << endl;
+    cout << "End of Round Score "<< endl;
     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
         players[i]->setPlayerScore(calculatePlayerScores(players[i]));
         cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
     }
+    cout << endl;
 
     //display end of Round scoring
     if(!isLoading && !isTesting) {
