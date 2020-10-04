@@ -1,11 +1,11 @@
 #include "factories.h"
 
 Factories::Factories() {
-    allFactories[0]->addTile(new Tile(FIRST_PLAYER));
-
-    for(int i = 1; i < NUMBER_OF_FACTORIES; i++) {
+    for(int i = 0; i < NUMBER_OF_FACTORIES; i++) {
         allFactories[i] = new Factory(i);
     }
+
+    allFactories[0]->addTile(new Tile(FIRST_PLAYER));
 }
 
 Factories::Factories(const Factories& other) {

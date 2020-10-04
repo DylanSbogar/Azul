@@ -129,35 +129,6 @@ void GameEngine::runGame() {
 
         endRound();
 
-        // // Move tiles from mosaic to patternline for all players
-        // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-        //     addTilesToMosaicFromPatternLine(players[i]);
-        // }
-
-        // //Check which player has for first player marker
-        // int playerIndexWithFirstTile = INVALID_INDEX;
-        // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-        //     if(players[i]->getMosaic()->getBrokenTiles().size() > 0 && players[i]->getMosaic()->getBrokenTiles()[0]->getColour() == FIRST_PLAYER) {
-        //         playerIndexWithFirstTile = i;
-        //     }
-        // }
-
-        // if(playerIndexWithFirstTile == 0) {
-        //     firstPlayerTurn = true;
-        // } else {
-        //     firstPlayerTurn = false;
-        // }
-
-        // //Move First Player tile back to centre factory
-        // if(playerIndexWithFirstTile != INVALID_INDEX) {
-        //     Tile* firstPlayerTile = players[playerIndexWithFirstTile]->getMosaic()->getBrokenTiles()[0];
-        //     factories->getFactory(0)->addTile(firstPlayerTile);
-        //     players[playerIndexWithFirstTile]->getMosaic()->removeBrokenTiles(0);
-        // }
-
-        // //Fill the factories back up
-        // factories->FillFactoriesFromTileBag(tileBag);
-
         if(isLoading == false) {
             cout << "=== END OF ROUND ===" << endl;
         }
@@ -212,13 +183,12 @@ void GameEngine::endRound() {
     factories->FillFactoriesFromTileBag(tileBag);
 
     //Update Scoring
-    for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-        cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
-    }
-
-    //display end of Round scoring
     if(!isLoading && !isTesting) {
+        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+            players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+            cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        }
+
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
             players[i]->setPlayerScore(calculatePlayerScores(players[i]));
             cout << "Player "<< players[i]->getPlayerName() << "'s Score: " << players[i]->getPlayerScore() << endl;

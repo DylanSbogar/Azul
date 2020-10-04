@@ -32,28 +32,14 @@ TileBag::TileBag(const TileBag& other) :
     // nodes are recursively copied
 }
 
-TileBag::TileBag(TileBag&& other) :
-    length(other.length)
-{  
-    if(head != nullptr) {
-        head = new Node(std::move(*other.head));
-    }
-}
-
 TileBag::~TileBag() {
     clear();
 }
 
 std::string TileBag::generateFixedTileBag() {
-    //Ensure tile bag is empty
-    clear();
-
-    //Read in fixed tile bag and add as tiles in the tile bag
     char fixedTileBag[] = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
-    for(int i = 0; i < TILE_BAG_SIZE; ++i) {
-        Colour colour = convertCharToColour(fixedTileBag[i]);
-        addTile(new Tile(colour));
-    }
+    generateTileBag(fixedTileBag);
+
     return std::string(fixedTileBag);
 }
 

@@ -26,7 +26,6 @@ public:
     string getTileBag();
     string getPlayer1();
     string getPlayer2();
-    // vector<string> getTurns();
 
     string getCurrentTurn();
     void incrementTurn();
