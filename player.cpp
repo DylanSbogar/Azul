@@ -22,7 +22,7 @@
 
  //INPUT: integer of the end of round score
  //adds end of round score with total score
-    void Player::setPlayerScore(int score){
+    void Player::setPlayerScore(int score) {
         this->score += score;
     }
  //OUTPUT: returns player's mosaic

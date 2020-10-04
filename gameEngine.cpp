@@ -187,14 +187,16 @@ void GameEngine::endRound() {
     //Fill the factories back up
     factories->FillFactoriesFromTileBag(tileBag);
 
+    int roundScore1 = calculatePlayerScores(players[0]);
+    int roundScore2 = calculatePlayerScores(players[1]);
+
     //Update Scoring and display end of Round scoring
     if(!isLoading && !isTesting) {
         cout << endl;
         cout << "=== END OF ROUND SCORE === "<< endl;
 
-        for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-            cout << "Player "<< players[i]->getPlayerName() << ": " << calculatePlayerScores(players[i]) << endl;
-        }
+        cout << "Player "<< players[0]->getPlayerName() << ": " << roundScore1 << endl;
+        cout << "Player "<< players[1]->getPlayerName() << ": " << roundScore2 << endl;
 
         cout << endl;
     }
