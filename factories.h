@@ -3,6 +3,7 @@
 
 #include "factory.h"
 #include "tileBag.h"
+#include <utility>
 
 #define NUMBER_OF_FACTORIES 6
 #define FACTORY_SIZE 4

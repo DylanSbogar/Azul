@@ -1,6 +1,11 @@
 #ifndef GAME_ENGINE_H
 #define GAME_ENGINE_H
 
+#include <iostream>
+#include <fstream>
+#include <limits>
+#include <sstream>
+#include <iterator>
 #include <vector>
 
 #include "tileBag.h"
@@ -71,7 +76,6 @@ private:
     //Returns true if all inputs are valid
     bool validateTurnInput(Player* currentPlayer, int factoryNumber, char colour, int patternLineRow);
 
-// private:
     TileBag* tileBag;
     Factories* factories;
     Player* players[TOTAL_PLAYERS];

@@ -22,8 +22,6 @@ void startNewGame();
 void loadGame();
 void saveGame(string fileName, string player1, string player2, vector <string> turns);
 
-// vector <string> turns;
-
 int main(int argc, char **argv) {
     // if the only thing input at run was ./Azul
     if(argc == 1) {
@@ -60,7 +58,7 @@ void mainMenu() {
         cout << "2. Load Game" << endl;
         cout << "3. Credits" << endl;
         cout << "4. Quit" << endl;
-        
+
         cout << "> ";
         cin >> menuInput;
         cout << endl;
@@ -124,5 +122,4 @@ void loadGame() {
         delete gameEngine;
         delete load;
     }
-
 }

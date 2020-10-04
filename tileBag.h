@@ -3,6 +3,8 @@
 
 #include "tile.h"
 #include <iostream>
+#include <utility>
+#include <string>
 
 #define TILE_BAG_SIZE 100
 

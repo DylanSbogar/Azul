@@ -27,6 +27,5 @@ Colour convertCharToColour(char colour) {
     } else if(colour == no_tile) {
         tile = NO_TILE;
     }
-
     return tile;
 }

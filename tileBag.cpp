@@ -1,7 +1,6 @@
 #include "tileBag.h"
 #include "utils.h"
-#include <utility>
-#include <string>
+
 
 Node::Node(Tile* tile, Node* next) {
     this->tile = tile;
@@ -136,10 +135,8 @@ Tile* TileBag::get(int index) {
             current = current->next;
             ++counter;
         }
-
         //Update 'tile' to tile at given index
         tile = current->tile;
     }
-
     return tile;
 }
