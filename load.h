@@ -58,6 +58,9 @@ public:
 
     //Returns a string of player 2's name being loaded
     string getPlayer2();
+
+    //Iterates through the tileBag and checks for any incorrect characters, returns false if 1 or more incorrect chars found.
+    bool checkTileBag(string tileBag);
     
 private:
     string fileName;
