@@ -30,7 +30,6 @@ void Load::loadGame(std::string fileName) {
     string fileText;
     ifstream loadedFile;
 
-    isTesting = false;
     isLoading = true;
 
     // open the desired save file from the 'saves' folder.
