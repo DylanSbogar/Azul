@@ -270,8 +270,7 @@ void GameEngine::printTestModeResults() {
     cout << "Factories: " << endl;
     printFactories();
     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-        players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-        cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        cout << "Score for " << players[i]->getPlayerName() << ": " << calculatePlayerScores(players[i]) << endl;
         cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
         printPlayerMosaic(players[i]);
         cout << endl;
