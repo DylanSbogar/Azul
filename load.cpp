@@ -50,7 +50,11 @@ void Load::loadGame(std::string fileName) {
             } 
         } else {
             cout << "Error: Save file does not exist!" << endl;
-            std::_Exit(EXIT_SUCCESS);
+            cout << "Please try again." << endl;
+            cout << endl;
+            cout << "> ";
+            cin >> fileName;
+            loadGame(fileName);
         }
 }
 
