@@ -118,19 +118,19 @@ void GameEngine::runGame() {
     int rounds = 0;
 
     while(keepPlaying && !cin.eof() && rounds < MAX_ROUNDS) {
-        if(isTesting == true) {
-            isLoading = false;
-            cout << "Factories: " << endl;
-            printFactories();
-            for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-                players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-                cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
-                cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
-                printPlayerMosaic(players[i]);
-                cout << endl;
-            }
-            std::_Exit(EXIT_SUCCESS);
-        }
+        // if(isTesting == true) {
+        //     isLoading = false;
+        //     cout << "Factories: " << endl;
+        //     printFactories();
+        //     for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+        //         players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+        //         cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+        //         cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
+        //         printPlayerMosaic(players[i]);
+        //         cout << endl;
+        //     }
+        //     std::_Exit(EXIT_SUCCESS);
+        // }
 
         if(isLoading == false) {
             cout << "=== Start Round " << rounds + 1 <<" ===" << endl;
@@ -272,12 +272,27 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         //Increment turns
         // ++n;
         load->incrementTurn();
-        
-        if(load->getCurrentTurnIndex() + 1 > (signed int) load->getTurnsSize() || !isLoading) {
-            cout << "Azul game successfully loaded" << endl;
-            cout << endl;
-            isLoading = false;
-        }
+
+
+        if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
+            if(isTesting == true) {
+                isLoading = false;
+                cout << "Factories: " << endl;
+                printFactories();
+                for(int i = 0; i < TOTAL_PLAYERS; ++i) {
+                    players[i]->setPlayerScore(calculatePlayerScores(players[i]));
+                    cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
+                    cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
+                    printPlayerMosaic(players[i]);
+                    cout << endl;
+                }
+            std::_Exit(EXIT_SUCCESS);
+            } else {
+                cout << "Azul game successfully loaded" << endl;
+                cout << endl;
+                isLoading = false;
+            }
+        } 
     }
     
     return keepPlaying;
@@ -677,7 +692,7 @@ void GameEngine::saveGame(string fileName) {
         allTurns.append(turns[n] + "\n");
     }
     // Add a .save extension to the file and save it in the 'saves' folder.
-    saveFile.open(".//saves//" + fileName + ".save");
+    saveFile.open(".//saves-tests//" + fileName + ".save");
 
     // Write to this new file we created.
     // saveFile << tileBag.generateFixedTileBag() + "\n";
