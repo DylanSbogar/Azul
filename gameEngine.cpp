@@ -5,7 +5,6 @@
 string initTileBag;
 string function;
 string param1, param2, param3;
-// int n = 0;
 
 bool isLoading = false;
 bool isTesting = false;

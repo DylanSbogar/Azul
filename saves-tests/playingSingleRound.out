@@ -6,13 +6,13 @@ Factories:
 4: Y U L B
 5: R U U U
 
-Score for Player A: 3
+Score for Player A: 2
 Mosaic for Player A: 
 1         . || . . . . L 
 2       . . || . . . . U 
 3     . . . || . . . . . 
 4   . . Y Y || . . . . . 
-5 . . . . . || . . . L . 
+5 . L L L L || . . . . . 
 broken: 
 
 Score for Player B: 3

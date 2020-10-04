@@ -48,15 +48,6 @@ void Load::loadGame(std::string fileName) {
     while(getline(loadedFile, fileText)) {
         turns.push_back(fileText);
     }
-
-
-    std::cout << initTileBag << endl;
-    std::cout << player1Name << endl;
-    std::cout << player2Name << endl;
-
-    for(int i = 0; i < (signed int) turns.size(); ++i) {
-        std::cout << turns[i] << endl;
-    }
 }
 
 string Load::getTileBag() {
