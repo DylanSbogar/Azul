@@ -1,5 +1,4 @@
 #include "factories.h"
-#include <utility>
 
 Factories::Factories() {
     centreFactory = new Factory(0);
@@ -43,16 +42,13 @@ Factory* Factories::getFactory(int FactoryNumber) {
 void Factories::FillFactoriesFromTileBag(TileBag* tilebag) {
     //Loop starts filling factories from factory 1
     for(int i = 1; i < NUMBER_OF_FACTORIES; i++) {
-
         //Add FACTORY_SIZE tiles in each factory
         for(int j = 0; j < FACTORY_SIZE; ++j) {
-            
             //Check if tile is returned
             Tile* tile = tilebag->drawTile();
             if(tile != nullptr) {
                 //Add Tile to Factory
                 allFactories[i]->addTile(tile);
-
                 //Remove added tile from the tile bag
                 tilebag->removeTile();
             }
@@ -68,6 +64,5 @@ bool Factories::allFactoriesAreEmpty() {
            allFactoriesAreEmpty = false;
        }
     }
-
     return allFactoriesAreEmpty;
 }

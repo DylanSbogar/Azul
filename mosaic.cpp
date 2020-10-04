@@ -14,7 +14,6 @@ Mosaic::Mosaic() {
       for(int col = 0; col < COLS - 1 - row; ++col) {
          patternLine[row][col] = new Tile(BLANK);
       }
-
       for(int col = COLS - 1 - row; col < COLS ; ++col) {
          patternLine[row][col] = new Tile(NO_TILE);
       }
@@ -41,25 +40,12 @@ Mosaic::~Mosaic(){
          }
       }
    }
-
    brokenTiles.clear();
 }
 
 void Mosaic::setGrid(Tile* tile, int row, int cols){
    grid[row][cols]= tile;
 }
-
-// void Mosaic::setPatternLine(Tile* tile, int row, int cols){
-//    patternLine[row][cols]= tile;
-// }
-
-// Tile** Mosaic::getGrid(){
-//    return *grid;
-// }
-
-// Tile** Mosaic::getPatternLine(){
-//    return *patternLine;
-// }
 
 void Mosaic::addBrokenTiles(Tile* broken_Tile){
    brokenTiles.push_back(broken_Tile);
@@ -101,7 +87,6 @@ bool Mosaic::patternLineFull(int row) {
          rowIsFull = false;
       }
    }
-
    return rowIsFull;
 }
 
@@ -114,7 +99,6 @@ void Mosaic::removeBrokenTiles(int index) {
       for (int i = index; i < (signed int) brokenTiles.size() - 1; ++i) {
          brokenTiles[i] = brokenTiles[i+1];
       }
-
       brokenTiles.pop_back();
    }
 }
@@ -134,6 +118,5 @@ void Mosaic::addBrokenTileAtFront(Tile* tile) {
 
       //Add new tile to position 0
       brokenTiles[0] = tile;
-
    }
 }

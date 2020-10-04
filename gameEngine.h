@@ -1,6 +1,11 @@
 #ifndef GAME_ENGINE_H
 #define GAME_ENGINE_H
 
+#include <iostream>
+#include <fstream>
+#include <limits>
+#include <sstream>
+#include <iterator>
 #include <vector>
 
 #include "tileBag.h"

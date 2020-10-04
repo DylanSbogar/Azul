@@ -1,5 +1,3 @@
-#include <fstream>
-
 #include "load.h"
 
 /* the primary difference between the two methods, is that the testingMode() function
@@ -16,8 +14,7 @@ Load::Load(string fileName) {
     index = 0;
 }
 
-Load::~Load() 
-{
+Load::~Load() {
 }
 
 void Load::testingMode(std::string fileName) {
@@ -51,33 +48,6 @@ void Load::loadGame(std::string fileName) {
     while(getline(loadedFile, fileText)) {
         turns.push_back(fileText);
     }
-
-
-    // std::cout << initTileBag << endl;
-    // std::cout << player1Name << endl;
-    // std::cout << player2Name << endl;
-
-    // for(int i = 0; i < (signed int) turns.size(); ++i) {
-    //     std::cout << turns[i] << endl;
-    // }
-
-    //DEBUGGIGN:
-    // isTesting = false;
-    // isLoading = true;
-
-    // initTileBag = "RYLYRLRLLLULYYLULYUURYBYYLRUYBLUYULBRUUUUBURRBRRYBYBBUBYRRRLBRULBRYUYRBUULBYYLLBLRLYRUUBRBUYBYLBBLBR";
-    // player1Name = "A";
-    // player2Name = "B";
-
-    // turns.push_back("turn 5 u 2"); //0
-    // turns.push_back("turn 3 l 3"); //1
-    // turns.push_back("turn 4 y 4"); //2
-    // turns.push_back("turn 2 r 2"); //3
-    // turns.push_back("turn 0 L 5"); //4
-    // turns.push_back("turn 2 y 1"); //5
-    // turns.push_back("turn 0 l 1"); //6
-
-    
 }
 
 string Load::getTileBag() {

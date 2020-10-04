@@ -1,5 +1,4 @@
 #include "tile.h"
-#include <utility>
 
 Tile::Tile(Colour colour) {
     this->colour = colour;
@@ -59,6 +58,5 @@ char Tile::convertColourToChar(Colour colour) {
     } else if(colour == NO_TILE) {
         tile = no_tile;
     }
-
     return tile;
 }

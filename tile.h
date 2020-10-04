@@ -1,6 +1,8 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include <utility>
+
 //Includes the different tile types
 enum Colour {
     RED,
