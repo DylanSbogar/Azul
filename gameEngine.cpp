@@ -182,8 +182,11 @@ void GameEngine::endRound() {
     //Fill the factories back up
     factories->FillFactoriesFromTileBag(tileBag);
 
-    //Update Scoring
+    //Update Scoring and display end of Round scoring
     if(!isLoading && !isTesting) {
+        cout << endl;
+        cout << "=== END OF ROUND SCORE === "<< endl;
+
         for(int i = 0; i < TOTAL_PLAYERS; ++i) {
             players[i]->setPlayerScore(calculatePlayerScores(players[i]));
             cout << "Player "<< players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
@@ -194,6 +197,7 @@ void GameEngine::endRound() {
             cout << "Player "<< players[i]->getPlayerName() << "'s Score: " << players[i]->getPlayerScore() << endl;
             cout << endl;
         }
+        cout << endl;
     }
 }
 
@@ -245,20 +249,6 @@ bool GameEngine::runTurn(Player* currentPlayer) {
         if(load->getCurrentTurnIndex() + 1 >= (signed int) load->getTurnsSize()) {
             if(isTesting == true) {
                 printTestModeResults();
-                // if(factories->allFactoriesAreEmpty()) {
-                //     endRound();
-                // }
-                // isLoading = false;
-                // cout << "Factories: " << endl;
-                // printFactories();
-                // for(int i = 0; i < TOTAL_PLAYERS; ++i) {
-                //     players[i]->setPlayerScore(calculatePlayerScores(players[i]));
-                //     cout << "Score for " << players[i]->getPlayerName() << ": " << players[i]->getPlayerScore() << endl;
-                //     cout << "Mosaic for " << players[i]->getPlayerName() << ": " << endl;
-                //     printPlayerMosaic(players[i]);
-                //     cout << endl;
-                // }
-            // std::_Exit(EXIT_SUCCESS);
             } else {
                 cout << "Azul game successfully loaded" << endl;
                 cout << endl;
